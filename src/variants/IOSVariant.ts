@@ -6,7 +6,7 @@ export interface IOSVariant extends Variant {
   production: boolean;
 }
 
-export interface IOSTokenVariant extends IOSVariant {
+export interface IOSTokenVariant extends Variant {
   teamId: string;
   keyId: string;
   bundleId: string;

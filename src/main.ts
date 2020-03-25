@@ -15,7 +15,7 @@ async function run() {
   // console.log('apps', apps);
 
   //B868CC08-BCC8-4A0A-B21E-1AC56AF0C734
-  const variants = await new UnifiedPushClient().variants.find('B868CC08-BCC8-4A0A-B21E-1AC56AF0C734', { type: 'android' });
+  const variants = await new UnifiedPushClient('http://localhost:9999').variants.find('B868CC08-BCC8-4A0A-B21E-1AC56AF0C734', { type: 'android' });
   console.log('variants', variants);
 }
 
