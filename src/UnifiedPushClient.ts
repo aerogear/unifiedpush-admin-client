@@ -1,14 +1,41 @@
 import { applyPushApplicationFilter, PushApplication, PushApplicationFilter } from './PushApplication';
-import axios from 'axios';
-import { VARIANT_TYPE, Variant, VariantFilter, applyVariantFilter } from './Variant';
-import { SUPPORTED_VARIANTS } from './const';
+import axios, { AxiosInstance } from 'axios';
+import { Variant, VariantFilter, applyVariantFilter } from './Variant';
+
+const REALM = 'aerogear';
+const CLIENT_ID = 'unified-push-server-js';
+
+interface Credentials {
+  kcUrl: string;
+  username?: string;
+  password?: string;
+  token?: string;
+}
 
 export class UnifiedPushClient {
-  readonly apiURL: string;
+  private readonly apiURL: string;
+  private api: AxiosInstance;
+  private readonly credentials?: Credentials;
 
-  constructor(serverURL: string) {
+  constructor(serverURL: string, credentials?: Credentials) {
     this.apiURL = `${serverURL}/rest`;
+    this.api = axios.create({ baseURL: this.apiURL });
+    this.credentials = credentials;
   }
+
+  private readonly login = async () => {
+    if (this.credentials) {
+      if (!this.credentials.token) {
+        this.credentials.token = (
+          await axios.post(
+            `${this.credentials.kcUrl}/auth/realms/${REALM}/protocol/openid-connect/token`,
+            `grant_type=password&client_id=${CLIENT_ID}&username=${this.credentials.username}&password=${this.credentials.password}`
+          )
+        ).data.access_token;
+      }
+      this.api = axios.create({ baseURL: this.apiURL, headers: { Authorization: `Bearer ${this.credentials.token}` } });
+    }
+  };
 
   readonly applications = {
     /**
@@ -16,6 +43,7 @@ export class UnifiedPushClient {
      * @param filter a filter to be used to find applications. If not specified, all applications are returned.
      */
     find: async (filter?: PushApplicationFilter): Promise<PushApplication[]> => {
+      await this.login();
       let url = `${this.apiURL}/applications`;
       if (filter && filter.id) {
         url = `${url}/${filter.id}`;
@@ -44,17 +72,18 @@ export class UnifiedPushClient {
      * @param filter filter to be used to filter the variants. If not specified, all variants are returned.
      */
     find: async (appId: string, filter?: VariantFilter): Promise<Variant[]> => {
+      await this.login();
       let variants: Variant[];
-      let url = `${this.apiURL}/applications/${appId}`;
+      const url = `${this.apiURL}/applications/${appId}${filter?.type ? '/' + filter.type : ''}`;
+      const res = (await this.api.get(url)).data;
       if (filter?.type) {
-        url = `${url}/${filter.type}`;
-        console.log('URL: ', url);
-        variants = (await axios.get(url)).data;
+        // ensure that returned object is an array
+        variants = res.filter ? res : [res];
       } else {
         // get all variants
-        const variantsPromises: Array<Promise<Variant[]>> = SUPPORTED_VARIANTS.map(k => this.variants.find(appId, { type: k as VARIANT_TYPE }));
-        const allVariants: Variant[][] = await Promise.all(variantsPromises);
-        variants = allVariants.reduce((result: Variant[], current: Variant[]) => result.concat(current), []);
+        const _variants = res.variants;
+        // ensure that returned object is an array
+        variants = _variants.filter ? _variants : [_variants];
       }
 
       return applyVariantFilter(variants, filter);
