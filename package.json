@@ -1,16 +1,20 @@
 {
-  "name": "",
-  "version": "0.0.0",
-  "description": "",
-  "main": "build/src/index.js",
-  "types": "build/src/index.d.ts",
-  "files": [
-    "build/src"
-  ],
+  "name": "@aerogear/unifiedpush-admin-client",
+  "version": "0.1.0",
+  "description": "Client library used to admin UPS with code",
+  "author": "AeroGear Team<aerogear@googlegroups.com>",
+  "homepage": "http://aerogear.org",
   "license": "Apache-2.0",
-  "keywords": [],
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src"
+  ],
+  "keywords": [
+    "unifiedpush"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc -p .",
@@ -20,12 +24,15 @@
     "posttest": "npm run check"
   },
   "devDependencies": {
+    "@types/jest": "^25.1.4",
     "@types/node": "^10.0.3",
     "gts": "^1.1.2",
+    "jest": "^25.2.3",
+    "ts-jest": "^25.2.1",
     "ts-node": "^8.8.1",
-    "typescript": "~3.7.0"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "0.19.2"
   }
 }

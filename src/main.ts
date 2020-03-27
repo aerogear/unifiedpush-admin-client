@@ -1,4 +1,4 @@
-import { UnifiedPushClient } from './UnifiedPushClient';
+import { UnifiedPushAdminClient } from './UnifiedPushAdminClient';
 
 async function run() {
   // const app = await new UPSClient().applications.create(newApp);
@@ -16,7 +16,7 @@ async function run() {
   //   password: '123',
   // }).variants.find('58939fc1-8868-46f5-95e3-0637ea97f9f4');
 
-  const variants = await new UnifiedPushClient('http://localhost:9999', {
+  const variants = await new UnifiedPushAdminClient('http://localhost:9999', {
     kcUrl: 'http://172.18.0.2:8080',
     username: 'admin',
     password: '123',

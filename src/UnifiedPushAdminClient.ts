@@ -26,7 +26,7 @@ interface KeyloakCredentials {
   type: 'keycloak';
 }
 
-export class UnifiedPushClient {
+export class UnifiedPushAdminClient {
   private readonly apiURL: string;
   private api: AxiosInstance;
   private readonly credentials?: Credentials | KeyloakCredentials;

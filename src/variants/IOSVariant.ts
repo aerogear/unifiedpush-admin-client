@@ -4,10 +4,12 @@ export interface IOSVariant extends Variant {
   certificate?: string;
   password?: string;
   production: boolean;
+  type: 'ios';
 }
 
 export interface IOSTokenVariant extends Variant {
   teamId: string;
   keyId: string;
   bundleId: string;
+  type: 'ios_token';
 }

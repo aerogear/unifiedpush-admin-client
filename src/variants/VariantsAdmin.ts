@@ -11,7 +11,7 @@ export class VariantsAdmin {
       variants = res.filter ? res : [res];
     } else {
       // get all variants
-      const _variants = res.variants;
+      const _variants = res.variants || [];
       // ensure that returned object is an array
       variants = _variants.filter ? _variants : [_variants];
     }
