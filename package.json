@@ -26,8 +26,6 @@
     "typescript": "~3.7.0"
   },
   "dependencies": {
-    "@ovotech/keycloak-auth": "^2.0.0",
-    "axios": "^0.19.2",
-    "keycloak-admin": "^1.13.0"
+    "axios": "^0.19.2"
   }
 }
