@@ -1,10 +1,5 @@
 import { UnifiedPushClient } from './UnifiedPushClient';
-// const newApp: PushApplication = {
-//   name: 'New Ziccardi',
-//   description: 'Test Zic App',
-//   developer: 'aaa',
-// };
-//
+
 async function run() {
   // const app = await new UPSClient().applications.create(newApp);
   // console.log('NewApp: ', app);
@@ -25,6 +20,7 @@ async function run() {
     kcUrl: 'http://172.18.0.2:8080',
     username: 'admin',
     password: '123',
+    type: 'keycloak',
   }).variants.find('58939fc1-8868-46f5-95e3-0637ea97f9f4');
   console.log('variants', variants);
 }

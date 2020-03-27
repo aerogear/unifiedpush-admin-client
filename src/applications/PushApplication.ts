@@ -1,4 +1,4 @@
-import { Variant } from './Variant';
+import { Variant } from '../variants/Variant';
 
 /**
  * Interface containing all the fields that can be used to filter applications
