@@ -34,5 +34,12 @@
   },
   "dependencies": {
     "axios": "0.19.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aerogear/unifiedpush-admin-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aerogear/unifiedpush-admin-client/issues"
   }
 }
