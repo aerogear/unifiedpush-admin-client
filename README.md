@@ -1,5 +1,8 @@
 # UnifiedPush Server Admin Client
 
+![Build](https://github.com/aerogear/unifiedpush-admin-client/workflows/build/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/aerogear/unifiedpush-admin-client/badge.svg)](https://coveralls.io/github/aerogear/unifiedpush-admin-client)
+
 The _UnifiedPush Server Admin_ library allows to admin the UPS by javascript or typescript code.
 
 ## Getting started
