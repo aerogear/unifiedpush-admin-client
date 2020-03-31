@@ -7,7 +7,7 @@ import { ApplicationsAdmin } from './applications/ApplicationsAdmin';
 const DEFAULT_REALM = 'aerogear';
 const DEFAULT_CLIENT_ID = 'unified-push-server-js';
 
-interface Credentials {
+export interface BasicCredentials {
   username: string;
   password: string;
   type: 'basic';
@@ -16,7 +16,7 @@ interface Credentials {
 /**
  * Interface for keycloak credentials
  */
-interface KeyloakCredentials {
+export interface KeyloakCredentials {
   kcUrl: string; // Keycloak URL
   username?: string;
   password?: string;
@@ -29,12 +29,12 @@ interface KeyloakCredentials {
 export class UnifiedPushAdminClient {
   private readonly apiURL: string;
   private api: AxiosInstance;
-  private readonly credentials?: Credentials | KeyloakCredentials;
+  private readonly credentials?: BasicCredentials | KeyloakCredentials;
 
   private readonly applicationsAdmin = new ApplicationsAdmin();
   private readonly variantsAdmin = new VariantsAdmin();
 
-  constructor(serverURL: string, credentials?: Credentials | KeyloakCredentials) {
+  constructor(serverURL: string, credentials?: BasicCredentials | KeyloakCredentials) {
     this.apiURL = `${serverURL}/rest`;
     this.api = axios.create({ baseURL: this.apiURL });
     this.credentials = credentials;
