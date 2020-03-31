@@ -16,7 +16,7 @@ export interface BasicCredentials {
 /**
  * Interface for keycloak credentials
  */
-export interface KeyloakCredentials {
+export interface KeycloakCredentials {
   kcUrl: string; // Keycloak URL
   username?: string;
   password?: string;
@@ -29,12 +29,12 @@ export interface KeyloakCredentials {
 export class UnifiedPushAdminClient {
   private readonly apiURL: string;
   private api: AxiosInstance;
-  private readonly credentials?: BasicCredentials | KeyloakCredentials;
+  private readonly credentials?: BasicCredentials | KeycloakCredentials;
 
   private readonly applicationsAdmin = new ApplicationsAdmin();
   private readonly variantsAdmin = new VariantsAdmin();
 
-  constructor(serverURL: string, credentials?: BasicCredentials | KeyloakCredentials) {
+  constructor(serverURL: string, credentials?: BasicCredentials | KeycloakCredentials) {
     this.apiURL = `${serverURL}/rest`;
     this.api = axios.create({ baseURL: this.apiURL });
     this.credentials = credentials;
