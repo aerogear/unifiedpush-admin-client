@@ -82,10 +82,7 @@ exception is the `id` filter: if the `id` is specified, all the other filters ar
 
 To create an application we will use the `create` method:
 ```typescript
-const newApp: PushApplication = {
-...
-};
-const app = upsadm.applications.create(newApp)
+const app = upsadm.applications.create('newApp')
 ```
 The returned `app` object will have all the `id` and `pushApplicationId` fields populated by the server.
 
@@ -96,6 +93,7 @@ To get the list of the variants, we will use
 ```typescript
 const apps = upsadm.variants.find(appId)
 ```
+where `appId` is the id of the application owning the variants.
 
 The find method takes as parameter the owner application id and, optionally, a filter parameter. Variants can be filtered by:
 * **id**
