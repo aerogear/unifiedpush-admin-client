@@ -75,8 +75,7 @@ export class UnifiedPushAdminClient {
      * Creates an application in the UPS
      * @param app the application to be created
      */
-    create: async (app: PushApplication): Promise<PushApplication> =>
-      this.applicationsAdmin.create(await this.auth(), app),
+    create: async (name: string): Promise<PushApplication> => this.applicationsAdmin.create(await this.auth(), name),
   };
 
   readonly variants = {

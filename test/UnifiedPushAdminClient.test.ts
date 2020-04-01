@@ -44,9 +44,9 @@ describe('Applications Admin', () => {
     const appToBeCreated = mockData[3];
     mockedAxios.post.mockImplementationOnce((url: string, app: PushApplication) => Promise.resolve({ data: app }));
 
-    const res = await new UnifiedPushAdminClient('http://localhost:9999').applications.create(appToBeCreated);
-    expect(res).toEqual(appToBeCreated);
-    expect(mockedAxios.post).toHaveBeenCalledWith('/applications', appToBeCreated);
+    const res = await new UnifiedPushAdminClient('http://localhost:9999').applications.create(appToBeCreated.name);
+    expect(res).toEqual({ name: appToBeCreated.name });
+    expect(mockedAxios.post).toHaveBeenCalledWith('/applications', { name: appToBeCreated.name });
   });
 });
 

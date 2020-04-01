@@ -1,5 +1,8 @@
 import { AxiosInstance } from 'axios';
 import { applyVariantFilter, Variant, VariantFilter } from './Variant';
+import * as FormData from 'form-data';
+import * as fs from 'fs';
+import { IOSVariant } from './IOSVariant';
 
 export class VariantsAdmin {
   async find(api: AxiosInstance, appId: string, filter?: VariantFilter): Promise<Variant[]> {
@@ -19,7 +22,27 @@ export class VariantsAdmin {
     return applyVariantFilter(variants, filter);
   }
 
+  private async createIOSVariant(api: AxiosInstance, appId: string, variant: IOSVariant): Promise<Variant> {
+    const formData = new FormData();
+
+    formData.append('name', variant.name);
+    formData.append('production', `${variant.production}`);
+    formData.append('passphrase', variant.password);
+    formData.append('certificate', fs.readFileSync(variant.certificate!));
+
+    const requestConfig = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        ...formData.getHeaders(),
+      },
+    };
+    return (await api.post(`/applications/${appId}/${variant.type}`, formData.getBuffer(), requestConfig)).data;
+  }
+
   async create(api: AxiosInstance, appId: string, variant: Variant): Promise<Variant> {
+    if (variant.type === 'ios') {
+      return this.createIOSVariant(api, appId, variant as IOSVariant);
+    }
     return (await api.post(`/applications/${appId}/${variant.type}`, variant)).data as Variant;
   }
 }
