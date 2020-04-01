@@ -25,7 +25,7 @@ export interface PushApplication extends PushApplicationFilter {
  */
 export const applyPushApplicationFilter = (
   apps: PushApplication[],
-  filter: PushApplicationFilter
+  filter?: PushApplicationFilter
 ): PushApplication[] => {
   if (filter) {
     return apps.filter(

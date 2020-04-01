@@ -6,13 +6,14 @@ export class ApplicationsAdmin {
     let url = `/applications`;
     if (filter && filter.id) {
       url = `${url}/${filter.id}`;
-      return (await api.get(url)).data;
-    } else {
-      let apps: PushApplication[] = (await api.get(url)).data;
-      if (filter) {
-        apps = applyPushApplicationFilter(apps, filter);
+      const res = (await api.get(url)).data;
+      if (res instanceof Array) {
+        return res;
       }
-      return apps;
+
+      return [res];
+    } else {
+      return applyPushApplicationFilter((await api.get(url)).data, filter);
     }
   }
 
