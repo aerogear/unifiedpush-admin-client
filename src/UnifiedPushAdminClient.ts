@@ -93,5 +93,12 @@ export class UnifiedPushAdminClient {
      */
     create: async (appId: string, variant: Variant): Promise<Variant> =>
       this.variantsAdmin.create(await this.auth(), appId, variant),
+    /**
+     * Delete a variant by its Id   
+     * @param appId the id of the app this variant is associated with
+     * @param filter filter to be used to filter the variants.
+     */  
+    delete: async (appId: string, filter?: VariantFilter) =>
+      this.variantsAdmin.delete(await this.auth(), appId, filter),
   };
 }
