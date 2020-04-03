@@ -24,7 +24,7 @@
     "posttest": "npm run check"
   },
   "devDependencies": {
-    "@types/jest": "25.1.4",
+    "@types/jest": "25.1.5",
     "@types/node": "10.17.18",
     "gts": "1.1.2",
     "jest": "25.2.4",
