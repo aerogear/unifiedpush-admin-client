@@ -2,6 +2,7 @@ import axios from 'axios';
 import { mockData } from './mockData';
 import { PushApplication, UnifiedPushAdminClient } from '../src';
 import { mocked } from 'ts-jest/dist/util/testing';
+import { VariantsAdmin } from '../src/variants/VariantsAdmin';
 
 jest.mock('axios');
 
@@ -149,5 +150,18 @@ describe('Variants Admin', () => {
     const res = await upsClient.variants.find(appId, { developer: 'developer 84' });
     expect(res).toHaveLength(0);
     expect(mockedAxios.get).toHaveBeenCalledWith(`/applications/${appId}`);
+  });
+  //test deletion
+  it('test delete variants', async () => {
+    const appId = '1';
+    const selectedApp = mockData.filter(app => app.id === appId)[0];
+    mockedAxios.delete.mockImplementation(() =>
+      Promise.resolve({ data: selectedApp.variants!.filter(variant => variant.variantID === 'v-1:2') })
+    );
+    const expected = { variantID: 'v-1:2' };
+    const del = await upsClient.variants.delete(appId, { variantID: 'v-1:2' });
+    expect({ data: selectedApp.variants }).toEqual(expect.not.objectContaining(expected));
+    console.log({ data: selectedApp.variants });
+    console.log(del);
   });
 });

@@ -47,8 +47,8 @@ export class VariantsAdmin {
   }
 
   async delete(api: AxiosInstance, appId: string, filter?: VariantFilter) {
-    const variants = await this.find(api, appId, filter);
-    const promises = variants.map(variant => api.delete(`/applications/${appId}/${variant.variantID!}`));
-    return Promise.all(promises);
+    return Promise.all(
+      (await this.find(api, appId, filter)).map(variant => api.delete(`/applications/${appId}/${variant.variantID!}`))
+    );
   }
 }
