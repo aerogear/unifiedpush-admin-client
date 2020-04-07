@@ -1,5 +1,5 @@
-import { PushApplication } from '../src/applications';
-import { AndroidVariant, IOSTokenVariant, IOSVariant, WebPushVariant } from '../src/variants';
+import { PushApplication } from '../../src/applications';
+import { AndroidVariant, IOSTokenVariant, IOSVariant, WebPushVariant } from '../../src/variants';
 
 export const mockData: PushApplication[] = [
   {
@@ -99,3 +99,7 @@ export const mockData: PushApplication[] = [
     masterSecret: 'Shhhhhhh!',
   },
 ];
+
+export const findApplicationByID = (id: string) => {
+  return mockData.find(app => app.pushApplicationID === id);
+};
