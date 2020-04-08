@@ -113,13 +113,13 @@ export const mockUps = (baseUrl = BASE_URL, auth = false) =>
       expect(requestBody.indexOf('name="certificate"')).not.toEqual(-1);
       return TEST_NEW_VARIANT_CREATED;
     })
-    .delete(/rest\/applications\/?[^\/]*\/?[^\/]*/)
+    .delete(/rest\/applications\/?[^\/]*\/?[^\/]*\/?[^\/]*/)
     // tslint:disable-next-line:only-arrow-functions
     .reply(200, function(uri, requestBody) {
-      const del = /rest\/applications\/?([^\/]*)\/?([^\/]*)/;
+      const del = /rest\/applications\/?([^\/]*)\/?([^\/]*)\/?([^\/]*)/;
       const params = del.exec(uri)!;
       const appid = params[1];
-      const varId = params[2];
+      const varId = params[3];
       const app = mockData.find(appDel => appDel.pushApplicationID === appid)!;
       const variants = app?.variants?.filter(variant => variant.variantID !== varId);
 
