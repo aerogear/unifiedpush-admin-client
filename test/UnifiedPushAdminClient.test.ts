@@ -24,6 +24,7 @@ afterAll(() => {
 });
 
 const TEST_APP_ID = '2:2';
+const TEST_VARIANT_ID = 'v-2:1';
 
 describe('UnifiedPushAdminClient', () => {
   const credentials: KeycloakCredentials = {
@@ -53,5 +54,21 @@ describe('UnifiedPushAdminClient', () => {
       TEST_NEW_VARIANT_TO_CREATE
     );
     expect(variant).toEqual(TEST_NEW_VARIANT_CREATED);
+  });
+
+  it('Should delete a varianta', async () => {
+    const variantsBefore = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(TEST_APP_ID, {
+      variantID: TEST_VARIANT_ID,
+    });
+    expect(variantsBefore).toBeDefined();
+    expect(variantsBefore).toHaveLength(1);
+    await new UnifiedPushAdminClient(BASE_URL, credentials).variants.delete(TEST_APP_ID, {
+      variantID: TEST_VARIANT_ID,
+    });
+    const variantsAfter = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(TEST_APP_ID, {
+      variantID: TEST_VARIANT_ID,
+    });
+    expect(variantsAfter).toBeDefined();
+    expect(variantsAfter).toHaveLength(0);
   });
 });
