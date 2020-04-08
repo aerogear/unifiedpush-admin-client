@@ -77,4 +77,13 @@ describe('Variants Admin', () => {
     expect(variant).toEqual(TEST_NEW_VARIANT_CREATED);
     jest.restoreAllMocks();
   });
+
+  it('Should delete a variant', async () => {
+    await variantAdmin.delete(api, TEST_APP_ID, {
+      variantID: 'v-2:2',
+    });
+    const appDel = mockData.find(appDel => appDel.pushApplicationID === TEST_APP_ID)!;
+    const varDel = appDel.variants!.find(variant => variant.variantID === 'v-2:2');
+    expect(appDel.variants).not.toContain(varDel);
+  });
 });
