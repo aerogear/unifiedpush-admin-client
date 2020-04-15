@@ -62,7 +62,7 @@ const checkAuth = (req: Request, enforce: boolean) => {
 
 const stripQueryParams = (qry: string): Record<string, string> => {
   const idx = qry.indexOf('?');
-  if (idx > 0) {
+  if (idx >= 0) {
     return {
       val: qry.substring(0, idx),
       params: qry.substring(idx),
