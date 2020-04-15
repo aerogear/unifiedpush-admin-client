@@ -1,9 +1,6 @@
 import { Variant } from '../variants/Variant';
 
-/**
- * Interface containing all the fields that can be used to filter applications
- */
-export interface PushApplicationFilter {
+interface SharedPushAppAtts {
   id?: string;
   name?: string;
   description?: string;
@@ -11,11 +8,21 @@ export interface PushApplicationFilter {
   developer?: string;
 }
 
-export interface PushApplication extends PushApplicationFilter {
+/**
+ * Interface containing all the fields that can be used to filter applications
+ */
+export interface PushApplicationSearchOptions extends SharedPushAppAtts {
+  includeDeviceCount?: boolean;
+  includeActivity?: boolean;
+}
+
+export interface PushApplication extends PushApplicationSearchOptions {
   name: string;
   developer: string;
   masterSecret?: string;
   variants?: Variant[];
+  deviceCount?: number;
+  activity?: number;
 }
 
 /**
@@ -25,7 +32,7 @@ export interface PushApplication extends PushApplicationFilter {
  */
 export const applyPushApplicationFilter = (
   apps: PushApplication[],
-  filter?: PushApplicationFilter
+  filter?: PushApplicationSearchOptions
 ): PushApplication[] => {
   if (filter) {
     return apps.filter(
