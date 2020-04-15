@@ -60,6 +60,20 @@ const checkAuth = (req: Request, enforce: boolean) => {
   }
 };
 
+const stripQueryParams = (qry: string): Record<string, string> => {
+  const idx = qry.indexOf('?');
+  if (idx > 0) {
+    return {
+      val: qry.substring(0, idx),
+      params: qry.substring(idx),
+    };
+  } else {
+    return {
+      val: qry,
+    };
+  }
+};
+
 export const mockUps = (baseUrl = BASE_URL, auth = false) =>
   nock(baseUrl)
     .get(/rest\/applications\/?[^\/]*\/?[^\/]*$/)
@@ -67,11 +81,12 @@ export const mockUps = (baseUrl = BASE_URL, auth = false) =>
     .reply(200, function(uri, requestBody) {
       checkAuth(this.req, auth);
       // extracting appID
-      const urlWithParam = /rest\/applications\/?([^\/]*)\/?([^\/]*)$$/;
+      const urlWithParam = /rest\/applications\/?([^\/]*)\/?([^\/]*)$/;
       const urlParams = urlWithParam.exec(uri)!;
 
-      const appId = urlParams[1];
-      const variantType = urlParams[2];
+      const appId = stripQueryParams(urlParams[1]).val;
+      const variantType = stripQueryParams(urlParams[2]).val;
+      // params ignored as of now
 
       if (appId.length > 0) {
         const app = mockData.find(app => app.pushApplicationID === appId);
