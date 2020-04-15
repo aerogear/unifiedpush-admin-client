@@ -14,6 +14,9 @@ export interface Variant extends VariantFilter {
   developer: string;
   secret?: string;
   type: VARIANT_TYPE;
+
+  deviceCount?: number;
+  activity?: number;
 }
 
 export const applyVariantFilter = (variants: Variant[], filter?: VariantFilter): Variant[] => {

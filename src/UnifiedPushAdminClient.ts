@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { PushApplication, PushApplicationFilter } from './applications';
+import { PushApplication, PushApplicationSearchOptions } from './applications';
 import { Variant, VariantFilter } from './variants';
 import { VariantsAdmin } from './variants/VariantsAdmin';
 import { ApplicationsAdmin } from './applications/ApplicationsAdmin';
@@ -69,7 +69,7 @@ export class UnifiedPushAdminClient {
      * Finds application
      * @param filter a filter to be used to find applications. If not specified, all applications are returned.
      */
-    find: async (filter?: PushApplicationFilter): Promise<PushApplication[]> =>
+    find: async (filter?: PushApplicationSearchOptions): Promise<PushApplication[]> =>
       this.applicationsAdmin.find(await this.auth(), filter),
     /**
      * Creates an application in the UPS
