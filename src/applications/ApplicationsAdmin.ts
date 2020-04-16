@@ -56,4 +56,8 @@ export class ApplicationsAdmin {
   async create(api: AxiosInstance, name: string): Promise<PushApplication> {
     return (await api.post(`/applications`, { name })).data;
   }
+
+  async update(api: AxiosInstance, pushApplication: PushApplication) {
+    await api.put(`/applications/${pushApplication.pushApplicationID}`, pushApplication);
+  }
 }
