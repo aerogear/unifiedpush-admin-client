@@ -73,9 +73,22 @@ export class UnifiedPushAdminClient {
       this.applicationsAdmin.find(await this.auth(), filter),
     /**
      * Creates an application in the UPS
-     * @param app the application to be created
+     * @param name the name of the application to be created
      */
     create: async (name: string): Promise<PushApplication> => this.applicationsAdmin.create(await this.auth(), name),
+
+    /**
+     * Rename an application
+     * @param pushApplicationID id of the app to be renamed
+     * @param newName
+     */
+    rename: async (pushApplicationID: string, newName: string) => {
+      const app = (await this.applications.find({ pushApplicationID }))[0];
+      app.name = newName;
+      // Remove the variants
+      app.variants = undefined;
+      return this.applicationsAdmin.update(await this.auth(), app);
+    },
   };
 
   readonly variants = {

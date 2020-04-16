@@ -86,6 +86,12 @@ const app = upsadm.applications.create('newApp')
 ```
 The returned `app` object will have all the `id` and `pushApplicationId` fields populated by the server.
 
+To rename an application we will use the `rename` method:
+
+```typescript
+const apps = upsadm.applications.rename(appId, newName)
+```  
+
 #### Managing variants
 
 All the methods to be used to manage variants can be found inside the `variants` namespace.
@@ -106,7 +112,7 @@ The find method takes as parameter the owner application id and, optionally, a f
 **NOTE** You are not limited to use only one key when filtering: if more than one is specified, they are all applied. The only 
 exception is the `id` filter: if the `id` is specified, all the other filters are ignored.
 
-To create an variant we will use the `create` method:
+To create a variant we will use the `create` method:
 ```typescript
 const newVariant: AndroidVariant = {
 ...
@@ -114,3 +120,14 @@ const newVariant: AndroidVariant = {
 const variant = upsadm.variants.create(appId, newVariant)
 ```
 The returned `variant` object will have all the `id` fields populated by the server.
+
+To delete variants, we will use the `delete` method:
+
+```typescript
+const apps = upsadm.variants.delete(appId, filter)
+```
+
+The `delete` method takes as parameter the owner application id and, optionally, a filter parameter. The filter is optional
+and has the same syntax as the filter used to find variants.
+
+All the variants matching the filter will be deleted.
