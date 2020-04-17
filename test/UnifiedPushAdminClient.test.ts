@@ -10,9 +10,9 @@ import {
   TEST_NEW_VARIANT_CREATED,
   TEST_NEW_VARIANT_TO_CREATE,
 } from './mocks/nockMocks';
-import { UnifiedPushAdminClient } from '../src';
-import { mockData } from './mocks/mockData';
-import { KeycloakCredentials } from '../src/UnifiedPushAdminClient';
+import {UnifiedPushAdminClient} from '../src';
+import {mockData} from './mocks/mockData';
+import {KeycloakCredentials} from '../src/UnifiedPushAdminClient';
 
 beforeAll(() => {
   mockUps(BASE_URL, true);

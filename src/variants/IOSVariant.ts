@@ -1,4 +1,5 @@
-import { Variant } from './Variant';
+/* eslint-disable @typescript-eslint/interface-name-prefix */
+import {Variant} from './Variant';
 
 export interface IOSVariant extends Variant {
   certificate?: string;

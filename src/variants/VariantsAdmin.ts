@@ -1,8 +1,8 @@
-import { AxiosInstance } from 'axios';
-import { applyVariantFilter, Variant, VariantFilter } from './Variant';
+import {AxiosInstance} from 'axios';
+import {applyVariantFilter, Variant, VariantFilter} from './Variant';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
-import { IOSVariant } from './IOSVariant';
+import {IOSVariant} from './IOSVariant';
 
 export class VariantsAdmin {
   async find(api: AxiosInstance, appId: string, filter?: VariantFilter): Promise<Variant[]> {

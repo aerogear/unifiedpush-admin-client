@@ -1,4 +1,4 @@
-import { Variant } from '../variants/Variant';
+import {Variant} from '../variants/Variant';
 
 interface SharedPushAppAtts {
   id?: string;
