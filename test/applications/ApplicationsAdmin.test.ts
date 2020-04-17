@@ -1,8 +1,8 @@
 import * as nock from 'nock';
 import axios from 'axios';
-import { BASE_URL, mockKeyCloak, mockUps, NEW_APP, NEW_APP_NAME } from '../mocks/nockMocks';
-import { ApplicationsAdmin } from '../../src/applications/ApplicationsAdmin';
-import { mockData } from '../mocks/mockData';
+import {BASE_URL, mockKeyCloak, mockUps, NEW_APP, NEW_APP_NAME} from '../mocks/nockMocks';
+import {ApplicationsAdmin} from '../../src/applications/ApplicationsAdmin';
+import {mockData} from '../mocks/mockData';
 
 beforeAll(() => {
   mockUps();
@@ -17,7 +17,7 @@ const APP_DEVELOPER_FILTER_OK = 'Test Developer 1';
 const APP_DEVELOPER_FILTER_BAD = 'developer 1';
 
 describe('Applications Admin', () => {
-  const api = axios.create({ baseURL: `${BASE_URL}/rest` });
+  const api = axios.create({baseURL: `${BASE_URL}/rest`});
   const appAdmin = new ApplicationsAdmin();
 
   it('Should return all apps', async () => {
@@ -32,7 +32,7 @@ describe('Applications Admin', () => {
     expect(filteredApp).toEqual([mockData.find(app => app.pushApplicationID === '2:2')]);
   });
 
-  it(`Should return empty result`, async () => {
+  it('Should return empty result', async () => {
     const filteredApp = await appAdmin.find(api, {
       developer: APP_DEVELOPER_FILTER_BAD,
     });

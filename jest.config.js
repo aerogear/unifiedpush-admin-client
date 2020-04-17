@@ -3,8 +3,5 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts'],
-  roots: [
-      'test',
-      'src'
-  ]
+  roots: ['test', 'src'],
 };

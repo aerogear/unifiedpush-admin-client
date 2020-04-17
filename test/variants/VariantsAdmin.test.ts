@@ -7,9 +7,9 @@ import {
   TEST_NEW_VARIANT_CREATED,
   TEST_NEW_VARIANT_TO_CREATE,
 } from '../mocks/nockMocks';
-import { findApplicationByID, mockData } from '../mocks/mockData';
-import { VariantsAdmin } from '../../src/variants/VariantsAdmin';
-import { IOSVariant } from '../../src/variants';
+import {findApplicationByID, mockData} from '../mocks/mockData';
+import {VariantsAdmin} from '../../src/variants/VariantsAdmin';
+import {IOSVariant} from '../../src/variants';
 
 const TEST_APP_ID = '2:2';
 const TEST_VARIANT_ID = 'v-2:2';
@@ -26,7 +26,7 @@ afterAll(() => {
 });
 
 describe('Variants Admin', () => {
-  const api = axios.create({ baseURL: `${BASE_URL}/rest` });
+  const api = axios.create({baseURL: `${BASE_URL}/rest`});
   const variantAdmin = new VariantsAdmin();
 
   it(`Should return all variants for app ${TEST_APP_ID}`, async () => {

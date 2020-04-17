@@ -1,4 +1,4 @@
-import { Variant } from './Variant';
+import {Variant} from './Variant';
 
 export interface WebPushVariant extends Variant {
   publicKey: string;
