@@ -15,6 +15,7 @@ afterAll(() => {
 
 const APP_DEVELOPER_FILTER_OK = 'Test Developer 1';
 const APP_DEVELOPER_FILTER_BAD = 'developer 1';
+const APP_ID = '1:1';
 
 describe('Applications Admin', () => {
   const api = axios.create({ baseURL: `${BASE_URL}/rest` });
@@ -56,5 +57,14 @@ describe('Applications Admin', () => {
   it(`Should create an app named ${NEW_APP_NAME} and should return it.`, async () => {
     const newApp = await appAdmin.create(api, NEW_APP_NAME);
     expect(newApp).toEqual(NEW_APP);
+  });
+
+  it('Should delete an app using the Id ', async () => {
+    await appAdmin.delete(api, { pushApplicationID: '1:1' });
+    const listApps = appAdmin.find(api);
+    const appDel = mockData.find(appDel => appDel.pushApplicationID === APP_ID);
+    // console.log(appDel);
+    console.log(mockData);
+    expect(listApps).not.toContain(appDel);
   });
 });

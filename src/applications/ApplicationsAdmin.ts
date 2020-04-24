@@ -17,4 +17,12 @@ export class ApplicationsAdmin {
   async create(api: AxiosInstance, name: string): Promise<PushApplication> {
     return (await api.post(`/applications`, { name })).data;
   }
+  //new delete function
+  async delete(api: AxiosInstance, filter: PushApplicationFilter) {
+    return Promise.all(
+      (await this.find(api, filter)).map(application =>
+        api.delete(`/applications/${application.pushApplicationID}`).then(() => application)
+      )
+    );
+  }
 }
