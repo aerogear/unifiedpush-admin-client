@@ -1,5 +1,5 @@
-import {AxiosInstance, AxiosResponse} from 'axios';
-import {applyPushApplicationFilter, PushApplication, PushApplicationSearchOptions} from './PushApplication';
+import { AxiosInstance, AxiosResponse } from 'axios';
+import { applyPushApplicationFilter, PushApplication, PushApplicationSearchOptions } from './PushApplication';
 
 export class ApplicationsAdmin {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,14 +54,14 @@ export class ApplicationsAdmin {
   }
 
   async create(api: AxiosInstance, name: string): Promise<PushApplication> {
-    return (await api.post('/applications', {name})).data;
+    return (await api.post('/applications', { name })).data;
   }
 
   async update(api: AxiosInstance, pushApplication: PushApplication) {
     await api.put(`/applications/${pushApplication.pushApplicationID}`, pushApplication);
   }
   //new delete function
-  async delete(api: AxiosInstance, filter: PushApplicationFilter) {
+  async delete(api: AxiosInstance, filter: PushApplicationSearchOptions) {
     return Promise.all(
       (await this.find(api, filter)).map(application =>
         api.delete(`/applications/${application.pushApplicationID}`).then(() => application)
