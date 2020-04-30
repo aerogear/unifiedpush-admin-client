@@ -1,8 +1,8 @@
-import axios, { AxiosInstance } from 'axios';
-import { PushApplication, PushApplicationFilter } from './applications';
-import { Variant, VariantFilter } from './variants';
-import { VariantsAdmin } from './variants/VariantsAdmin';
-import { ApplicationsAdmin } from './applications/ApplicationsAdmin';
+import axios, {AxiosInstance} from 'axios';
+import {PushApplication, PushApplicationSearchOptions} from './applications';
+import {Variant, VariantFilter} from './variants';
+import {VariantsAdmin} from './variants/VariantsAdmin';
+import {ApplicationsAdmin} from './applications/ApplicationsAdmin';
 
 const DEFAULT_REALM = 'aerogear';
 const DEFAULT_CLIENT_ID = 'unified-push-server-js';
@@ -36,7 +36,7 @@ export class UnifiedPushAdminClient {
 
   constructor(serverURL: string, credentials?: BasicCredentials | KeycloakCredentials) {
     this.apiURL = `${serverURL}/rest`;
-    this.api = axios.create({ baseURL: this.apiURL });
+    this.api = axios.create({baseURL: this.apiURL});
     this.credentials = credentials;
   }
 
@@ -48,15 +48,16 @@ export class UnifiedPushAdminClient {
       if (!this.credentials.token) {
         this.credentials.token = (
           await axios.post(
-            `${this.credentials.kcUrl}/auth/realms/${this.credentials.realm ||
-              DEFAULT_REALM}/protocol/openid-connect/token`,
+            `${this.credentials.kcUrl}/auth/realms/${
+              this.credentials.realm || DEFAULT_REALM
+            }/protocol/openid-connect/token`,
             `grant_type=password&client_id=${this.credentials.client_id || DEFAULT_CLIENT_ID}&username=${
               this.credentials.username
             }&password=${this.credentials.password}`
           )
         ).data.access_token;
       }
-      this.api = axios.create({ baseURL: this.apiURL, headers: { Authorization: `Bearer ${this.credentials.token}` } });
+      this.api = axios.create({baseURL: this.apiURL, headers: {Authorization: `Bearer ${this.credentials.token}`}});
     }
 
     // TODO: implement basic authentication
@@ -69,13 +70,26 @@ export class UnifiedPushAdminClient {
      * Finds application
      * @param filter a filter to be used to find applications. If not specified, all applications are returned.
      */
-    find: async (filter?: PushApplicationFilter): Promise<PushApplication[]> =>
+    find: async (filter?: PushApplicationSearchOptions): Promise<PushApplication[]> =>
       this.applicationsAdmin.find(await this.auth(), filter),
     /**
      * Creates an application in the UPS
-     * @param app the application to be created
+     * @param name the name of the application to be created
      */
     create: async (name: string): Promise<PushApplication> => this.applicationsAdmin.create(await this.auth(), name),
+
+    /**
+     * Rename an application
+     * @param pushApplicationID id of the app to be renamed
+     * @param newName
+     */
+    rename: async (pushApplicationID: string, newName: string) => {
+      const app = (await this.applications.find({pushApplicationID}))[0];
+      app.name = newName;
+      // Remove the variants
+      app.variants = undefined;
+      return this.applicationsAdmin.update(await this.auth(), app);
+    },
   };
 
   readonly variants = {

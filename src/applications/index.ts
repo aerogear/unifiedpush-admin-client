@@ -1,1 +1,1 @@
-export { PushApplication, PushApplicationFilter } from './PushApplication';
+export {PushApplication, PushApplicationSearchOptions} from './PushApplication';

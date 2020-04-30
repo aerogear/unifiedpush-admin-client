@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-standalone-expect */
 import { PushApplication } from '../../src/applications';
 import * as nock from 'nock';
 import { mockData } from './mockData';
@@ -60,18 +61,33 @@ const checkAuth = (req: Request, enforce: boolean) => {
   }
 };
 
+const stripQueryParams = (qry: string): Record<string, string> => {
+  const idx = qry.indexOf('?');
+  if (idx >= 0) {
+    return {
+      val: qry.substring(0, idx),
+      params: qry.substring(idx),
+    };
+  } else {
+    return {
+      val: qry,
+    };
+  }
+};
+
 export const mockUps = (baseUrl = BASE_URL, auth = false) =>
   nock(baseUrl)
-    .get(/rest\/applications\/?[^\/]*\/?[^\/]*$/)
+    .get(/rest\/applications\/?[^/]*\/?[^/]*$/)
     // tslint:disable-next-line:only-arrow-functions
-    .reply(200, function(uri, requestBody) {
+    .reply(200, function (uri) {
       checkAuth(this.req, auth);
       // extracting appID
-      const urlWithParam = /rest\/applications\/?([^\/]*)\/?([^\/]*)$$/;
+      const urlWithParam = /rest\/applications\/?([^/]*)\/?([^/]*)$/;
       const urlParams = urlWithParam.exec(uri)!;
 
-      const appId = urlParams[1];
-      const variantType = urlParams[2];
+      const appId = stripQueryParams(urlParams[1]).val;
+      const variantType = stripQueryParams(urlParams[2]).val;
+      // params ignored as of now
 
       if (appId.length > 0) {
         const app = mockData.find(app => app.pushApplicationID === appId);
@@ -91,19 +107,19 @@ export const mockUps = (baseUrl = BASE_URL, auth = false) =>
     })
     .post(REST_APPLICATIONS_ENDPOINT, { name: NEW_APP_NAME })
     // tslint:disable-next-line:only-arrow-functions
-    .reply(function(uri, requestBody) {
+    .reply(function () {
       checkAuth(this.req, auth);
 
       return [200, NEW_APP];
     })
     .post('/rest/applications/2:2/android')
-    .reply(200, function(uri, requestBody) {
+    .reply(200, function (uri, requestBody) {
       checkAuth(this.req, auth);
       expect(requestBody).toEqual(TEST_NEW_VARIANT_TO_CREATE);
       return TEST_NEW_VARIANT_CREATED;
     })
     .post('/rest/applications/2:2/ios')
-    .reply(200, function(uri, requestBody) {
+    .reply(200, function (uri, requestBody) {
       //expect(requestBody).toEqual(TEST_NEW_VARIANT_TO_CREATE);
       //console.log({requestBody});
       checkAuth(this.req, auth);
@@ -113,10 +129,10 @@ export const mockUps = (baseUrl = BASE_URL, auth = false) =>
       expect(requestBody.indexOf('name="certificate"')).not.toEqual(-1);
       return TEST_NEW_VARIANT_CREATED;
     })
-    .delete(/rest\/applications\/?[^\/]*\/?[^\/]*\/?[^\/]*/)
+    .delete(/rest\/applications\/?[^/]*\/?[^/]*\/?[^/]*/)
     // tslint:disable-next-line:only-arrow-functions
-    .reply(200, function(uri, requestBody) {
-      const del = /rest\/applications\/?([^\/]*)\/?([^\/]*)\/?([^\/]*)/;
+    .reply(200, uri => {
+      const del = /rest\/applications\/?([^/]*)\/?([^/]*)\/?([^/]*)/;
       const params = del.exec(uri)!;
       const appid = params[1];
       const varId = params[3];
