@@ -60,7 +60,7 @@ describe('Applications Admin', () => {
   });
 
   it('Should delete an app using the Id ', async () => {
-    await appAdmin.delete(api, { pushApplicationID: '1:1' });
+    await appAdmin.delete(api, {pushApplicationID: '1:1'});
     const listApps = appAdmin.find(api);
     const appDel = mockData.find(appDel => appDel.pushApplicationID === APP_ID);
     // console.log(appDel);

@@ -1,8 +1,8 @@
 /* eslint-disable jest/no-standalone-expect */
-import { PushApplication } from '../../src/applications';
+import {PushApplication} from '../../src/applications';
 import * as nock from 'nock';
-import { mockData } from './mockData';
-import { AndroidVariant } from '../../src/variants';
+import {mockData} from './mockData';
+import {AndroidVariant} from '../../src/variants';
 
 export const BASE_URL = 'http://localhost:9999';
 
@@ -105,7 +105,7 @@ export const mockUps = (baseUrl = BASE_URL, auth = false) =>
         return mockData;
       }
     })
-    .post(REST_APPLICATIONS_ENDPOINT, { name: NEW_APP_NAME })
+    .post(REST_APPLICATIONS_ENDPOINT, {name: NEW_APP_NAME})
     // tslint:disable-next-line:only-arrow-functions
     .reply(function () {
       checkAuth(this.req, auth);
@@ -152,5 +152,5 @@ export const mockKeyCloak = () =>
       `grant_type=password&client_id=${KC_CREDENTIALS.client_id}&username=${KC_CREDENTIALS.username}&password=${KC_CREDENTIALS.password}`
     )
     // tslint:disable-next-line:only-arrow-functions
-    .reply(200, { access_token: ACCESS_TOKEN })
+    .reply(200, {access_token: ACCESS_TOKEN})
     .persist(true);
