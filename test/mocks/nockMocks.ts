@@ -1,8 +1,11 @@
 /* eslint-disable jest/no-standalone-expect */
 import {PushApplication} from '../../src/applications';
 import * as nock from 'nock';
-import {mockData} from './mockData';
+
 import {AndroidVariant} from '../../src/variants';
+import {mockData as originalData} from '../mocks/mockData';
+let mockData: PushApplication[] = [...originalData];
+export const init = (data: PushApplication[]) => (mockData = data);
 
 export const BASE_URL = 'http://localhost:9999';
 
@@ -136,12 +139,16 @@ export const mockUps = (baseUrl = BASE_URL, auth = false) =>
       const params = del.exec(uri)!;
       const appid = params[1];
       const varId = params[3];
-      const app = mockData.find(appDel => appDel.pushApplicationID === appid)!;
-      const variants = app?.variants?.filter(variant => variant.variantID !== varId);
 
-      app.variants = variants;
-
-      return variants;
+      if (varId) {
+        const app = mockData.find(appDel => appDel.pushApplicationID === appid)!;
+        const variants = app?.variants?.filter(variant => variant.variantID !== varId);
+        app.variants = variants;
+        return variants;
+      } else {
+        mockData = mockData.filter(apps => apps.pushApplicationID !== appid);
+        return mockData;
+      }
     })
     .persist(true);
 
