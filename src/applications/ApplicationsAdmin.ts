@@ -61,7 +61,7 @@ export class ApplicationsAdmin {
     await api.put(`/applications/${pushApplication.pushApplicationID}`, pushApplication);
   }
   //new delete function
-  async delete(api: AxiosInstance, filter: PushApplicationSearchOptions) {
+  async delete(api: AxiosInstance, filter?: PushApplicationSearchOptions) {
     return Promise.all(
       (await this.find(api, filter)).map(application =>
         api.delete(`/applications/${application.pushApplicationID}`).then(() => application)
