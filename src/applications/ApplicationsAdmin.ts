@@ -2,7 +2,6 @@ import {AxiosInstance, AxiosResponse} from 'axios';
 import {applyPushApplicationFilter, PushApplication, PushApplicationSearchOptions} from './PushApplication';
 
 export class ApplicationsAdmin {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ensureIsArray(obj: any) {
     if (obj instanceof Array) {
       return obj;
