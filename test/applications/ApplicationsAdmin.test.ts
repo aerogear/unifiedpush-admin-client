@@ -1,9 +1,11 @@
 import * as nock from 'nock';
 import axios from 'axios';
-import {BASE_URL, mockKeyCloak, mockUps, NEW_APP, NEW_APP_NAME} from '../mocks/nockMocks';
+import {BASE_URL, mockKeyCloak, mockUps, NEW_APP, NEW_APP_NAME, init} from '../mocks/nockMocks';
 import {ApplicationsAdmin} from '../../src/applications/ApplicationsAdmin';
-import {mockData} from '../mocks/mockData';
+import {mockData as originalData} from '../mocks/mockData';
+import {PushApplication} from '../../src/applications';
 
+let mockData: PushApplication[];
 beforeAll(() => {
   mockUps();
   mockKeyCloak();
@@ -13,8 +15,14 @@ afterAll(() => {
   nock.restore();
 });
 
+beforeEach(() => {
+  mockData = [...originalData];
+  init(mockData);
+});
+
 const APP_DEVELOPER_FILTER_OK = 'Test Developer 1';
 const APP_DEVELOPER_FILTER_BAD = 'developer 1';
+const APP_ID = '1:1';
 
 describe('Applications Admin', () => {
   const api = axios.create({baseURL: `${BASE_URL}/rest`});
@@ -56,5 +64,15 @@ describe('Applications Admin', () => {
   it(`Should create an app named ${NEW_APP_NAME} and should return it.`, async () => {
     const newApp = await appAdmin.create(api, NEW_APP_NAME);
     expect(newApp).toEqual(NEW_APP);
+  });
+
+  it('Should delete an app using the Id ', async () => {
+    const appDel = mockData.find(appDel => appDel.pushApplicationID === APP_ID);
+    const listAppsBeforeDeletion = await appAdmin.find(api);
+    expect(listAppsBeforeDeletion).toContainEqual(expect.objectContaining(appDel));
+    await appAdmin.delete(api, {pushApplicationID: '1:1'});
+    const listAppsAfterDeletion = await appAdmin.find(api);
+    expect(listAppsAfterDeletion).not.toContainEqual(expect.objectContaining(appDel));
+    expect(listAppsAfterDeletion).toHaveLength(listAppsBeforeDeletion.length - 1);
   });
 });
