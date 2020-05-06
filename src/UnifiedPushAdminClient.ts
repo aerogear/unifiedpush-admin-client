@@ -90,6 +90,12 @@ export class UnifiedPushAdminClient {
       app.variants = undefined;
       return this.applicationsAdmin.update(await this.auth(), app);
     },
+
+    /**
+     * delete an application
+     * @param filter filter to be used to find the applications. If not specified, all applications are deleted.
+     */
+    delete: async (filter?: PushApplicationSearchOptions) => this.applicationsAdmin.delete(await this.auth(), filter),
   };
 
   readonly variants = {
