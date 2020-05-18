@@ -1,43 +1,55 @@
-import * as nock from 'nock';
 import axios from 'axios';
-import {BASE_URL, mockKeyCloak, mockUps, NEW_APP, NEW_APP_NAME, init} from '../mocks/nockMocks';
 import {ApplicationsAdmin} from '../../src/applications/ApplicationsAdmin';
-import {mockData as originalData} from '../mocks/mockData';
-import {PushApplication} from '../../src/applications';
 
-let mockData: PushApplication[];
-beforeAll(() => {
-  mockUps();
-  mockKeyCloak();
+import {UPSMock, utils} from '../mocks';
+
+const BASE_URL = 'http://localhost:8888';
+const APP_DEVELOPER_FILTER_OK = 'Test Developer 1';
+const APP_DEVELOPER_FILTER_BAD = 'developer 1';
+
+const upsMock = new UPSMock();
+
+const NEW_APP_NAME = 'Test Application 1';
+
+beforeEach(() => {
+  upsMock.reset();
 });
 
 afterAll(() => {
-  nock.restore();
+  upsMock.uninstall();
 });
-
-beforeEach(() => {
-  mockData = [...originalData];
-  init(mockData);
-});
-
-const APP_DEVELOPER_FILTER_OK = 'Test Developer 1';
-const APP_DEVELOPER_FILTER_BAD = 'developer 1';
-const APP_ID = '1:1';
 
 describe('Applications Admin', () => {
   const api = axios.create({baseURL: `${BASE_URL}/rest`});
   const appAdmin = new ApplicationsAdmin();
 
-  it('Should return all apps', async () => {
+  it(`Should create an app named ${NEW_APP_NAME} and should return it.`, async () => {
+    const newApp = await appAdmin.create(api, NEW_APP_NAME);
+    expect(newApp.name).toEqual(NEW_APP_NAME);
+
+    const allApps = await appAdmin.find(api);
+    expect(allApps).toHaveLength(1);
+    expect(allApps[0].name).toEqual(NEW_APP_NAME);
+  });
+
+  it('Should return all apps (1st page)', async () => {
+    const ids = utils.generateIDs(45).map(id => ({pushApplicationID: id}));
+    utils.generateApps(upsMock, 45, ids);
+
     const apps = await appAdmin.find(api);
-    expect(apps).toEqual(mockData);
+    expect(apps).toHaveLength(10);
+    expect(apps).toMatchObject(ids.slice(0, 10));
   });
 
   it('Should return a given app', async () => {
+    utils.generateApps(upsMock, 10);
+    // get one app
+    const app = (await appAdmin.find(api))[6];
+
     const filteredApp = await appAdmin.find(api, {
-      pushApplicationID: '2:2',
+      pushApplicationID: app.pushApplicationID,
     });
-    expect(filteredApp).toEqual([mockData.find(app => app.pushApplicationID === '2:2')]);
+    expect(filteredApp).toEqual([app]);
   });
 
   it('Should return empty result', async () => {
@@ -48,31 +60,29 @@ describe('Applications Admin', () => {
   });
 
   it(`Should return all apps developed by ${APP_DEVELOPER_FILTER_OK}`, async () => {
+    utils.generateApps(upsMock, 8, new Array(20).fill({developer: APP_DEVELOPER_FILTER_OK}));
+    utils.generateApps(upsMock, 10, new Array(10).fill({developer: 'Dev 1'}));
+    utils.generateApps(upsMock, 5, new Array(10).fill({developer: 'Dev 2'}));
+
     const filteredApp = await appAdmin.find(api, {
       developer: APP_DEVELOPER_FILTER_OK,
     });
-    expect(filteredApp).toEqual(mockData.filter(app => app.developer === APP_DEVELOPER_FILTER_OK));
-  });
-
-  it(`Should return all apps developed by ${APP_DEVELOPER_FILTER_OK}`, async () => {
-    const filteredApp = await appAdmin.find(api, {
-      developer: APP_DEVELOPER_FILTER_OK,
-    });
-    expect(filteredApp).toEqual(mockData.filter(app => app.developer === APP_DEVELOPER_FILTER_OK));
-  });
-
-  it(`Should create an app named ${NEW_APP_NAME} and should return it.`, async () => {
-    const newApp = await appAdmin.create(api, NEW_APP_NAME);
-    expect(newApp).toEqual(NEW_APP);
+    expect(filteredApp).toHaveLength(8);
+    expect(filteredApp).toMatchObject(new Array(8).fill({developer: APP_DEVELOPER_FILTER_OK}));
   });
 
   it('Should delete an app using the Id ', async () => {
-    const appDel = mockData.find(appDel => appDel.pushApplicationID === APP_ID);
-    const listAppsBeforeDeletion = await appAdmin.find(api);
-    expect(listAppsBeforeDeletion).toContainEqual(expect.objectContaining(appDel));
-    await appAdmin.delete(api, {pushApplicationID: '1:1'});
-    const listAppsAfterDeletion = await appAdmin.find(api);
-    expect(listAppsAfterDeletion).not.toContainEqual(expect.objectContaining(appDel));
-    expect(listAppsAfterDeletion).toHaveLength(listAppsBeforeDeletion.length - 1);
+    const ids = utils.generateIDs(10).map(id => ({pushApplicationID: id}));
+    await utils.generateApps(upsMock, 10, ids);
+
+    const idToDelete = ids[5];
+
+    expect(await appAdmin.find(api)).toHaveLength(10);
+    expect(await appAdmin.find(api, idToDelete)).toHaveLength(1);
+
+    await appAdmin.delete(api, idToDelete);
+
+    expect(await appAdmin.find(api)).toHaveLength(9);
+    expect(await appAdmin.find(api, idToDelete)).toHaveLength(0);
   });
 });
