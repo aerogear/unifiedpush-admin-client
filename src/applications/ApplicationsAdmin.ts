@@ -9,7 +9,10 @@ export class ApplicationsAdmin {
     return [obj];
   }
 
-  async find(api: AxiosInstance, filter?: PushApplicationSearchOptions): Promise<PushApplication[]> {
+  async find(
+    api: AxiosInstance,
+    {filter, page}: {filter?: PushApplicationSearchOptions; page?: number} = {}
+  ): Promise<PushApplication[]> {
     let url = '/applications';
     let response: AxiosResponse;
 
@@ -27,6 +30,7 @@ export class ApplicationsAdmin {
         params: {
           includeDeviceCount: filter?.includeDeviceCount === true,
           includeActivity: filter?.includeActivity === true,
+          page,
         },
       });
     }
@@ -62,7 +66,7 @@ export class ApplicationsAdmin {
   //new delete function
   async delete(api: AxiosInstance, filter?: PushApplicationSearchOptions) {
     return Promise.all(
-      (await this.find(api, filter)).map(application =>
+      (await this.find(api, {filter})).map(application =>
         api.delete(`/applications/${application.pushApplicationID}`).then(() => application)
       )
     );

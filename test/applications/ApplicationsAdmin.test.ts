@@ -41,20 +41,37 @@ describe('Applications Admin', () => {
     expect(apps).toMatchObject(ids.slice(0, 10));
   });
 
+  it('Should return all apps (2nd page)', async () => {
+    utils.generateApps(upsMock, 45);
+
+    let apps = await appAdmin.find(api);
+    expect(apps).toHaveLength(10);
+    apps = await appAdmin.find(api, {page: 2});
+    expect(apps).toHaveLength(10);
+    apps = await appAdmin.find(api, {page: 3});
+    expect(apps).toHaveLength(10);
+    apps = await appAdmin.find(api, {page: 4});
+    expect(apps).toHaveLength(10);
+    apps = await appAdmin.find(api, {page: 5});
+    expect(apps).toHaveLength(5);
+
+    //expect(apps).toMatchObject(ids.slice(0, 10));
+  });
+
   it('Should return a given app', async () => {
     utils.generateApps(upsMock, 10);
     // get one app
     const app = (await appAdmin.find(api))[6];
 
     const filteredApp = await appAdmin.find(api, {
-      pushApplicationID: app.pushApplicationID,
+      filter: {pushApplicationID: app.pushApplicationID},
     });
     expect(filteredApp).toEqual([app]);
   });
 
   it('Should return empty result', async () => {
     const filteredApp = await appAdmin.find(api, {
-      developer: APP_DEVELOPER_FILTER_BAD,
+      filter: {developer: APP_DEVELOPER_FILTER_BAD},
     });
     expect(filteredApp).toEqual([]);
   });
@@ -65,7 +82,7 @@ describe('Applications Admin', () => {
     utils.generateApps(upsMock, 5, new Array(10).fill({developer: 'Dev 2'}));
 
     const filteredApp = await appAdmin.find(api, {
-      developer: APP_DEVELOPER_FILTER_OK,
+      filter: {developer: APP_DEVELOPER_FILTER_OK},
     });
     expect(filteredApp).toHaveLength(8);
     expect(filteredApp).toMatchObject(new Array(8).fill({developer: APP_DEVELOPER_FILTER_OK}));
@@ -78,11 +95,11 @@ describe('Applications Admin', () => {
     const idToDelete = ids[5];
 
     expect(await appAdmin.find(api)).toHaveLength(10);
-    expect(await appAdmin.find(api, idToDelete)).toHaveLength(1);
+    expect(await appAdmin.find(api, {filter: idToDelete})).toHaveLength(1);
 
     await appAdmin.delete(api, idToDelete);
 
     expect(await appAdmin.find(api)).toHaveLength(9);
-    expect(await appAdmin.find(api, idToDelete)).toHaveLength(0);
+    expect(await appAdmin.find(api, {filter: idToDelete})).toHaveLength(0);
   });
 });

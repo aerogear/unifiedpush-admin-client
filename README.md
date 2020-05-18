@@ -77,8 +77,16 @@ optionally a filter parameter can be specified. Applications can be filtered by:
 * **pushApplicationID**
 * **developer**
 
+The result is returned one page at a time. Each page will contain 7 applications. To specify which page to return, the 
+`page` parameter must be specified:
+
+```typescript
+const apps = upsadm.applications.find({filter: {developer: 'developer'}, page: 2 })
+```
+
 **NOTE** You are not limited to use only one key when filtering: if more than one is specified, they are all applied. The only 
 exception is the `id` filter: if the `id` is specified, all the other filters are ignored.
+
 
 To create an application we will use the `create` method:
 ```typescript
