@@ -1,30 +1,20 @@
-import * as nock from 'nock';
-import {
-  BASE_URL,
-  KC_CREDENTIALS,
-  KEYCLOAK_URL,
-  mockKeyCloak,
-  mockUps,
-  NEW_APP,
-  NEW_APP_NAME,
-  TEST_NEW_VARIANT_CREATED,
-  TEST_NEW_VARIANT_TO_CREATE,
-} from './mocks/nockMocks';
-import {UnifiedPushAdminClient} from '../src';
-import {mockData} from './mocks/mockData';
+import {AndroidVariant, UnifiedPushAdminClient} from '../src';
 import {KeycloakCredentials} from '../src/UnifiedPushAdminClient';
+import {UPSMock} from './mocks';
+import {utils} from './mocks';
+import {KEYCLOAK_URL, KC_CREDENTIALS} from './mocks/rest/keycloak';
 
-beforeAll(() => {
-  mockUps(BASE_URL, true);
-  mockKeyCloak();
+const BASE_URL = 'http://localhost:8888';
+
+const upsMock = new UPSMock(true);
+
+beforeEach(() => {
+  upsMock.reset();
 });
 
 afterAll(() => {
-  nock.restore();
+  upsMock.uninstall();
 });
-
-const TEST_APP_ID = '2:2';
-const TEST_VARIANT_ID = 'v-2:1';
 
 describe('UnifiedPushAdminClient', () => {
   const credentials: KeycloakCredentials = {
@@ -32,41 +22,62 @@ describe('UnifiedPushAdminClient', () => {
     ...KC_CREDENTIALS,
     type: 'keycloak',
   };
+  const NEW_APP_NAME = 'Test Application 1';
 
   it('Should return all apps', async () => {
+    utils.generateApps(upsMock, 10);
     const apps = await new UnifiedPushAdminClient(BASE_URL, credentials).applications.find();
-    expect(apps).toEqual(mockData);
+    expect(apps).toHaveLength(10);
   });
 
   it('Should create app', async () => {
     const app = await new UnifiedPushAdminClient(BASE_URL, credentials).applications.create(NEW_APP_NAME);
-    expect(app).toEqual(NEW_APP);
+    expect(app.name).toEqual(NEW_APP_NAME);
   });
 
   it('Should find all variants', async () => {
-    const variants = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(TEST_APP_ID);
-    expect(variants).toEqual(mockData.find(app => app.pushApplicationID === TEST_APP_ID)!.variants);
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const appId = APP_IDS[5];
+    const createdVariants = utils.generateVariants(upsMock, appId, 3);
+
+    const variants = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(appId);
+    expect(variants).toEqual(createdVariants);
   });
 
   it('Should create an android variant', async () => {
-    const variant = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.create(
-      TEST_APP_ID,
-      TEST_NEW_VARIANT_TO_CREATE
-    );
-    expect(variant).toEqual(TEST_NEW_VARIANT_CREATED);
-  });
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const appId = APP_IDS[5];
 
+    const variant = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.create(appId, {
+      type: 'android',
+      projectNumber: '12345',
+      googleKey: '34645654',
+      name: 'My beautiful variant',
+    } as AndroidVariant);
+    expect(variant).toMatchObject({
+      type: 'android',
+      projectNumber: '12345',
+      googleKey: '34645654',
+      name: 'My beautiful variant',
+    });
+  });
   it('Should delete a varianta', async () => {
-    const variantsBefore = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(TEST_APP_ID, {
-      variantID: TEST_VARIANT_ID,
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const appId = APP_IDS[5];
+    const variants = utils.generateVariants(upsMock, appId, 30);
+
+    const variantToDelete = variants[15];
+
+    const variantsBefore = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(appId, {
+      variantID: variantToDelete.variantID,
     });
     expect(variantsBefore).toBeDefined();
     expect(variantsBefore).toHaveLength(1);
-    await new UnifiedPushAdminClient(BASE_URL, credentials).variants.delete(TEST_APP_ID, {
-      variantID: TEST_VARIANT_ID,
+    await new UnifiedPushAdminClient(BASE_URL, credentials).variants.delete(appId, {
+      variantID: variantToDelete.variantID,
     });
-    const variantsAfter = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(TEST_APP_ID, {
-      variantID: TEST_VARIANT_ID,
+    const variantsAfter = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(appId, {
+      variantID: variantToDelete.variantID,
     });
     expect(variantsAfter).toBeDefined();
     expect(variantsAfter).toHaveLength(0);
