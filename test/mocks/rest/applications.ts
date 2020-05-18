@@ -2,6 +2,7 @@ import * as nock from 'nock';
 import {PushApplication} from '../../../src/applications';
 import {UPSEngineMock} from '../engine/UPSEngineMock';
 import {ACCESS_TOKEN} from './keycloak';
+import {URL} from 'url';
 
 const REST_APPLICATIONS_ENDPOINT = '/rest/applications';
 
@@ -27,7 +28,13 @@ export const mockCreateApplication = (scope: nock.Scope, ups: UPSEngineMock, enf
 
 export const mockGetApplications = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false) => {
   // get all applications
-  scope = scope.get(/rest\/applications\?/).reply(200, function () {
+  scope = scope.get(/rest\/applications\?/).reply(200, function (uri: string) {
+    // uri/?parameterName=value&parameterName2=value&page=...
+    if (uri.indexOf('page') > 0) {
+      const parsed = new URL(uri, 'http://localhost:9999');
+      return ups.getApplications(undefined, (parsed.searchParams.get('page') as unknown) as number);
+    }
+
     checkAuth(this.req, enforceAuth);
     return ups.getApplications();
   });
