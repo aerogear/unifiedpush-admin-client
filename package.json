@@ -34,7 +34,7 @@
     "ts-node": "8.10.1",
     "typescript": "3.8.3",
     "eslint-plugin-jest": "23.9.0",
-    "guid-typescript": "^1.0.9"
+    "guid-typescript": "1.0.9"
   },
   "dependencies": {
     "axios": "0.19.2",
