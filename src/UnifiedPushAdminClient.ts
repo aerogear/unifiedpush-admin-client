@@ -69,6 +69,7 @@ export class UnifiedPushAdminClient {
     /**
      * Finds application
      * @param filter a filter to be used to find applications. If not specified, all applications are returned.
+     * @param page the number of the page to be visualised
      */
     find: async ({filter, page}: {filter?: PushApplicationSearchOptions; page?: number} = {}): Promise<
       PushApplication[]
