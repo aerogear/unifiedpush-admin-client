@@ -1,3 +1,7 @@
+## [2.0.2](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.1...2.0.2) (2020-05-19)
+
+
+
 ## [2.0.1](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.0...2.0.1) (2020-05-19)
 
 
@@ -34,15 +38,6 @@ filter is the same as before, while the page is just a number representing the p
 
 
 ## [0.1.10](https://github.com/aerogear/unifiedpush-admin-client/compare/0.1.9...0.1.10) (2020-05-18)
-
-
-
-## [0.1.9](https://github.com/aerogear/unifiedpush-admin-client/compare/0.1.8...0.1.9) (2020-05-06)
-
-
-### Bug Fixes
-
-* the application delete method was not exposed into the UnifiedPushAdminClient class ([746b7e6](https://github.com/aerogear/unifiedpush-admin-client/commit/746b7e69840ddb9539c434d3a4fce46e1257fe9d))
 
 
 
