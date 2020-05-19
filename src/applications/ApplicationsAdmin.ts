@@ -2,44 +2,24 @@ import {AxiosInstance, AxiosResponse} from 'axios';
 import {applyPushApplicationFilter, PushApplication, PushApplicationSearchOptions} from './PushApplication';
 
 export class ApplicationsAdmin {
-  ensureIsArray(obj: any) {
-    if (obj instanceof Array) {
-      return obj;
-    }
-    return [obj];
-  }
+  readonly DEFAULT_PAGE_SIZE = 10;
 
   async find(
     api: AxiosInstance,
-    {filter, page}: {filter?: PushApplicationSearchOptions; page?: number} = {}
+    {
+      filter,
+      page = 0,
+      pageSize = this.DEFAULT_PAGE_SIZE,
+    }: {filter?: PushApplicationSearchOptions; page?: number; pageSize?: number} = {}
   ): Promise<PushApplication[]> {
     let url = '/applications';
-    let response: AxiosResponse;
+    let apps: PushApplication[] = [];
 
-    if (filter && filter.pushApplicationID) {
-      url = `${url}/${filter.pushApplicationID}`;
+    const ensureIsArray = (obj: any) => (obj instanceof Array ? obj : [obj]);
 
-      response = await api.get(url, {
-        params: {
-          includeDeviceCount: filter?.includeDeviceCount === true,
-          includeActivity: filter?.includeActivity === true,
-        },
-      });
-    } else {
-      response = await api.get(url, {
-        params: {
-          includeDeviceCount: filter?.includeDeviceCount === true,
-          includeActivity: filter?.includeActivity === true,
-          page,
-        },
-      });
-    }
-    let apps: PushApplication[] = applyPushApplicationFilter(this.ensureIsArray(response.data), filter);
-
-    // Add deviceCount info and activityInfo to the PushApplication object
-    if (filter?.includeDeviceCount || filter?.includeActivity) {
-      // Add info to the app
-      apps = apps.map((app: PushApplication) => {
+    // Reads the activity from the headers and adds it to the app metadata
+    const addActivityData = (app: PushApplication, response: AxiosResponse) => {
+      if (filter?.includeDeviceCount || filter?.includeActivity) {
         app.activity = response.headers[`activity_app_${app.pushApplicationID?.toLowerCase()}`];
         app.deviceCount = response.headers[`devicecount_app_${app.pushApplicationID?.toLowerCase()}`];
 
@@ -49,10 +29,63 @@ export class ApplicationsAdmin {
           variant.deviceCount = response.headers[`devicecount_variant_${app.pushApplicationID?.toLowerCase()}`];
           return variant;
         });
+      }
+      return app;
+    };
 
-        return app;
+    // Recursive function that gets all the application from all pages
+    const getAllApplications = async (currentResult: PushApplication[] = [], page = 0): Promise<PushApplication[]> => {
+      const response = await api.get(url, {
+        params: {
+          includeDeviceCount: filter?.includeDeviceCount === true,
+          includeActivity: filter?.includeActivity === true,
+          page,
+        },
       });
+      const apps = ensureIsArray(response.data);
+      if (apps.length > 0) {
+        return await getAllApplications(applyPushApplicationFilter([...currentResult, ...apps]), ++page);
+      }
+      return currentResult;
+    };
+
+    // Extract a single page from all the received applications
+    const getPage = (apps: PushApplication[], page = 0, pageSize = this.DEFAULT_PAGE_SIZE) => {
+      const firstIndex = pageSize * page;
+      const endIndex = firstIndex + pageSize;
+
+      return apps.slice(firstIndex, endIndex);
+    };
+
+    if (filter) {
+      if (filter.pushApplicationID) {
+        // If we have the pushApplicationID, we can get that app straight away: we don't need to filter.
+        url = `${url}/${filter.pushApplicationID}`;
+
+        const response = await api.get(url, {
+          params: {
+            includeDeviceCount: filter?.includeDeviceCount === true,
+            includeActivity: filter?.includeActivity === true,
+          },
+        });
+        apps = ensureIsArray(response.data).map((app: PushApplication) => addActivityData(app, response));
+      } else {
+        // To filter on other fields than `id` we need to get ALL the applications from UPS
+        apps = getPage(applyPushApplicationFilter(await getAllApplications(), filter), page);
+      }
+    } else {
+      // there is no filter, we can ask the page to the UPS
+      const response = await api.get(url, {
+        params: {
+          includeDeviceCount: true,
+          includeActivity: true,
+          page,
+        },
+      });
+      apps = ensureIsArray(response.data).map((app: PushApplication) => addActivityData(app, response));
     }
+
+    // filter the result
     return apps;
   }
 
