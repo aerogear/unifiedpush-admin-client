@@ -1,7 +1,7 @@
 import * as nock from 'nock';
 import {UPSEngineMock} from '../engine/UPSEngineMock';
 
-import {mockCreateApplication, mockDeleteApplication, mockGetApplications} from './applications';
+import {mockCreateApplication, mockDeleteApplication, mockGetApplications, mockUpdateApplication} from './applications';
 import {mockCreateAndroidVariant, mockCreateiOSVariant, mockDeleteVariant, mockGetVariants} from './variants';
 import {mockKeyCloak} from './keycloak';
 
@@ -27,6 +27,7 @@ export class UPSMock {
     this.mockCreateiOSVariant();
     this.mockGetVariants();
     this.mockDeleteVariant();
+    this.mockUpdateApplication();
 
     this.mock.persist(true);
 
@@ -34,6 +35,7 @@ export class UPSMock {
   }
 
   private mockCreateApplication = () => (this.mock = mockCreateApplication(this.mock, this.ups, this.enforceAuth));
+  private mockUpdateApplication = () => (this.mock = mockUpdateApplication(this.mock, this.ups, this.enforceAuth));
   private mockGetApplications = () => (this.mock = mockGetApplications(this.mock, this.ups, this.enforceAuth));
   private mockDeleteApplication = () => (this.mock = mockDeleteApplication(this.mock, this.ups, this.enforceAuth));
 

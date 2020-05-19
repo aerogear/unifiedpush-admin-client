@@ -16,19 +16,35 @@ export class UPSEngineMock {
     return newApp;
   }
 
-  getApplications(id?: string, page = 1, itemPerPage = 10) {
+  /**
+   * Gets a list of applications
+   * @param id the id of the application. Optional
+   * @param page the page. Starts with 0.
+   * @param itemPerPage
+   */
+  getApplications(id?: string, page = 0, itemPerPage = 10) {
+    let apps: PushApplication[] | PushApplication | undefined;
     if (!id) {
-      const firstIndex = itemPerPage * (page - 1);
+      const firstIndex = itemPerPage * page;
       const endIndex = firstIndex + itemPerPage;
 
-      return this.data.slice(firstIndex, endIndex);
+      apps = this.data.slice(firstIndex, endIndex);
     } else {
-      return this.data.find(item => item.pushApplicationID === id);
+      apps = this.data.find(item => item.pushApplicationID === id);
     }
+    return apps || [];
   }
 
   deleteApplication(id: string) {
     this.data = this.data.filter(item => item.pushApplicationID !== id);
+  }
+
+  updateApplication(update: PushApplication) {
+    const app = this.data.find(item => item.pushApplicationID === update.pushApplicationID);
+    if (app) {
+      app.name = update.name || app.name;
+      app.description = update.description || app.description;
+    }
   }
 
   // Variants
@@ -68,6 +84,8 @@ export class UPSEngineMock {
     }
     return variant;
   }
+
+  countApplications = () => this.data.length;
 
   reset = () => (this.data = []);
 }

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {ApplicationsAdmin} from '../../src/applications/ApplicationsAdmin';
 
 import {UPSMock, utils} from '../mocks';
+import {PushApplication} from '../../src/applications';
 
 const BASE_URL = 'http://localhost:8888';
 const APP_DEVELOPER_FILTER_OK = 'Test Developer 1';
@@ -32,6 +33,20 @@ describe('Applications Admin', () => {
     expect(allApps[0].name).toEqual(NEW_APP_NAME);
   });
 
+  it('Should rename the application.', async () => {
+    const IDS = utils.generateApps(upsMock, 59);
+    const appId = IDS[52];
+    upsMock.getImpl().getApplications(appId);
+
+    const newName = 'NEW APP NAME';
+
+    expect((await appAdmin.find(api, {filter: {pushApplicationID: appId}}))[0].name).not.toEqual(newName);
+
+    await appAdmin.update(api, {pushApplicationID: appId, name: newName} as PushApplication);
+
+    expect((await appAdmin.find(api, {filter: {pushApplicationID: appId}}))[0].name).toEqual(newName);
+  });
+
   it('Should return all apps (1st page)', async () => {
     const ids = utils.generateIDs(45).map(id => ({pushApplicationID: id}));
     utils.generateApps(upsMock, 45, ids);
@@ -46,16 +61,14 @@ describe('Applications Admin', () => {
 
     let apps = await appAdmin.find(api);
     expect(apps).toHaveLength(10);
+    apps = await appAdmin.find(api, {page: 1});
+    expect(apps).toHaveLength(10);
     apps = await appAdmin.find(api, {page: 2});
     expect(apps).toHaveLength(10);
     apps = await appAdmin.find(api, {page: 3});
     expect(apps).toHaveLength(10);
     apps = await appAdmin.find(api, {page: 4});
-    expect(apps).toHaveLength(10);
-    apps = await appAdmin.find(api, {page: 5});
     expect(apps).toHaveLength(5);
-
-    //expect(apps).toMatchObject(ids.slice(0, 10));
   });
 
   it('Should return a given app', async () => {
@@ -67,6 +80,15 @@ describe('Applications Admin', () => {
       filter: {pushApplicationID: app.pushApplicationID},
     });
     expect(filteredApp).toEqual([app]);
+  });
+
+  it('Should find app by name', async () => {
+    utils.generateApps(upsMock, 45);
+    utils.generateApps(upsMock, 1, [{name: 'TEST'}]);
+    // get one app
+    const app = await appAdmin.find(api, {filter: {name: 'TEST'}});
+
+    expect(app).toHaveLength(1);
   });
 
   it('Should return empty result', async () => {
