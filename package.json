@@ -1,6 +1,6 @@
 {
   "name": "@aerogear/unifiedpush-admin-client",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Client library used to admin UPS with code",
   "author": "AeroGear Team<aerogear@googlegroups.com>",
   "homepage": "http://aerogear.org",
