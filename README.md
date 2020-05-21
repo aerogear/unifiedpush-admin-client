@@ -2,7 +2,7 @@
 
 ![Build](https://github.com/aerogear/unifiedpush-admin-client/workflows/build/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/aerogear/unifiedpush-admin-client/badge.svg?branch=master)](https://coveralls.io/github/aerogear/unifiedpush-admin-client)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=aerogear_unifiedpush-admin-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=aerogear_unifiedpush-admin-client)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/af0c8d43f45a418a8844b68969b7efd2)](https://www.codacy.com/gh/aerogear/unifiedpush-admin-client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aerogear/unifiedpush-admin-client&amp;utm_campaign=Badge_Grade)
 
 The _UnifiedPush Server Admin_ library allows to admin the UPS by javascript or typescript code.
 
