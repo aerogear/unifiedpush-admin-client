@@ -77,8 +77,7 @@ export class UPSEngineMock {
       return null;
     }
 
-    const variant =
-      app.variants && app.variants.find(v => v.type === type && v.variantID === variantId);
+    const variant = app.variants && app.variants.find(v => v.type === type && v.variantID === variantId);
     if (variant) {
       app.variants = app.variants?.filter(v => v.type !== type && v.variantID !== variantId);
     }
