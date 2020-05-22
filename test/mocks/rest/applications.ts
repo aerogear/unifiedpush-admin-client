@@ -45,7 +45,7 @@ export const mockGetApplications = (scope: nock.Scope, ups: UPSEngineMock, enfor
   // get all applications
   scope = scope.get(/rest\/applications\?/).reply(function (uri: string) {
     // uri/?parameterName=value&parameterName2=value&page=...
-    if (uri.indexOf('page') > 0) {
+    if (uri.includes('page')) {
       const parsed = new URL(uri, 'http://localhost:8888');
       const apps = ups.getApplications(undefined, (parsed.searchParams.get('page') as unknown) as number);
       return [200, apps, {total: ups.countApplications()}];

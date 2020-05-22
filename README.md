@@ -29,13 +29,13 @@ npm run test
 ### Using the library
 
 The entry point of the library is the _UnifiedPushAdminClient_ class. Its constructor takes two arguments:
-1. *serverURL*: The URL of the _UnifiedPushServer_. The url must be complete of protocol and port.  
+1. **serverURL**: The URL of the _UnifiedPushServer_. The url must be complete of protocol and port.  
    Example:  
    `http://localhost:9999` 
-1. *credentials*: This parameter is be used to authenticate before trying to call the UPS REST endpoints. Two types of credentials
+2. **credentials**: This parameter is be used to authenticate before trying to call the UPS REST endpoints. Two types of credentials
 can be specified:
-   1. Basic: this is just username/password used for basic authentication
-   2. Keycloak: this is composed of **username/password**, **realm**, **client_id** and **keycloak URL**. Optionally, if you already have a valid bearer token, it
+   * Basic: this is just username/password used for basic authentication
+   * Keycloak: this is composed of **username/password**, **realm**, **client_id** and **keycloak URL**. Optionally, if you already have a valid bearer token, it
    can be specified here, so that the library won't try to authenticate again.
    
 **Example without credentials:** 
@@ -87,7 +87,6 @@ const apps = upsadm.applications.find({filter: {developer: 'developer'}, page: 2
 
 **NOTE** You are not limited to use only one key when filtering: if more than one is specified, they are all applied. The only 
 exception is the `id` filter: if the `id` is specified, all the other filters are ignored.
-
 
 To create an application we will use the `create` method:
 ```typescript
