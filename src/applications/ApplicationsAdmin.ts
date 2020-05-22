@@ -13,7 +13,7 @@ export class ApplicationsAdmin {
     }: {filter?: PushApplicationSearchOptions; page?: number; pageSize?: number} = {}
   ): Promise<PushApplication[]> {
     let url = '/applications';
-    let apps: PushApplication[] = [];
+    let apps: PushApplication[];
 
     const ensureIsArray = (obj: any) => (obj instanceof Array ? obj : [obj]);
 
@@ -34,27 +34,30 @@ export class ApplicationsAdmin {
     };
 
     // Recursive function that gets all the application from all pages
-    const getAllApplications = async (currentResult: PushApplication[] = [], page = 0): Promise<PushApplication[]> => {
+    const getAllApplications = async (
+      currentResult: PushApplication[] = [],
+      currentPage = 0
+    ): Promise<PushApplication[]> => {
       const response = await api.get(url, {
         params: {
           includeDeviceCount: filter?.includeDeviceCount === true,
           includeActivity: filter?.includeActivity === true,
-          page,
+          page: currentPage,
         },
       });
-      const apps = ensureIsArray(response.data);
-      if (apps.length > 0) {
-        return await getAllApplications(applyPushApplicationFilter([...currentResult, ...apps]), ++page);
+      const appList = ensureIsArray(response.data);
+      if (appList.length > 0) {
+        return await getAllApplications(applyPushApplicationFilter([...currentResult, ...appList]), currentPage + 1);
       }
       return currentResult;
     };
 
     // Extract a single page from all the received applications
-    const getPage = (apps: PushApplication[], page = 0, pageSize = this.DEFAULT_PAGE_SIZE) => {
-      const firstIndex = pageSize * page;
-      const endIndex = firstIndex + pageSize;
+    const getPage = (appList: PushApplication[], desiredPage = 0, desiredPageSize = this.DEFAULT_PAGE_SIZE) => {
+      const firstIndex = desiredPageSize * desiredPage;
+      const endIndex = firstIndex + desiredPageSize;
 
-      return apps.slice(firstIndex, endIndex);
+      return appList.slice(firstIndex, endIndex);
     };
 
     if (filter) {

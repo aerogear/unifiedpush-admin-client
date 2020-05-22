@@ -112,7 +112,7 @@ describe('Applications Admin', () => {
 
   it('Should delete an app using the Id ', async () => {
     const ids = utils.generateIDs(10).map(id => ({pushApplicationID: id}));
-    await utils.generateApps(upsMock, 10, ids);
+    utils.generateApps(upsMock, 10, ids);
 
     const idToDelete = ids[5];
 
