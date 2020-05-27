@@ -15,9 +15,9 @@ export class ApplicationsAdmin {
     let url = '/applications';
     let apps: PushApplication[];
 
-    const ensureIsArray = (obj: any) => (obj instanceof Array ? obj : [obj]);
-
+    //////////////////////////////////////////////////////////////////////
     // Reads the activity from the headers and adds it to the app metadata
+    //////////////////////////////////////////////////////////////////////
     const addActivityData = (app: PushApplication, response: AxiosResponse) => {
       if (filter?.includeDeviceCount || filter?.includeActivity) {
         app.activity = response.headers[`activity_app_${app.pushApplicationID?.toLowerCase()}`];
@@ -33,33 +33,6 @@ export class ApplicationsAdmin {
       return app;
     };
 
-    // Recursive function that gets all the application from all pages
-    const getAllApplications = async (
-      currentResult: PushApplication[] = [],
-      currentPage = 0
-    ): Promise<PushApplication[]> => {
-      const response = await api.get(url, {
-        params: {
-          includeDeviceCount: filter?.includeDeviceCount === true,
-          includeActivity: filter?.includeActivity === true,
-          page: currentPage,
-        },
-      });
-      const appList = ensureIsArray(response.data);
-      if (appList.length > 0) {
-        return await getAllApplications(applyPushApplicationFilter([...currentResult, ...appList]), currentPage + 1);
-      }
-      return currentResult;
-    };
-
-    // Extract a single page from all the received applications
-    const getPage = (appList: PushApplication[], desiredPage = 0, desiredPageSize = this.DEFAULT_PAGE_SIZE) => {
-      const firstIndex = desiredPageSize * desiredPage;
-      const endIndex = firstIndex + desiredPageSize;
-
-      return appList.slice(firstIndex, endIndex);
-    };
-
     if (filter) {
       if (filter.pushApplicationID) {
         // If we have the pushApplicationID, we can get that app straight away: we don't need to filter.
@@ -69,12 +42,13 @@ export class ApplicationsAdmin {
           params: {
             includeDeviceCount: filter?.includeDeviceCount === true,
             includeActivity: filter?.includeActivity === true,
+            per_page: pageSize,
           },
         });
-        apps = ensureIsArray(response.data).map((app: PushApplication) => addActivityData(app, response));
+        apps = utils.ensureIsArray(response.data).map((app: PushApplication) => addActivityData(app, response));
       } else {
         // To filter on other fields than `id` we need to get ALL the applications from UPS
-        apps = getPage(applyPushApplicationFilter(await getAllApplications(), filter), page);
+        apps = utils.getPage(applyPushApplicationFilter(await utils.getAllApplications(api), filter), page, pageSize);
       }
     } else {
       // there is no filter, we can ask the page to the UPS
@@ -83,9 +57,10 @@ export class ApplicationsAdmin {
           includeDeviceCount: true,
           includeActivity: true,
           page,
+          per_page: pageSize,
         },
       });
-      apps = ensureIsArray(response.data).map((app: PushApplication) => addActivityData(app, response));
+      apps = utils.ensureIsArray(response.data).map((app: PushApplication) => addActivityData(app, response));
     }
 
     // filter the result
@@ -99,7 +74,6 @@ export class ApplicationsAdmin {
   async update(api: AxiosInstance, pushApplication: PushApplication) {
     await api.put(`/applications/${pushApplication.pushApplicationID}`, pushApplication);
   }
-  //new delete function
   async delete(api: AxiosInstance, filter?: PushApplicationSearchOptions) {
     return Promise.all(
       (await this.find(api, {filter})).map(application =>
@@ -108,3 +82,39 @@ export class ApplicationsAdmin {
     );
   }
 }
+
+const utils = {
+  ensureIsArray: (obj: unknown) => (obj instanceof Array ? obj : [obj]),
+  getPage: (appList: PushApplication[], page: number, pageSize: number) => {
+    const firstIndex = pageSize * page;
+    const endIndex = firstIndex + pageSize;
+
+    return appList.slice(firstIndex, endIndex);
+  },
+  getAllApplications: async (
+    api: AxiosInstance,
+    filter?: PushApplicationSearchOptions,
+    currentResult: PushApplication[] = [],
+    startWithPage = 0
+  ): Promise<PushApplication[]> => {
+    const url = '/applications';
+    const response = await api.get(url, {
+      params: {
+        includeDeviceCount: filter?.includeDeviceCount === true,
+        includeActivity: filter?.includeActivity === true,
+        page: startWithPage,
+        per_page: 100,
+      },
+    });
+    const appList = utils.ensureIsArray(response.data);
+    if (appList.length > 0) {
+      return await utils.getAllApplications(
+        api,
+        filter,
+        applyPushApplicationFilter([...currentResult, ...appList]),
+        startWithPage + 1
+      );
+    }
+    return currentResult;
+  },
+};
