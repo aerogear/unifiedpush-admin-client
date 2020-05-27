@@ -2,49 +2,49 @@
   "name": "@aerogear/unifiedpush-admin-client",
   "version": "2.0.9",
   "description": "Client library used to admin UPS with code",
-  "author": "AeroGear Team<aerogear@googlegroups.com>",
+  "keywords": [
+    "unifiedpush"
+  ],
   "homepage": "http://aerogear.org",
+  "bugs": {
+    "url": "https://github.com/aerogear/unifiedpush-admin-client/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aerogear/unifiedpush-admin-client.git"
+  },
   "license": "Apache-2.0",
+  "author": "AeroGear Team<aerogear@googlegroups.com>",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "files": [
     "dist/src"
   ],
-  "keywords": [
-    "unifiedpush"
-  ],
   "scripts": {
-    "test": "jest",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc -p .",
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
+    "test": "jest",
     "posttest": "npm run check"
-  },
-  "devDependencies": {
-    "@types/jest": "25.2.3",
-    "@types/nock": "11.1.0",
-    "@types/node": "10.17.24",
-    "gts": "2.0.2",
-    "jest": "26.0.1",
-    "nock": "12.0.3",
-    "ts-jest": "26.0.0",
-    "ts-node": "8.10.1",
-    "typescript": "3.8.3",
-    "eslint-plugin-jest": "23.13.1",
-    "guid-typescript": "1.0.9"
   },
   "dependencies": {
     "axios": "0.19.2",
     "form-data": "3.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aerogear/unifiedpush-admin-client.git"
-  },
-  "bugs": {
-    "url": "https://github.com/aerogear/unifiedpush-admin-client/issues"
+  "devDependencies": {
+    "@types/jest": "25.2.3",
+    "@types/nock": "11.1.0",
+    "@types/node": "10.17.24",
+    "eslint-plugin-jest": "23.13.1",
+    "gts": "2.0.2",
+    "guid-typescript": "1.0.9",
+    "jest": "26.0.1",
+    "nock": "12.0.3",
+    "ts-jest": "26.0.0",
+    "ts-node": "8.10.1",
+    "typescript": "3.8.3"
   }
 }
