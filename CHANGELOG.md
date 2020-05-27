@@ -1,3 +1,12 @@
+## [2.0.10](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.9...2.0.10) (2020-05-27)
+
+
+### Bug Fixes
+
+* **list:** handled the pageSize parameter ([15c4d24](https://github.com/aerogear/unifiedpush-admin-client/commit/15c4d241db9249e2b4d44ed04ec6ada95460a543))
+
+
+
 ## [2.0.9](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.8...2.0.9) (2020-05-27)
 
 
@@ -16,10 +25,6 @@
 
 
 ## [2.0.6](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.5...2.0.6) (2020-05-21)
-
-
-
-## [2.0.5](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.4...2.0.5) (2020-05-19)
 
 
 
