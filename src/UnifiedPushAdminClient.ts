@@ -2,7 +2,7 @@ import axios, {AxiosInstance} from 'axios';
 import {PushApplication, PushApplicationSearchOptions} from './applications';
 import {Variant, VariantFilter} from './variants';
 import {VariantsAdmin} from './variants/VariantsAdmin';
-import {ApplicationsAdmin} from './applications/ApplicationsAdmin';
+import {ApplicationsAdmin, SearchResults} from './applications/ApplicationsAdmin';
 
 const DEFAULT_REALM = 'aerogear';
 const DEFAULT_CLIENT_ID = 'unified-push-server-js';
@@ -71,9 +71,8 @@ export class UnifiedPushAdminClient {
      * @param filter a filter to be used to find applications. If not specified, all applications are returned.
      * @param page the number of the page to be visualised
      */
-    find: async ({filter, page}: {filter?: PushApplicationSearchOptions; page?: number} = {}): Promise<
-      PushApplication[]
-    > => this.applicationsAdmin.find(await this.auth(), {filter, page}),
+    find: async ({filter, page}: {filter?: PushApplicationSearchOptions; page?: number} = {}): Promise<SearchResults> =>
+      this.applicationsAdmin.find(await this.auth(), {filter, page}),
     /**
      * Creates an application in the UPS
      * @param name the name of the application to be created
@@ -86,7 +85,7 @@ export class UnifiedPushAdminClient {
      * @param newName
      */
     rename: async (pushApplicationID: string, newName: string) => {
-      const app = (await this.applications.find({filter: {pushApplicationID}}))[0];
+      const app = (await this.applications.find({filter: {pushApplicationID}})).appList[0];
       app.name = newName;
       // Remove the variants
       app.variants = undefined;

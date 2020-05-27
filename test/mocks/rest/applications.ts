@@ -57,20 +57,20 @@ export const mockGetApplications = (scope: nock.Scope, ups: UPSEngineMock, enfor
 
   // get application by id
 
-  scope = scope.get(/rest\/applications\/([^/]+)\?/).reply(200, function (uri: string) {
+  scope = scope.get(/rest\/applications\/([^/]+)\?/).reply(function (uri: string) {
     checkAuth(this.req, enforceAuth);
     const urlWithParam = /rest\/applications\/([^/]+)\?/;
     const urlParams = urlWithParam.exec(uri)!;
     const appId = urlParams[1];
-    return ups.getApplications(appId);
+    return [200, ups.getApplications(appId), {total: ups.countApplications()}];
   });
 
-  scope = scope.get(/rest\/applications\/([^/]+)$/).reply(200, function (uri: string) {
+  scope = scope.get(/rest\/applications\/([^/]+)$/).reply(function (uri: string) {
     checkAuth(this.req, enforceAuth);
     const urlWithParam = /rest\/applications\/([^/]+)$/;
     const urlParams = urlWithParam.exec(uri)!;
     const appId = urlParams[1];
-    return ups.getApplications(appId);
+    return [200, ups.getApplications(appId), {total: ups.countApplications()}];
   });
 
   return scope;
