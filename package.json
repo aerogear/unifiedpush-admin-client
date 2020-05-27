@@ -38,7 +38,7 @@
     "@types/jest": "25.2.3",
     "@types/nock": "11.1.0",
     "@types/node": "10.17.24",
-    "eslint-plugin-jest": "23.13.1",
+    "eslint-plugin-jest": "23.13.2",
     "gts": "2.0.2",
     "guid-typescript": "1.0.9",
     "jest": "26.0.1",
