@@ -27,7 +27,7 @@ describe('UnifiedPushAdminClient', () => {
   it('Should return all apps', async () => {
     utils.generateApps(upsMock, 10);
     const apps = await new UnifiedPushAdminClient(BASE_URL, credentials).applications.find();
-    expect(apps).toHaveLength(10);
+    expect(apps.appList).toHaveLength(10);
   });
 
   it('Should rename an app', async () => {
@@ -38,16 +38,14 @@ describe('UnifiedPushAdminClient', () => {
     const newName = 'NEW APP NAME';
 
     expect(
-      (
-        await new UnifiedPushAdminClient(BASE_URL, credentials).applications.find({filter: {pushApplicationID: appId}})
-      )[0].name
+      (await new UnifiedPushAdminClient(BASE_URL, credentials).applications.find({filter: {pushApplicationID: appId}}))
+        .appList[0].name
     ).not.toEqual(newName);
 
     await new UnifiedPushAdminClient(BASE_URL, credentials).applications.rename(appId, newName);
     expect(
-      (
-        await new UnifiedPushAdminClient(BASE_URL, credentials).applications.find({filter: {pushApplicationID: appId}})
-      )[0].name
+      (await new UnifiedPushAdminClient(BASE_URL, credentials).applications.find({filter: {pushApplicationID: appId}}))
+        .appList[0].name
     ).toEqual(newName);
   });
 
@@ -63,10 +61,10 @@ describe('UnifiedPushAdminClient', () => {
 
     const ups = new UnifiedPushAdminClient(BASE_URL, credentials);
     const app = await ups.applications.find({filter: {name: appToDelete.name}});
-    expect(app).toHaveLength(1);
+    expect(app.appList).toHaveLength(1);
     const deletedApp = await ups.applications.delete({name: appToDelete.name});
     expect(deletedApp).toMatchObject([appToDelete]);
-    expect(await ups.applications.find({filter: {name: appToDelete.name}})).toHaveLength(0);
+    expect((await ups.applications.find({filter: {name: appToDelete.name}})).appList).toHaveLength(0);
   });
 
   // VARIANTS TEST
