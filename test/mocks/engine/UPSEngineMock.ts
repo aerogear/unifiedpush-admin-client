@@ -84,6 +84,16 @@ export class UPSEngineMock {
     return variant;
   }
 
+  renewVariantSecret(appId: string, variantType: string, variantId: string): Variant | undefined {
+    const variant = this.getVariants(appId, variantType)?.find(variant => variant.variantID === variantId);
+
+    if (variant) {
+      variant.secret = Guid.raw();
+    }
+
+    return variant;
+  }
+
   countApplications = () => this.data.length;
 
   reset = () => (this.data = []);

@@ -92,3 +92,20 @@ export const mockDeleteVariant = (scope: nock.Scope, ups: UPSEngineMock) => {
     return [202];
   });
 };
+
+export const mockRenewVariantSecret = (scope: nock.Scope, ups: UPSEngineMock) => {
+  return scope.put(/rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)\/reset$/).reply((uri: string) => {
+    const regex = /rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)\/reset$/;
+    const urlParams = regex.exec(uri)!;
+    const appId = urlParams[1];
+    const variantType = urlParams[2];
+    const variantId = urlParams[3];
+
+    const variant = ups.renewVariantSecret(appId, variantType, variantId);
+    if (!variant) {
+      return [404, 'Could not find requested Variant'];
+    }
+
+    return [200, variant];
+  });
+};

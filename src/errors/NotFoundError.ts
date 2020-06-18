@@ -8,6 +8,6 @@ export class NotFoundError extends Error {
       Error.captureStackTrace(this, NotFoundError);
     }
 
-    this.name = 'InternalError';
+    this.name = 'NotFoundError';
   }
 }
