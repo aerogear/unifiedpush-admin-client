@@ -1,3 +1,12 @@
+# [3.2.0](https://github.com/aerogear/unifiedpush-admin-client/compare/3.1.0...3.2.0) (2020-06-19)
+
+
+### Features
+
+* **variants:** added variant update function ([5365b66](https://github.com/aerogear/unifiedpush-admin-client/commit/5365b666cd1914130127cda918012d0cc51339f7))
+
+
+
 # [3.1.0](https://github.com/aerogear/unifiedpush-admin-client/compare/3.0.2...3.1.0) (2020-06-19)
 
 
@@ -26,10 +35,6 @@
 
 * This change will change the return value of the `find`
 method
-
-
-
-## [2.0.11](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.10...2.0.11) (2020-05-27)
 
 
 
