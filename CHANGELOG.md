@@ -1,3 +1,7 @@
+## [3.2.1](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.0...3.2.1) (2020-06-19)
+
+
+
 # [3.2.0](https://github.com/aerogear/unifiedpush-admin-client/compare/3.1.0...3.2.0) (2020-06-19)
 
 
@@ -22,19 +26,6 @@
 
 
 ## [3.0.1](https://github.com/aerogear/unifiedpush-admin-client/compare/3.0.0...3.0.1) (2020-06-03)
-
-
-
-# [3.0.0](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.11...3.0.0) (2020-06-03)
-
-
-* feat(list)!: added management for the total header ([68485e9](https://github.com/aerogear/unifiedpush-admin-client/commit/68485e9f7217387ce8b89461a130be33f0f2c18e))
-
-
-### BREAKING CHANGES
-
-* This change will change the return value of the `find`
-method
 
 
 
