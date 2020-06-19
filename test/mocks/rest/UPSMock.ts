@@ -8,6 +8,7 @@ import {
   mockDeleteVariant,
   mockGetVariants,
   mockRenewVariantSecret,
+  mockUpdateVariant,
 } from './variants';
 import {mockKeyCloak} from './keycloak';
 
@@ -34,6 +35,7 @@ export class UPSMock {
     this.mockCreateiOSVariant();
     this.mockGetVariants();
     this.mockDeleteVariant();
+    this.mockUpdateVariant();
     this.mockRenewVariantSecret();
 
     this.mock.persist(true);
@@ -52,6 +54,7 @@ export class UPSMock {
   private mockCreateAndroidVariant = () => (this.mock = mockCreateAndroidVariant(this.mock, this.ups));
   private mockCreateiOSVariant = () => (this.mock = mockCreateiOSVariant(this.mock, this.ups));
   private mockDeleteVariant = () => (this.mock = mockDeleteVariant(this.mock, this.ups));
+  private mockUpdateVariant = () => (this.mock = mockUpdateVariant(this.mock, this.ups));
   private mockRenewVariantSecret = () => (this.mock = mockRenewVariantSecret(this.mock, this.ups));
 
   // State management

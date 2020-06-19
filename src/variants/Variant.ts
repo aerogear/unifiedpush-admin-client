@@ -1,5 +1,11 @@
 export type VARIANT_TYPE = 'android' | 'ios' | 'ios_token' | 'web_push';
 
+export interface VariantUpdate {
+  variantID: string;
+  type: VARIANT_TYPE;
+  [key: string]: string;
+}
+
 export interface VariantFilter {
   id?: string;
   name?: string;

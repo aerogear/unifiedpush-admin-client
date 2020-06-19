@@ -1,8 +1,9 @@
 import {AxiosInstance} from 'axios';
-import {applyVariantFilter, Variant, VARIANT_TYPE, VariantFilter} from './Variant';
+import {applyVariantFilter, Variant, VARIANT_TYPE, VariantFilter, VariantUpdate} from './Variant';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
 import {IOSVariant} from './IOSVariant';
+import {NotFoundError} from '../errors/NotFoundError';
 
 export class VariantsAdmin {
   async find(api: AxiosInstance, appId: string, filter?: VariantFilter): Promise<Variant[]> {
@@ -52,6 +53,20 @@ export class VariantsAdmin {
         api.delete(`/applications/${appId}/${variant.type}/${variant.variantID!}`).then(() => variant)
       )
     );
+  }
+
+  async update(api: AxiosInstance, appId: string, update: VariantUpdate) {
+    const searchResult = await this.find(api, appId, {variantID: update.variantID});
+
+    if (searchResult.length === 0) {
+      throw new NotFoundError(
+        `Unable to find a variant with id '${update.variantID}' in the app identified by '${appId}'`
+      );
+    }
+
+    const variantToBeUpdated = {...searchResult[0], ...update};
+
+    return api.put(`/applications/${appId}/${update.type}/${update.variantID}`, variantToBeUpdated);
   }
 
   async renewSecret(api: AxiosInstance, appId: string, variantType: VARIANT_TYPE, variantId: string): Promise<Variant> {

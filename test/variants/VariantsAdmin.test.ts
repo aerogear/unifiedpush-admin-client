@@ -2,6 +2,7 @@ import axios from 'axios';
 import {VariantsAdmin} from '../../src/variants/VariantsAdmin';
 import {AndroidVariant, IOSVariant, Variant} from '../../src/variants';
 import {UPSMock, utils} from '../mocks';
+import {VariantUpdate} from '../../src/variants/Variant';
 
 const TEST_APP_ID = '2:2';
 const BASE_URL = 'http://localhost:8888';
@@ -187,5 +188,25 @@ describe('Variants Admin', () => {
     await expect(variantAdmin.renewSecret(api, APP_ID, 'android', 'bad id')).rejects.toThrow(
       'Request failed with status code 404'
     );
+  });
+
+  it('Should update a variant name', async () => {
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const APP_ID = APP_IDS[5];
+    const VARIANTS = utils.generateVariants(upsMock, APP_ID, 30);
+
+    const variantToUpdate = VARIANTS[12];
+    const newName = 'new name';
+    const update: VariantUpdate = {
+      variantID: variantToUpdate.variantID!,
+      type: variantToUpdate.type,
+      name: newName,
+    };
+
+    await variantAdmin.update(api, APP_ID, update);
+
+    const updatedVariant = (await variantAdmin.find(api, APP_ID, {variantID: variantToUpdate.variantID}))[0];
+
+    expect(updatedVariant.name).toEqual(newName);
   });
 });
