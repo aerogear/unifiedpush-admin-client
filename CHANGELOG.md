@@ -1,3 +1,13 @@
+# [3.1.0](https://github.com/aerogear/unifiedpush-admin-client/compare/3.0.2...3.1.0) (2020-06-19)
+
+
+### Features
+
+* **errors:** added a builder for error exception based on the received AxiosResponse ([947fdf2](https://github.com/aerogear/unifiedpush-admin-client/commit/947fdf2f9c77a62ccb152a2dab9087a47e8ad07c))
+* **variants:** added secret renew function ([1bca8fe](https://github.com/aerogear/unifiedpush-admin-client/commit/1bca8fe9b4f60ab4cd64fb444209d863d545a8b5))
+
+
+
 ## [3.0.2](https://github.com/aerogear/unifiedpush-admin-client/compare/3.0.1...3.0.2) (2020-06-03)
 
 
@@ -20,15 +30,6 @@ method
 
 
 ## [2.0.11](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.10...2.0.11) (2020-05-27)
-
-
-
-## [2.0.10](https://github.com/aerogear/unifiedpush-admin-client/compare/2.0.9...2.0.10) (2020-05-27)
-
-
-### Bug Fixes
-
-* **list:** handled the pageSize parameter ([15c4d24](https://github.com/aerogear/unifiedpush-admin-client/commit/15c4d241db9249e2b4d44ed04ec6ada95460a543))
 
 
 
