@@ -135,6 +135,29 @@ describe('UnifiedPushAdminClient', () => {
     expect(renewedVariant.secret).not.toEqual(oldSecret);
   });
 
+  it('Should update a variant name', async () => {
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const appId = APP_IDS[5];
+    const variants = utils.generateVariants(upsMock, appId, 30);
+
+    const variantToRenew = variants[15];
+    const newName = 'new name';
+
+    await new UnifiedPushAdminClient(BASE_URL, credentials).variants.update(appId, {
+      variantID: variantToRenew.variantID!,
+      type: variantToRenew.type,
+      name: newName,
+    });
+
+    const updatedVariant = (
+      await new UnifiedPushAdminClient(BASE_URL, credentials).variants.find(appId, {
+        variantID: variantToRenew.variantID,
+      })
+    )[0];
+
+    expect(updatedVariant.name).toEqual(newName);
+  });
+
   it('Should renew a 404', async () => {
     const APP_IDS = utils.generateApps(upsMock, 10);
     const appId = APP_IDS[5];

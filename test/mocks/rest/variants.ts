@@ -109,3 +109,18 @@ export const mockRenewVariantSecret = (scope: nock.Scope, ups: UPSEngineMock) =>
     return [200, variant];
   });
 };
+
+export const mockUpdateVariant = (scope: nock.Scope, ups: UPSEngineMock) => {
+  return scope.put(/rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)$/).reply((uri: string, requestBody: nock.Body) => {
+    const regex = /rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)$/;
+    const urlParams = regex.exec(uri)!;
+    const appId = urlParams[1];
+
+    const variant = ups.updateVariant(appId, requestBody as Variant);
+    if (!variant) {
+      return [404, 'Could not find requested Variant'];
+    }
+
+    return [204];
+  });
+};

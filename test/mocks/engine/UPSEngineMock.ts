@@ -1,6 +1,6 @@
 import {PushApplication} from '../../../src/applications';
 import {Guid} from 'guid-typescript';
-import {Variant} from '../../../src/variants';
+import {AndroidVariant, Variant} from '../../../src/variants';
 
 export class UPSEngineMock {
   private data: PushApplication[] = [];
@@ -69,6 +69,31 @@ export class UPSEngineMock {
     }
 
     return app.variants ? app.variants.filter(variant => variant.type === type) : [];
+  }
+
+  updateVariant(appId: string, variant: Variant): Variant | null {
+    const app = this.data.find(app => app.pushApplicationID === appId);
+    if (!app) {
+      return null;
+    }
+
+    const variantToUpdate = app.variants?.find(v => v.variantID === variant?.variantID && v.type === variant.type);
+    if (!variantToUpdate) {
+      return null;
+    }
+
+    variantToUpdate.name = variant.name || variantToUpdate.name;
+    variantToUpdate.description = variant.description || variantToUpdate.description;
+    switch (variant.type) {
+      case 'android': {
+        const androidVariant = variantToUpdate as AndroidVariant;
+        const update = variant as AndroidVariant;
+        androidVariant.projectNumber = update.projectNumber || androidVariant.projectNumber;
+        androidVariant.googleKey = update.googleKey || androidVariant.googleKey;
+      }
+    }
+
+    return variantToUpdate;
   }
 
   deleteVariant(appId: string, type: string, variantId: string) {

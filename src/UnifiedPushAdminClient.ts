@@ -4,6 +4,7 @@ import {Variant, VARIANT_TYPE, VariantFilter} from './variants';
 import {VariantsAdmin} from './variants/VariantsAdmin';
 import {ApplicationsAdmin, SearchResults} from './applications/ApplicationsAdmin';
 import {ErrorBuilder} from './errors/ErrorBuilder';
+import {VariantUpdate} from './variants/Variant';
 
 const DEFAULT_REALM = 'aerogear';
 const DEFAULT_CLIENT_ID = 'unified-push-server-js';
@@ -123,6 +124,9 @@ export class UnifiedPushAdminClient {
     delete: async (appId: string, filter?: VariantFilter) =>
       this.variantsAdmin.delete(await this.auth(), appId, filter),
 
+    update: async (appId: string, updates: VariantUpdate): Promise<void> =>
+      (await manageError(async () => this.variantsAdmin.update(await this.auth(), appId, updates))) as Promise<void>,
+
     /**
      * Renew the secret of a given variant
      * @param appId The id of the application owning the variant
@@ -130,9 +134,9 @@ export class UnifiedPushAdminClient {
      * @param variantId The id of the variant
      */
     renewSecret: async (appId: string, variantType: VARIANT_TYPE, variantId: string): Promise<Variant> =>
-      manageError(async () =>
+      (await manageError(async () =>
         this.variantsAdmin.renewSecret(await this.auth(), appId, variantType, variantId)
-      ) as Promise<Variant>,
+      )) as Promise<Variant>,
   };
 }
 
@@ -140,6 +144,9 @@ const manageError = async (func: () => unknown): Promise<unknown> => {
   try {
     return await func();
   } catch (error) {
-    throw ErrorBuilder.forResponse(error.response).build();
+    if (error.response) {
+      throw ErrorBuilder.forResponse(error.response).build();
+    }
+    throw error;
   }
 };
