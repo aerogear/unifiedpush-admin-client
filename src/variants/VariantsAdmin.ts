@@ -1,5 +1,5 @@
 import {AxiosInstance} from 'axios';
-import {applyVariantFilter, Variant, VariantFilter} from './Variant';
+import {applyVariantFilter, Variant, VARIANT_TYPE, VariantFilter} from './Variant';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
 import {IOSVariant} from './IOSVariant';
@@ -52,5 +52,9 @@ export class VariantsAdmin {
         api.delete(`/applications/${appId}/${variant.type}/${variant.variantID!}`).then(() => variant)
       )
     );
+  }
+
+  async renewSecret(api: AxiosInstance, appId: string, variantType: VARIANT_TYPE, variantId: string): Promise<Variant> {
+    return (await api.put(`/applications/${appId}/${variantType}/${variantId}/reset`)).data as Variant;
   }
 }

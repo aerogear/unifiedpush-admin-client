@@ -2,7 +2,13 @@ import * as nock from 'nock';
 import {UPSEngineMock} from '../engine/UPSEngineMock';
 
 import {mockCreateApplication, mockDeleteApplication, mockGetApplications, mockUpdateApplication} from './applications';
-import {mockCreateAndroidVariant, mockCreateiOSVariant, mockDeleteVariant, mockGetVariants} from './variants';
+import {
+  mockCreateAndroidVariant,
+  mockCreateiOSVariant,
+  mockDeleteVariant,
+  mockGetVariants,
+  mockRenewVariantSecret,
+} from './variants';
 import {mockKeyCloak} from './keycloak';
 
 const BASE_URL = 'http://localhost:8888';
@@ -21,13 +27,14 @@ export class UPSMock {
     this.mock = this.mockCreateApplication();
     this.mock = this.mockGetApplications();
     this.mockDeleteApplication();
+    this.mockUpdateApplication();
 
     // Variants
     this.mockCreateAndroidVariant();
     this.mockCreateiOSVariant();
     this.mockGetVariants();
     this.mockDeleteVariant();
-    this.mockUpdateApplication();
+    this.mockRenewVariantSecret();
 
     this.mock.persist(true);
 
@@ -45,6 +52,7 @@ export class UPSMock {
   private mockCreateAndroidVariant = () => (this.mock = mockCreateAndroidVariant(this.mock, this.ups));
   private mockCreateiOSVariant = () => (this.mock = mockCreateiOSVariant(this.mock, this.ups));
   private mockDeleteVariant = () => (this.mock = mockDeleteVariant(this.mock, this.ups));
+  private mockRenewVariantSecret = () => (this.mock = mockRenewVariantSecret(this.mock, this.ups));
 
   // State management
   reset = () => this.ups.reset();

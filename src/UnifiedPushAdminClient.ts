@@ -1,8 +1,9 @@
 import axios, {AxiosInstance} from 'axios';
 import {PushApplication, PushApplicationSearchOptions} from './applications';
-import {Variant, VariantFilter} from './variants';
+import {Variant, VARIANT_TYPE, VariantFilter} from './variants';
 import {VariantsAdmin} from './variants/VariantsAdmin';
 import {ApplicationsAdmin, SearchResults} from './applications/ApplicationsAdmin';
+import {ErrorBuilder} from './errors/ErrorBuilder';
 
 const DEFAULT_REALM = 'aerogear';
 const DEFAULT_CLIENT_ID = 'unified-push-server-js';
@@ -121,5 +122,24 @@ export class UnifiedPushAdminClient {
      */
     delete: async (appId: string, filter?: VariantFilter) =>
       this.variantsAdmin.delete(await this.auth(), appId, filter),
+
+    /**
+     * Renew the secret of a given variant
+     * @param appId The id of the application owning the variant
+     * @param variantType The type of the variant
+     * @param variantId The id of the variant
+     */
+    renewSecret: async (appId: string, variantType: VARIANT_TYPE, variantId: string): Promise<Variant> =>
+      manageError(async () =>
+        this.variantsAdmin.renewSecret(await this.auth(), appId, variantType, variantId)
+      ) as Promise<Variant>,
   };
 }
+
+const manageError = async (func: () => unknown): Promise<unknown> => {
+  try {
+    return await func();
+  } catch (error) {
+    throw ErrorBuilder.forResponse(error.response).build();
+  }
+};

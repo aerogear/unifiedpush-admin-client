@@ -116,4 +116,32 @@ describe('UnifiedPushAdminClient', () => {
     expect(variantsAfter).toBeDefined();
     expect(variantsAfter).toHaveLength(0);
   });
+
+  it('Should renew a variant secret', async () => {
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const appId = APP_IDS[5];
+    const variants = utils.generateVariants(upsMock, appId, 30);
+
+    const variantToRenew = variants[15];
+
+    const oldSecret = variantToRenew.secret;
+
+    const renewedVariant = await new UnifiedPushAdminClient(BASE_URL, credentials).variants.renewSecret(
+      appId,
+      variantToRenew.type,
+      variantToRenew.variantID!
+    );
+    expect(renewedVariant.secret).toBeDefined();
+    expect(renewedVariant.secret).not.toEqual(oldSecret);
+  });
+
+  it('Should renew a 404', async () => {
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const appId = APP_IDS[5];
+    utils.generateVariants(upsMock, appId, 30);
+
+    await expect(
+      new UnifiedPushAdminClient(BASE_URL, credentials).variants.renewSecret(appId, 'android', 'bad id')
+    ).rejects.toThrow('Could not find requested Variant');
+  });
 });

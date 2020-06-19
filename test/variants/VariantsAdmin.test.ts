@@ -162,4 +162,30 @@ describe('Variants Admin', () => {
     // Ensure the variant does not exists anymore
     expect(await variantAdmin.find(api, appId, {variantID: variantToDelete.variantID})).toHaveLength(0);
   });
+
+  it('Should renew a variant secret', async () => {
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const APP_ID = APP_IDS[5];
+    const VARIANTS = utils.generateVariants(upsMock, APP_ID, 30);
+
+    const variantToRenew = VARIANTS[12];
+    const oldSecret = variantToRenew.secret;
+
+    const renewedVariant = await variantAdmin.renewSecret(api, APP_ID, variantToRenew.type, variantToRenew.variantID!);
+    const newSecret = renewedVariant.secret;
+
+    expect(renewedVariant.variantID).toEqual(variantToRenew.variantID);
+    expect(newSecret).toBeDefined();
+    expect(oldSecret).not.toEqual(renewedVariant.secret);
+  });
+
+  it('Should return a 404', async () => {
+    const APP_IDS = utils.generateApps(upsMock, 10);
+    const APP_ID = APP_IDS[5];
+    utils.generateVariants(upsMock, APP_ID, 30);
+
+    await expect(variantAdmin.renewSecret(api, APP_ID, 'android', 'bad id')).rejects.toThrow(
+      'Request failed with status code 404'
+    );
+  });
 });
