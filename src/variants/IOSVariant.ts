@@ -12,5 +12,7 @@ export interface IOSTokenVariant extends Variant {
   teamId: string;
   keyId: string;
   bundleId: string;
+  production: boolean;
+  privateKey: string; // private key in p8 format
   type: 'ios_token';
 }
