@@ -1,3 +1,7 @@
+## [3.2.5](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.4...3.2.5) (2020-06-24)
+
+
+
 ## [3.2.4](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.3...3.2.4) (2020-06-23)
 
 
@@ -17,15 +21,6 @@
 
 
 ## [3.2.1](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.0...3.2.1) (2020-06-19)
-
-
-
-# [3.2.0](https://github.com/aerogear/unifiedpush-admin-client/compare/3.1.0...3.2.0) (2020-06-19)
-
-
-### Features
-
-* **variants:** added variant update function ([5365b66](https://github.com/aerogear/unifiedpush-admin-client/commit/5365b666cd1914130127cda918012d0cc51339f7))
 
 
 
