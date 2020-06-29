@@ -1,3 +1,7 @@
+## [3.2.7](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.6...3.2.7) (2020-06-29)
+
+
+
 ## [3.2.6](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.5...3.2.6) (2020-06-24)
 
 
@@ -17,10 +21,6 @@
 
 
 ## [3.2.3](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.2...3.2.3) (2020-06-21)
-
-
-
-## [3.2.2](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.1...3.2.2) (2020-06-19)
 
 
 
