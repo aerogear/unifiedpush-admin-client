@@ -50,7 +50,7 @@ export const utils = {
         return {
           type: 'ios',
           production: false,
-          certificate: '123',
+          certificate: Buffer.from('123'),
         } as IOSVariant;
       }
     };

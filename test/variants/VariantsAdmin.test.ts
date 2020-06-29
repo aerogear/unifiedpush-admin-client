@@ -55,7 +55,7 @@ describe('Variants Admin', () => {
     const IOSVARIANT = {
       type: 'ios',
       name: 'test',
-      certificate: './test/resource/mockcert.p12',
+      certificate: Buffer.from('MYP12Content'),
       password: '123pwd123',
       production: false,
     } as IOSVariant;
@@ -88,7 +88,7 @@ describe('Variants Admin', () => {
       new Array(12).fill({
         type: 'ios',
         production: false,
-        certificate: '123',
+        certificate: Buffer.from('123'),
       } as IOSVariant)
     );
 

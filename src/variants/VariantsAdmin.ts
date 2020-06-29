@@ -1,7 +1,6 @@
 import {AxiosInstance} from 'axios';
 import {applyVariantFilter, Variant, VARIANT_TYPE, VariantFilter, VariantUpdate} from './Variant';
 import * as FormData from 'form-data';
-import * as fs from 'fs';
 import {IOSVariant} from './IOSVariant';
 import {NotFoundError} from '../errors/NotFoundError';
 
@@ -29,7 +28,7 @@ export class VariantsAdmin {
     formData.append('name', variant.name);
     formData.append('production', `${variant.production}`);
     formData.append('passphrase', variant.password);
-    formData.append('certificate', fs.readFileSync(variant.certificate!));
+    formData.append('certificate', variant.certificate!);
 
     const requestConfig = {
       headers: {

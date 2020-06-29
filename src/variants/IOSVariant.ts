@@ -2,7 +2,7 @@
 import {Variant} from './Variant';
 
 export interface IOSVariant extends Variant {
-  certificate?: string;
+  certificate?: Buffer;
   password?: string;
   production: boolean;
   type: 'ios';
