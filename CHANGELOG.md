@@ -1,3 +1,7 @@
+## [3.2.8](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.7...3.2.8) (2020-06-29)
+
+
+
 ## [3.2.7](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.6...3.2.7) (2020-06-29)
 
 
@@ -17,10 +21,6 @@
 
 * **iOSTokenVariant:** the iOSTokenVariant was missing the "production" and "privateKey" fields. ([b89d7d9](https://github.com/aerogear/unifiedpush-admin-client/commit/b89d7d9cd26d0db7baee58d4da6b01a017425a87))
 * **variant:** the WebPushVariant was not exported as public ([4ced45f](https://github.com/aerogear/unifiedpush-admin-client/commit/4ced45f0a1bc68a5dbe59bfd338ce28ef747ba23))
-
-
-
-## [3.2.3](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.2...3.2.3) (2020-06-21)
 
 
 
