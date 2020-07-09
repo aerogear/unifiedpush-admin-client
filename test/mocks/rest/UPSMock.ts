@@ -3,8 +3,7 @@ import {UPSEngineMock} from '../engine/UPSEngineMock';
 
 import {mockCreateApplication, mockDeleteApplication, mockGetApplications, mockUpdateApplication} from './applications';
 import {
-  mockCreateAndroidVariant,
-  mockCreateiOSVariant,
+  mockCreateVariant,
   mockDeleteVariant,
   mockGetVariants,
   mockRenewVariantSecret,
@@ -31,8 +30,7 @@ export class UPSMock {
     this.mockUpdateApplication();
 
     // Variants
-    this.mockCreateAndroidVariant();
-    this.mockCreateiOSVariant();
+    this.mockCreateVariant();
     this.mockGetVariants();
     this.mockDeleteVariant();
     this.mockUpdateVariant();
@@ -51,8 +49,7 @@ export class UPSMock {
   // Variants management
 
   private mockGetVariants = () => (this.mock = mockGetVariants(this.mock, this.ups));
-  private mockCreateAndroidVariant = () => (this.mock = mockCreateAndroidVariant(this.mock, this.ups));
-  private mockCreateiOSVariant = () => (this.mock = mockCreateiOSVariant(this.mock, this.ups));
+  private mockCreateVariant = () => (this.mock = mockCreateVariant(this.mock, this.ups));
   private mockDeleteVariant = () => (this.mock = mockDeleteVariant(this.mock, this.ups));
   private mockUpdateVariant = () => (this.mock = mockUpdateVariant(this.mock, this.ups));
   private mockRenewVariantSecret = () => (this.mock = mockRenewVariantSecret(this.mock, this.ups));

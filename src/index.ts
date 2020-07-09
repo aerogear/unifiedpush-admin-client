@@ -1,11 +1,12 @@
-export {PushApplication, PushApplicationSearchOptions} from './applications';
+export {UpsAdminClient} from './UpsAdminClient';
+export {PushApplication, PushApplicationDefinition, PushApplicationFilter} from './commands/applications';
+export {AndroidVariant, AndroidVariantDefinition} from './commands/variants/AndroidVariant';
+export {Variant, VariantType} from './commands/variants/Variant';
+
 export {
-  Variant,
-  VariantFilter,
-  VARIANT_TYPE,
-  AndroidVariant,
   IOSVariant,
+  IOSTokenVariantDefinition,
+  IOSVariantDefinition,
   IOSTokenVariant,
-  WebPushVariant,
-} from './variants';
-export {UnifiedPushAdminClient} from './UnifiedPushAdminClient';
+} from './commands/variants/IOSVariant';
+export {WebPushVariant, WebPushVariantDefinition} from './commands/variants/WebPushVariant';

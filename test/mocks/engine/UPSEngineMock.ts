@@ -1,6 +1,6 @@
-import {PushApplication} from '../../../src/applications';
 import {Guid} from 'guid-typescript';
-import {AndroidVariant, Variant} from '../../../src/variants';
+import {PushApplication} from '../../../src/commands/applications';
+import {Variant} from '../../../src/commands/variants/Variant';
 
 export class UPSEngineMock {
   private data: PushApplication[] = [];
@@ -8,9 +8,9 @@ export class UPSEngineMock {
   createApplication(newAppDef: PushApplication) {
     const newApp: PushApplication = {...(newAppDef as {})} as PushApplication;
 
-    newApp.masterSecret = Guid.raw();
+    // newApp.masterSecret = Guid.raw();
     newApp.pushApplicationID = newApp.pushApplicationID || Guid.raw();
-    newApp.id = Guid.raw();
+    // newApp.id = Guid.raw();
     newApp.developer = newApp.developer || 'admin';
     this.data.push(newApp);
     return newApp;
@@ -39,8 +39,8 @@ export class UPSEngineMock {
     this.data = this.data.filter(item => item.pushApplicationID !== id);
   }
 
-  updateApplication(update: PushApplication) {
-    const app = this.data.find(item => item.pushApplicationID === update.pushApplicationID);
+  updateApplication(appId: string, update: PushApplication) {
+    const app = this.data.find(item => item.pushApplicationID === appId);
     if (app) {
       app.name = update.name || app.name;
       app.description = update.description || app.description;
@@ -71,27 +71,25 @@ export class UPSEngineMock {
     return app.variants ? app.variants.filter(variant => variant.type === type) : [];
   }
 
-  updateVariant(appId: string, variant: Variant): Variant | null {
+  updateVariant(appId: string, variantId: string, variantType: string, variant: Variant): Variant | null {
     const app = this.data.find(app => app.pushApplicationID === appId);
     if (!app) {
       return null;
     }
 
-    const variantToUpdate = app.variants?.find(v => v.variantID === variant?.variantID && v.type === variant.type);
+    let variantToUpdate = app.variants?.find(v => v.variantID === variantId && v.type === variantType);
     if (!variantToUpdate) {
       return null;
     }
 
-    variantToUpdate.name = variant.name || variantToUpdate.name;
-    variantToUpdate.description = variant.description || variantToUpdate.description;
-    switch (variant.type) {
-      case 'android': {
-        const androidVariant = variantToUpdate as AndroidVariant;
-        const update = variant as AndroidVariant;
-        androidVariant.projectNumber = update.projectNumber || androidVariant.projectNumber;
-        androidVariant.googleKey = update.googleKey || androidVariant.googleKey;
-      }
-    }
+    variantToUpdate = {
+      ...variantToUpdate,
+      ...variant,
+    };
+
+    app.variants = app.variants?.map(variant =>
+      variant.variantID === variantToUpdate?.variantID ? variantToUpdate : variant
+    );
 
     return variantToUpdate;
   }
