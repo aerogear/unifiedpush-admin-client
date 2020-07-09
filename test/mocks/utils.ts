@@ -1,6 +1,7 @@
-import {AndroidVariant, IOSVariant, Variant} from '../../src/variants';
 import {Guid} from 'guid-typescript';
 import {UPSMock} from './rest/UPSMock';
+import {AndroidVariant, IOSVariant} from '../../src';
+import {Variant} from '../../src/commands/variants/Variant';
 
 export const utils = {
   generateApps: (upsMock: UPSMock, count: number, customAttrs?: Record<string, string>[]) => {
@@ -24,7 +25,7 @@ export const utils = {
       const app = upsMock.getImpl().createApplication({
         name: `${getAttr(i, 'name') || genName(i)}`,
         developer: getAttr(i, 'developer') || 'admin',
-        pushApplicationID: getAttr(i, 'pushApplicationID'),
+        pushApplicationID: getAttr(i, 'pushApplicationID')!,
       });
 
       ids.push(app.pushApplicationID!);

@@ -1,8 +1,8 @@
 import * as nock from 'nock';
-import {PushApplication} from '../../../src/applications';
 import {UPSEngineMock} from '../engine/UPSEngineMock';
 import {ACCESS_TOKEN} from './keycloak';
 import {URL} from 'url';
+import {PushApplication} from '../../../src/commands/applications';
 
 const REST_APPLICATIONS_ENDPOINT = '/rest/applications';
 
@@ -29,13 +29,17 @@ export const mockCreateApplication = (scope: nock.Scope, ups: UPSEngineMock, enf
 export const mockUpdateApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false) => {
   return scope.put(/rest\/applications\/([^/]+)$/).reply(function (uri: string, requestBody: nock.Body) {
     checkAuth(this.req, enforceAuth);
+    const urlWithParam = /rest\/applications\/([^/]+)$/;
+    const urlParams = urlWithParam.exec(uri)!;
+    const appId = urlParams[1];
+
     const update = requestBody as PushApplication;
-    const app = ups.getApplications(update.id);
+    const app = ups.getApplications(appId);
     if (!app) {
       return [404];
     }
 
-    ups.updateApplication(update);
+    ups.updateApplication(appId, update);
 
     return [204];
   });
@@ -77,9 +81,9 @@ export const mockGetApplications = (scope: nock.Scope, ups: UPSEngineMock, enfor
 };
 
 export const mockDeleteApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false) => {
-  return scope.delete(/rest\/applications\/([^/]+)/).reply(function (uri: string) {
+  return scope.delete(/rest\/applications\/([^/]+)$/).reply(function (uri: string) {
     checkAuth(this.req, enforceAuth);
-    const urlWithParam = /rest\/applications\/([^/]+)/;
+    const urlWithParam = /rest\/applications\/([^/]+)$/;
     const urlParams = urlWithParam.exec(uri)!;
     const appId = urlParams[1];
 
