@@ -1,7 +1,7 @@
 import {Guid} from 'guid-typescript';
 import {UPSMock} from './rest/UPSMock';
-import {AndroidVariant, IOSVariant} from '../../src';
-import {Variant} from '../../src/commands/variants/Variant';
+import {AndroidVariantDefinition, IOSVariantDefinition} from '../../src';
+import {Variant} from '../../src';
 
 export const utils = {
   generateApps: (upsMock: UPSMock, count: number, customAttrs?: Record<string, string>[]) => {
@@ -45,14 +45,14 @@ export const utils = {
           type: 'android',
           googleKey: '123456',
           projectNumber: '1234556',
-        } as AndroidVariant;
+        } as AndroidVariantDefinition;
       } else {
         // iOS variant
         return {
           type: 'ios',
           production: false,
           certificate: '123',
-        } as IOSVariant;
+        } as IOSVariantDefinition;
       }
     };
 
