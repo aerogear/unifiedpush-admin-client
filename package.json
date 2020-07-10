@@ -38,6 +38,7 @@
     "@types/jest": "26.0.3",
     "@types/nock": "11.1.0",
     "@types/node": "10.17.26",
+    "cz-conventional-changelog": "^3.2.0",
     "eslint-plugin-jest": "23.17.1",
     "gts": "2.0.2",
     "guid-typescript": "1.0.9",
@@ -47,5 +48,10 @@
     "ts-node": "8.10.2",
     "typedoc": "^0.17.8",
     "typescript": "3.8.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
