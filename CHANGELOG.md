@@ -1,3 +1,12 @@
+## [4.0.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.0...4.0.1) (2020-07-10)
+
+
+### Bug Fixes
+
+* **test:** updated the typescript version and fixed the code to compile with ts 3.9.6 ([b98a916](https://github.com/aerogear/unifiedpush-admin-client/commit/b98a91670c606f429c28c110fae6b07f0105a014))
+
+
+
 # [4.0.0](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.8...4.0.0) (2020-07-09)
 
 
@@ -21,10 +30,6 @@
 
 
 ## [3.2.6](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.5...3.2.6) (2020-06-24)
-
-
-
-## [3.2.5](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.4...3.2.5) (2020-06-24)
 
 
 
