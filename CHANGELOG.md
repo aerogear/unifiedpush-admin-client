@@ -1,3 +1,17 @@
+# [4.1.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.2...4.1.0) (2020-07-17)
+
+
+### Bug Fixes
+
+* **applications:** the masterSecret was not returned ([a295ea5](https://github.com/aerogear/unifiedpush-admin-client/commit/a295ea5a84234c023bcbe873c629c90ab4a2a224))
+
+
+### Features
+
+* **application:** added function to renew the application master secret ([173d024](https://github.com/aerogear/unifiedpush-admin-client/commit/173d024c67be4ca6a9a29ce9c40ac669c6ea0a3a))
+
+
+
 ## [4.0.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.1...4.0.2) (2020-07-17)
 
 
@@ -31,10 +45,6 @@
 
 
 ## [3.2.8](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.7...3.2.8) (2020-06-29)
-
-
-
-## [3.2.7](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.6...3.2.7) (2020-06-29)
 
 
 
