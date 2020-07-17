@@ -1,3 +1,12 @@
+## [4.0.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.1...4.0.2) (2020-07-17)
+
+
+### Bug Fixes
+
+* **variants:** command handlers were not correctly managing execution errors ([d12514a](https://github.com/aerogear/unifiedpush-admin-client/commit/d12514af43db5f8e2d031d4e143a6262e32645c3))
+
+
+
 ## [4.0.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.0...4.0.1) (2020-07-10)
 
 
@@ -26,10 +35,6 @@
 
 
 ## [3.2.7](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.6...3.2.7) (2020-06-29)
-
-
-
-## [3.2.6](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.5...3.2.6) (2020-06-24)
 
 
 
