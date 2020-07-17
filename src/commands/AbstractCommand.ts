@@ -8,11 +8,11 @@ export abstract class AbstractCommand<T> {
     this.api = api;
   }
 
-  protected abstract exec(): Promise<T>;
+  protected abstract async exec(): Promise<T>;
 
   readonly execute = async (): Promise<T> => {
     try {
-      return this.exec();
+      return await this.exec();
     } catch (error) {
       if (error.response) {
         throw ErrorBuilder.forResponse(error.response).build();
