@@ -1,0 +1,191 @@
+@startuml
+skinparam genericDisplay old
+abstract class AbstractCommand<T> {
+  #{abstract} T exec()
+  +T execute()
+}
+
+abstract class AbstractFilteredApplicationsCommand<T, K> {
+   +withName(name: string)
+   +withDeveloper(description: string)
+   +withFilter(def: PushApplicationFilter)
+}
+
+class UpdateApplicationsCommand {
+   +withName(name: string)
+   +withDescription(description: string)
+   +withDefinition(def: PushApplicationDefinition)
+   +void execute()
+}
+
+class CreateApplicationsCommand {
+   +withDescription(description: string)
+   +withDeveloper(description: string)
+   +withDefinition(def: PushApplicationDefinition)
+   +PushApplicationDefinition execute()
+}
+
+class SearchApplicationsCommand {
+   +withPageSize(pageSize: number)
+   +page([ageNumber: number)
+   +PushApplicationDefinition[] execute()
+}
+
+class DeleteApplicationsCommand {
+   +PushApplicationDefinition[] execute()
+}
+
+abstract class AbstractVariantCommand {
+   +constructor(api: ApiClient, appId: string)
+
+   +PushApplicationDefinition[] execute()
+}
+
+abstract class AbstractFilteredVariantsCommand {
+   +constructor(api: ApiClient, appId: string)
+
+   +withVariantID(variantID: string)
+   +withName(name: string)
+   +withType(type: string)
+   +withFilter(filter: VariantFilter)
+}
+
+abstract class AbstractCreateVariantCommand<T, K, Z> {
+   +constructor(api: ApiClient, appId: string, type: VariantType)
+   +withName(name: string)
+   +withDeveloper(developer: string)
+   +withSecret(secret: string)
+   +withDescription(description: string)
+   +withDefinition(def: T)
+   #K exec()
+}
+
+abstract class AbstractUpdateVariantCommand<T, K> {
+   +constructor(api: ApiClient, appId: string, variantId: string, type: VariantType)
+   +withName(name: string)
+   +withDescription(description: string)
+   +withDeveloper(developer: string)
+   +withVariantDefinition(def: T)
+   #void exec()
+}
+
+class CreateAndroidVariantCommand {
+    +withGoogleKey(key: string)
+    +withProjectNumber(projectNumber: string)
+}
+
+class CreateIOSCertVariantCommand {
+    +withCertificate(certificate: string)
+    +withPassphrase(passphrase: string)
+    +isProduction()
+    +isDevelopment()
+}
+
+class CreateIOSTokenVariantCommand {
+    +withTeamID(teamID: string)
+    +withKeyID(keyID: string)
+    +withBundleID(bundleID: string)
+    +withPrivateKey(privateKey: string)
+    +isProduction()
+    +isDevelopment()
+}
+
+class CreateWebPushVariantCommand {
+    +withPublicKey(publicKey: string)
+    +withPrivateKey(privateKey: string)
+    +withAlias(alias: string)
+}
+
+class UpdateAndroidVariantCommand {
+  +withGoogleKey(googleKey: string)
+  +withProjectNumber(projectNumber: string)
+}
+
+class UpdateIOSCertVariantCommand {
+    +withCertificate(certificate: string)
+    +withPassphrase(passphrase: string)
+    +isProduction()
+    +isDevelopment()
+}
+
+class UpdateIOSTokenVariantCommand {
+    +withTeamID(teamID: string)
+    +withKeyID(keyID: string)
+    +withBundleID(bundleID: string)
+    +withPrivateKey(privateKey: string)
+    +isProduction()
+    +isDevelopment()
+}
+
+class UpdateWebPushVariantCommand {
+    +withPublicKey(publicKey: string)
+    +withPrivateKey(privateKey: string)
+    +withAlias(alias: string)
+}
+
+class DeleteVariantsCommand {
+    #Variant[] exec()
+}
+
+class SearchVariantsCommand {
+    #Variant[] exec()
+}
+
+AbstractCommand <|-- UpdateApplicationsCommand
+AbstractCommand <|-- CreateApplicationsCommand
+AbstractCommand <|-- AbstractFilteredApplicationsCommand
+AbstractCommand <|-- AbstractVariantCommand
+AbstractFilteredApplicationsCommand <|-- SearchApplicationsCommand
+AbstractFilteredApplicationsCommand <|-- DeleteApplicationsCommand
+AbstractVariantCommand <|-- AbstractCreateVariantCommand
+AbstractVariantCommand <|-- AbstractFilteredVariantsCommand
+AbstractCreateVariantCommand <|-- CreateAndroidVariantCommand
+AbstractCreateVariantCommand <|-- CreateIOSCertVariantCommand
+AbstractCreateVariantCommand <|-- CreateIOSTokenVariantCommand
+AbstractCreateVariantCommand <|-- CreateWebPushVariantCommand
+AbstractVariantCommand <|-- AbstractUpdateVariantCommand
+AbstractUpdateVariantCommand <|-- UpdateAndroidVariantCommand
+AbstractUpdateVariantCommand <|-- UpdateIOSCertVariantCommand
+AbstractUpdateVariantCommand <|-- UpdateIOSTokenVariantCommand
+AbstractUpdateVariantCommand <|-- UpdateWebPushVariantCommand
+AbstractFilteredVariantsCommand <|-- DeleteVariantsCommand
+AbstractFilteredVariantsCommand <|-- SearchVariantsCommand
+
+
+abstract class AbstractSearchCommand {
+  #addActivityData(app: PushApplication, response: AxiosResponse)
+  #getPage(appList: PushApplication[], page: number, pageSize: number)
+  #applyPushApplicationFilter(apps: PushApplication[], filter: PushApplicationFilter)
+  #ensureIsArray(obj: unknown)
+  #getAllApplications()
+
+  #{abstract} execute(api: ApiClient, page: number, pageSize: number)
+}
+
+class SeachAll {
+  #execute(api: ApiClient, page: number, pageSize: number)
+}
+
+class SearchByFilter {
+  +constructor(filter: PushApplicationFilter)
+
+  #execute(api: ApiClient, page: number, pageSize: number)
+}
+
+class SearchByID {
+  +constructor(filter: PushApplicationFilter)
+
+  #execute(api: ApiClient, page: number, pageSize: number)
+}
+
+AbstractSearchCommand <|-- SeachAll
+AbstractSearchCommand <|-- SearchByFilter
+AbstractSearchCommand <|-- SearchByID
+
+class SearchEngineFactory {
+    {static} produce(filter: PushApplicationFilter)
+}
+
+SearchEngineFactory --> AbstractSearchCommand
+SearchApplicationsCommand --> SearchEngineFactory
+@enduml
