@@ -26,6 +26,7 @@ export const utils = {
         name: `${getAttr(i, 'name') || genName(i)}`,
         developer: getAttr(i, 'developer') || 'admin',
         pushApplicationID: getAttr(i, 'pushApplicationID')!,
+        masterSecret: Guid.raw(),
       });
 
       ids.push(app.pushApplicationID!);

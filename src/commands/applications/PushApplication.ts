@@ -1,8 +1,9 @@
-import {Variant} from '../variants/Variant';
+import {Variant} from '../..';
 
 export interface PushApplication {
   pushApplicationID: string;
   name: string;
+  masterSecret: string;
   description?: string;
   developer: string;
 
