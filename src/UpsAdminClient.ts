@@ -18,6 +18,7 @@ import {UpdateWebPushVariantCommand} from './commands/variants/update/UpdateWebP
 import {ApiClient} from './commands/ApiClient';
 import {BasicCredentials, KeycloakCredentials} from './credentials';
 import {RenewMasterSecretCommand} from './commands/applications/RenewMasterSecretCommand';
+import {LoadMetricsCommand} from './commands/metrics/LoadMetricsCommand';
 
 /**
  * This class is to be used to access the UPS admin function from typescript.
@@ -95,6 +96,7 @@ export class UpsAdminClient {
      * ```
      */
     delete: () => new DeleteApplicationsCommand(this.api),
+    metrics: (appId: string) => new LoadMetricsCommand(this.api, appId),
     renewSecret: (appId: string) => new RenewMasterSecretCommand(this.api, appId),
   };
 
