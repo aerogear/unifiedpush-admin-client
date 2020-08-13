@@ -1,3 +1,12 @@
+# [4.2.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.1.0...4.2.0) (2020-08-13)
+
+
+### Features
+
+* **metrics:** added support for messaging metrics endpoints ([be91c35](https://github.com/aerogear/unifiedpush-admin-client/commit/be91c356f485c1718b6dbf4a575c0949921cf63d))
+
+
+
 # [4.1.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.2...4.1.0) (2020-07-17)
 
 
@@ -41,10 +50,6 @@
 ### BREAKING CHANGES
 
 * The library requires UPS Version 2.5.1 or later to work properly.
-
-
-
-## [3.2.8](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.7...3.2.8) (2020-06-29)
 
 
 
