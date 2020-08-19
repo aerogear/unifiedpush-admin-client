@@ -1,3 +1,13 @@
+## [4.2.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.0...4.2.1) (2020-08-19)
+
+
+### Bug Fixes
+
+* 🐛 creating iosvariants using a definition does not works ([942e442](https://github.com/aerogear/unifiedpush-admin-client/commit/942e4425405da174fd82781b8fd3d61e471f96bd)), closes [#95](https://github.com/aerogear/unifiedpush-admin-client/issues/95)
+* 🐛 the delete command was not detecting not found apps ([f498002](https://github.com/aerogear/unifiedpush-admin-client/commit/f498002649192419e8050d1031d9e539caf6102c)), closes [#118](https://github.com/aerogear/unifiedpush-admin-client/issues/118)
+
+
+
 # [4.2.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.1.0...4.2.0) (2020-08-13)
 
 
@@ -36,20 +46,6 @@
 ### Bug Fixes
 
 * **test:** updated the typescript version and fixed the code to compile with ts 3.9.6 ([b98a916](https://github.com/aerogear/unifiedpush-admin-client/commit/b98a91670c606f429c28c110fae6b07f0105a014))
-
-
-
-# [4.0.0](https://github.com/aerogear/unifiedpush-admin-client/compare/3.2.8...4.0.0) (2020-07-09)
-
-
-### Code Refactoring
-
-* Refactored the whole library and added support for UPS Server 2.5.1 ([2ea37fb](https://github.com/aerogear/unifiedpush-admin-client/commit/2ea37fb72bff151430e5920b7eb0e6516b60cf5e))
-
-
-### BREAKING CHANGES
-
-* The library requires UPS Version 2.5.1 or later to work properly.
 
 
 
