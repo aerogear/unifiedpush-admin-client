@@ -4,7 +4,7 @@ import {AndroidVariantDefinition, IOSVariantDefinition} from '../../src';
 import {Variant} from '../../src';
 
 export const utils = {
-  generateApps: (upsMock: UPSMock, count: number, customAttrs?: Record<string, string>[]) => {
+  generateApps: (upsMock: UPSMock, count: number, customAttrs?: Record<string, string>[]): string[] => {
     const APP_NAME_PREFIX = 'TEST APPLICATION';
 
     const getAttr = (index: number, attName: string) => {
@@ -34,7 +34,12 @@ export const utils = {
 
     return ids;
   },
-  generateVariants: (upsMock: UPSMock, appId: string, count: number, customAttrs?: Record<string, string>[]) => {
+  generateVariants: (
+    upsMock: UPSMock,
+    appId: string,
+    count: number,
+    customAttrs?: Record<string, string>[]
+  ): Variant[] => {
     const VARIANT_NAME_PREFIX = 'TEST VARIANT';
 
     const variants = [];
@@ -69,7 +74,7 @@ export const utils = {
     }
     return variants;
   },
-  generateIDs: (count: number) => {
+  generateIDs: (count: number): string[] => {
     const res: string[] = [];
     for (let i = 0; i < count; i++) {
       res.push(Guid.raw());

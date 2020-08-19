@@ -2,9 +2,10 @@ import {SearchByID} from './SearchByID';
 import {SearchAll} from './SearchAll';
 import {SearchByFilter} from './SearchByFilter';
 import {PushApplicationFilter} from '../PushApplication';
+import {AbstractSearchCommand} from './AbstractSearchCommand';
 
 export class SearchEngineFactory {
-  static produce = (filter?: PushApplicationFilter) => {
+  static produce = (filter?: PushApplicationFilter): AbstractSearchCommand => {
     if (filter?.pushApplicationID) {
       return new SearchByID(filter);
     }

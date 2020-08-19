@@ -5,7 +5,7 @@ import {Variant} from '../../../src/commands/variants/Variant';
 export class UPSEngineMock {
   private data: PushApplication[] = [];
 
-  createApplication(newAppDef: PushApplication) {
+  createApplication(newAppDef: PushApplication): PushApplication {
     const newApp: PushApplication = {...(newAppDef as {})} as PushApplication;
 
     // newApp.masterSecret = Guid.raw();
@@ -22,7 +22,7 @@ export class UPSEngineMock {
    * @param page the page. Starts with 0.
    * @param itemPerPage
    */
-  getApplications(id?: string, page = 0, itemPerPage = 10) {
+  getApplications(id?: string, page = 0, itemPerPage = 10): PushApplication[] | PushApplication | undefined {
     let apps: PushApplication[] | PushApplication | undefined;
     if (!id) {
       const firstIndex = itemPerPage * page;
@@ -35,11 +35,11 @@ export class UPSEngineMock {
     return apps || [];
   }
 
-  deleteApplication(id: string) {
+  deleteApplication(id: string): void {
     this.data = this.data.filter(item => item.pushApplicationID !== id);
   }
 
-  updateApplication(appId: string, update: PushApplication) {
+  updateApplication(appId: string, update: PushApplication): void {
     const app = this.data.find(item => item.pushApplicationID === appId);
     if (app) {
       app.name = update.name || app.name;
@@ -48,7 +48,7 @@ export class UPSEngineMock {
   }
 
   // Variants
-  createVariant(appId: string, variantDef: Variant) {
+  createVariant(appId: string, variantDef: Variant): Variant {
     const newVariant: Variant = {...(variantDef as {})} as Variant;
     newVariant.variantID = newVariant.variantID || Guid.raw();
     newVariant.developer = newVariant.developer || 'admin';
@@ -62,7 +62,7 @@ export class UPSEngineMock {
     return newVariant;
   }
 
-  getVariants(appId: string, type: string) {
+  getVariants(appId: string, type: string): Variant[] | null {
     const app = this.getApplications(appId) as PushApplication;
     if (!app) {
       return null;
@@ -94,7 +94,7 @@ export class UPSEngineMock {
     return variantToUpdate;
   }
 
-  deleteVariant(appId: string, type: string, variantId: string) {
+  deleteVariant(appId: string, type: string, variantId: string): Variant | undefined | null {
     const app = this.getApplications(appId) as PushApplication;
     if (!app) {
       return null;
@@ -117,7 +117,7 @@ export class UPSEngineMock {
     return variant;
   }
 
-  countApplications = () => this.data.length;
+  countApplications = (): number => this.data.length;
 
-  reset = () => (this.data = []);
+  reset = (): PushApplication[] => (this.data = []);
 }

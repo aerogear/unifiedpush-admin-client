@@ -2,7 +2,7 @@ import * as nock from 'nock';
 import {UPSEngineMock} from '../engine/UPSEngineMock';
 import {Variant} from '../../../src/commands/variants/Variant';
 
-export const mockGetVariants = (scope: nock.Scope, ups: UPSEngineMock) => {
+export const mockGetVariants = (scope: nock.Scope, ups: UPSEngineMock): nock.Scope => {
   return scope.get(/rest\/applications\/([^/]+)\/([^/]+)$/).reply((uri: string) => {
     const regex = /rest\/applications\/([^/]+)\/([^/]+)$/;
     const urlParams = regex.exec(uri)!;
@@ -18,7 +18,7 @@ export const mockGetVariants = (scope: nock.Scope, ups: UPSEngineMock) => {
   });
 };
 
-export const mockCreateVariant = (scope: nock.Scope, ups: UPSEngineMock) => {
+export const mockCreateVariant = (scope: nock.Scope, ups: UPSEngineMock): nock.Scope => {
   return scope.post(/rest\/applications\/([^/]+)\/([^/]+)$/).reply((uri: string, requestBody: nock.Body) => {
     const regex = /rest\/applications\/([^/]+)\/([^/]+)$/;
     const urlParams = regex.exec(uri)!;
@@ -33,7 +33,7 @@ export const mockCreateVariant = (scope: nock.Scope, ups: UPSEngineMock) => {
   });
 };
 
-export const mockDeleteVariant = (scope: nock.Scope, ups: UPSEngineMock) => {
+export const mockDeleteVariant = (scope: nock.Scope, ups: UPSEngineMock): nock.Scope => {
   return scope.delete(/rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)$/).reply((uri: string) => {
     const regex = /rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)$/;
     const urlParams = regex.exec(uri)!;
@@ -50,7 +50,7 @@ export const mockDeleteVariant = (scope: nock.Scope, ups: UPSEngineMock) => {
   });
 };
 
-export const mockRenewVariantSecret = (scope: nock.Scope, ups: UPSEngineMock) => {
+export const mockRenewVariantSecret = (scope: nock.Scope, ups: UPSEngineMock): nock.Scope => {
   return scope.put(/rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)\/reset$/).reply((uri: string) => {
     const regex = /rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)\/reset$/;
     const urlParams = regex.exec(uri)!;
@@ -67,7 +67,7 @@ export const mockRenewVariantSecret = (scope: nock.Scope, ups: UPSEngineMock) =>
   });
 };
 
-export const mockUpdateVariant = (scope: nock.Scope, ups: UPSEngineMock) => {
+export const mockUpdateVariant = (scope: nock.Scope, ups: UPSEngineMock): nock.Scope => {
   return scope.put(/rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)$/).reply((uri: string, requestBody: nock.Body) => {
     const regex = /rest\/applications\/([^/]+)\/([^/]+)\/([^/]+)$/;
     const urlParams = regex.exec(uri)!;

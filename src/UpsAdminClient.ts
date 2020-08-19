@@ -55,7 +55,7 @@ export class UpsAdminClient {
      *
      * **WARNING**: the result is paginated. use `.withPageSize` and `.page` to get the other pages.
      */
-    search: () => new SearchApplicationsCommand(this.api),
+    search: (): SearchApplicationsCommand => new SearchApplicationsCommand(this.api),
     /**
      * Creates a new application. The only required parameter is the `application name`, however
      * other application details can be set through the usage of the fluid interface.
@@ -68,7 +68,7 @@ export class UpsAdminClient {
      * ```
      * @param name
      */
-    create: (name: string) => new CreateApplicationCommand(this.api, name),
+    create: (name: string): CreateApplicationCommand => new CreateApplicationCommand(this.api, name),
     /**
      * Updates application details. All the updatable fields can be set using the provided
      * fluid interface.
@@ -81,7 +81,7 @@ export class UpsAdminClient {
      * ```
      * @param appId the `pushApplicationID` of the app to be updated
      */
-    update: (appId: string) => new UpdateApplicationsCommand(this.api, appId),
+    update: (appId: string): UpdateApplicationsCommand => new UpdateApplicationsCommand(this.api, appId),
     /**
      * Deletes a set of push application.
      * Which application will be deleted is decided by applying the specified filter.
@@ -95,42 +95,50 @@ export class UpsAdminClient {
      *  .execute();
      * ```
      */
-    delete: () => new DeleteApplicationsCommand(this.api),
+    delete: (): DeleteApplicationsCommand => new DeleteApplicationsCommand(this.api),
     metrics: (appId: string): LoadMetricsCommand => new LoadMetricsCommand(this.api, appId),
-    renewSecret: (appId: string) => new RenewMasterSecretCommand(this.api, appId),
+    renewSecret: (appId: string): RenewMasterSecretCommand => new RenewMasterSecretCommand(this.api, appId),
   };
 
   readonly variants = {
-    search: (appId: string) => new SearchVariantsCommand(this.api, appId),
-    delete: (appId: string) => new DeleteVariantCommand(this.api, appId),
+    search: (appId: string): SearchVariantsCommand => new SearchVariantsCommand(this.api, appId),
+    delete: (appId: string): DeleteVariantCommand => new DeleteVariantCommand(this.api, appId),
     android: {
-      create: (appId: string) => new CreateAndroidVariantCommand(this.api, appId),
-      update: (appId: string, variantId: string) => new UpdateAndroidVariantCommand(this.api, appId, variantId),
-      renewSecret: (appId: string, variantId: string) => new RenewSecretCommand(this.api, appId, 'android', variantId),
-      search: (appId: string) => new SearchVariantsCommand(this.api, appId).withType('android'),
-      delete: (appId: string) => new DeleteVariantCommand(this.api, appId).withType('android'),
+      create: (appId: string): CreateAndroidVariantCommand => new CreateAndroidVariantCommand(this.api, appId),
+      update: (appId: string, variantId: string): UpdateAndroidVariantCommand =>
+        new UpdateAndroidVariantCommand(this.api, appId, variantId),
+      renewSecret: (appId: string, variantId: string): RenewSecretCommand =>
+        new RenewSecretCommand(this.api, appId, 'android', variantId),
+      search: (appId: string): SearchVariantsCommand => new SearchVariantsCommand(this.api, appId).withType('android'),
+      delete: (appId: string): DeleteVariantCommand => new DeleteVariantCommand(this.api, appId).withType('android'),
     },
     ios: {
-      create: (appId: string) => new CreateIOSCertVariantCommand(this.api, appId),
-      update: (appId: string, variantId: string) => new UpdateIOSCertVariantCommand(this.api, appId, variantId),
-      renewSecret: (appId: string, variantId: string) => new RenewSecretCommand(this.api, appId, 'ios', variantId),
-      search: (appId: string) => new SearchVariantsCommand(this.api, appId).withType('ios'),
-      delete: (appId: string) => new DeleteVariantCommand(this.api, appId).withType('ios'),
+      create: (appId: string): CreateIOSCertVariantCommand => new CreateIOSCertVariantCommand(this.api, appId),
+      update: (appId: string, variantId: string): UpdateIOSCertVariantCommand =>
+        new UpdateIOSCertVariantCommand(this.api, appId, variantId),
+      renewSecret: (appId: string, variantId: string): RenewSecretCommand =>
+        new RenewSecretCommand(this.api, appId, 'ios', variantId),
+      search: (appId: string): SearchVariantsCommand => new SearchVariantsCommand(this.api, appId).withType('ios'),
+      delete: (appId: string): DeleteVariantCommand => new DeleteVariantCommand(this.api, appId).withType('ios'),
     },
     ios_token: {
-      create: (appId: string) => new CreateIOSTokenVariantCommand(this.api, appId),
-      update: (appId: string, variantId: string) => new UpdateIOSTokenVariantCommand(this.api, appId, variantId),
-      renewSecret: (appId: string, variantId: string) =>
+      create: (appId: string): CreateIOSTokenVariantCommand => new CreateIOSTokenVariantCommand(this.api, appId),
+      update: (appId: string, variantId: string): UpdateIOSTokenVariantCommand =>
+        new UpdateIOSTokenVariantCommand(this.api, appId, variantId),
+      renewSecret: (appId: string, variantId: string): RenewSecretCommand =>
         new RenewSecretCommand(this.api, appId, 'ios_token', variantId),
-      search: (appId: string) => new SearchVariantsCommand(this.api, appId).withType('ios_token'),
-      delete: (appId: string) => new DeleteVariantCommand(this.api, appId).withType('ios_token'),
+      search: (appId: string): SearchVariantsCommand =>
+        new SearchVariantsCommand(this.api, appId).withType('ios_token'),
+      delete: (appId: string): DeleteVariantCommand => new DeleteVariantCommand(this.api, appId).withType('ios_token'),
     },
     web_push: {
-      create: (appId: string) => new CreateWebPushVariantCommand(this.api, appId),
-      update: (appId: string, variantId: string) => new UpdateWebPushVariantCommand(this.api, appId, variantId),
-      renewSecret: (appId: string, variantId: string) => new RenewSecretCommand(this.api, appId, 'web_push', variantId),
-      search: (appId: string) => new SearchVariantsCommand(this.api, appId).withType('web_push'),
-      delete: (appId: string) => new DeleteVariantCommand(this.api, appId).withType('web_push'),
+      create: (appId: string): CreateWebPushVariantCommand => new CreateWebPushVariantCommand(this.api, appId),
+      update: (appId: string, variantId: string): UpdateWebPushVariantCommand =>
+        new UpdateWebPushVariantCommand(this.api, appId, variantId),
+      renewSecret: (appId: string, variantId: string): RenewSecretCommand =>
+        new RenewSecretCommand(this.api, appId, 'web_push', variantId),
+      search: (appId: string): SearchVariantsCommand => new SearchVariantsCommand(this.api, appId).withType('web_push'),
+      delete: (appId: string): DeleteVariantCommand => new DeleteVariantCommand(this.api, appId).withType('web_push'),
     },
   };
 }
