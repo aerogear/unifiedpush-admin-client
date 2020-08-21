@@ -1,3 +1,12 @@
+## [4.2.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.1...4.2.2) (2020-08-21)
+
+
+### Bug Fixes
+
+* 🐛 the SearchAll was never used ([cf0c3e7](https://github.com/aerogear/unifiedpush-admin-client/commit/cf0c3e7f273d0fb270fa318619b5d012f1043054))
+
+
+
 ## [4.2.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.0...4.2.1) (2020-08-19)
 
 
@@ -37,15 +46,6 @@
 ### Bug Fixes
 
 * **variants:** command handlers were not correctly managing execution errors ([d12514a](https://github.com/aerogear/unifiedpush-admin-client/commit/d12514af43db5f8e2d031d4e143a6262e32645c3))
-
-
-
-## [4.0.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.0...4.0.1) (2020-07-10)
-
-
-### Bug Fixes
-
-* **test:** updated the typescript version and fixed the code to compile with ts 3.9.6 ([b98a916](https://github.com/aerogear/unifiedpush-admin-client/commit/b98a91670c606f429c28c110fae6b07f0105a014))
 
 
 
