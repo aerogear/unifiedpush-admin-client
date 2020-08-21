@@ -10,15 +10,15 @@ export interface SearchResult {
 export abstract class AbstractSearchCommand {
   protected readonly addActivityData = (app: PushApplication, response: AxiosResponse): PushApplication => {
     app.metadata = {
-      activity: response.headers[`activity_app_${app.pushApplicationID.toLowerCase()}`],
-      deviceCount: response.headers[`devicecount_app_${app.pushApplicationID?.toLowerCase()}`],
+      activity: +response.headers[`activity_app_${app.pushApplicationID.toLowerCase()}`],
+      deviceCount: +response.headers[`devicecount_app_${app.pushApplicationID?.toLowerCase()}`],
     };
 
     // Add info to the variant
     app.variants = app.variants?.map(variant => {
       variant.metadata = {
-        activity: response.headers[`activity_variant_${app.pushApplicationID?.toLowerCase()}`],
-        deviceCount: response.headers[`devicecount_variant_${app.pushApplicationID?.toLowerCase()}`],
+        activity: +response.headers[`activity_variant_${variant.variantID?.toLowerCase()}`],
+        deviceCount: +response.headers[`devicecount_variant_${variant.variantID?.toLowerCase()}`],
       };
       return variant;
     });
