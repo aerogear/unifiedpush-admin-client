@@ -1,3 +1,12 @@
+## [4.2.3](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.2...4.2.3) (2020-08-21)
+
+
+### Bug Fixes
+
+* 🐛 variant metadata was not correctly populated ([da4aeda](https://github.com/aerogear/unifiedpush-admin-client/commit/da4aeda1523ccc6e17badbcf780de845b2444fc0))
+
+
+
 ## [4.2.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.1...4.2.2) (2020-08-21)
 
 
@@ -37,15 +46,6 @@
 ### Features
 
 * **application:** added function to renew the application master secret ([173d024](https://github.com/aerogear/unifiedpush-admin-client/commit/173d024c67be4ca6a9a29ce9c40ac669c6ea0a3a))
-
-
-
-## [4.0.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.1...4.0.2) (2020-07-17)
-
-
-### Bug Fixes
-
-* **variants:** command handlers were not correctly managing execution errors ([d12514a](https://github.com/aerogear/unifiedpush-admin-client/commit/d12514af43db5f8e2d031d4e143a6262e32645c3))
 
 
 
