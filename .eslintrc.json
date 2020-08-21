@@ -19,7 +19,8 @@
     "eol-last": "error",
     "prefer-arrow-callback": "error",
     "no-trailing-spaces": "error",
-    "quotes": ["warn", "single", { "avoidEscape": true }]
+    "quotes": ["warn", "single", { "avoidEscape": true }],
+    "@typescript-eslint/explicit-module-boundary-types": ["error"]
   },
   "overrides": [
     {

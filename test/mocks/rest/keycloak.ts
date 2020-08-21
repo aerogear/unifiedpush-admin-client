@@ -10,7 +10,7 @@ export const KC_CREDENTIALS = {
 
 export const ACCESS_TOKEN = 'AAAAABBBBSSSHHHH_TEST_AAHAHHSJDJDHHSA';
 
-export const mockKeyCloak = () =>
+export const mockKeyCloak = (): nock.Scope =>
   nock(KEYCLOAK_URL)
     .post(
       `/auth/realms/${KC_CREDENTIALS.realm}/protocol/openid-connect/token`,

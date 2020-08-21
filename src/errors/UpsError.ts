@@ -19,9 +19,9 @@ export class UpsError extends Error {
     this.name = name;
   }
 
-  addDetail(key: string, value: string) {
+  addDetail(key: string, value: string): void {
     this._details[key] = value;
   }
 
-  readonly details = () => ({...this._details});
+  readonly details = (): UpsErrorDetails => ({...this._details});
 }

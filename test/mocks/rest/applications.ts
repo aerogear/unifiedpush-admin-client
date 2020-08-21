@@ -19,14 +19,14 @@ const checkAuth = (req: Request, enforce = false) => {
   }
 };
 
-export const mockCreateApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false) => {
+export const mockCreateApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false): nock.Scope => {
   return scope.post(REST_APPLICATIONS_ENDPOINT).reply(200, function (uri: string, requestBody: nock.Body) {
     checkAuth(this.req, enforceAuth);
     return ups.createApplication(requestBody as PushApplication);
   });
 };
 
-export const mockUpdateApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false) => {
+export const mockUpdateApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false): nock.Scope => {
   return scope.put(/rest\/applications\/([^/]+)$/).reply(function (uri: string, requestBody: nock.Body) {
     checkAuth(this.req, enforceAuth);
     const urlWithParam = /rest\/applications\/([^/]+)$/;
@@ -45,7 +45,7 @@ export const mockUpdateApplication = (scope: nock.Scope, ups: UPSEngineMock, enf
   });
 };
 
-export const mockGetApplications = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false) => {
+export const mockGetApplications = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false): nock.Scope => {
   // get all applications
   scope = scope.get(/rest\/applications\?/).reply(function (uri: string) {
     // uri/?parameterName=value&parameterName2=value&page=...
@@ -80,7 +80,7 @@ export const mockGetApplications = (scope: nock.Scope, ups: UPSEngineMock, enfor
   return scope;
 };
 
-export const mockDeleteApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false) => {
+export const mockDeleteApplication = (scope: nock.Scope, ups: UPSEngineMock, enforceAuth = false): nock.Scope => {
   return scope.delete(/rest\/applications\/([^/]+)$/).reply(function (uri: string) {
     checkAuth(this.req, enforceAuth);
     const urlWithParam = /rest\/applications\/([^/]+)$/;

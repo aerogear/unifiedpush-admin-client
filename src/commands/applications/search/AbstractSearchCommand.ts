@@ -8,7 +8,7 @@ export interface SearchResult {
 }
 
 export abstract class AbstractSearchCommand {
-  protected readonly addActivityData = (app: PushApplication, response: AxiosResponse) => {
+  protected readonly addActivityData = (app: PushApplication, response: AxiosResponse): PushApplication => {
     app.metadata = {
       activity: response.headers[`activity_app_${app.pushApplicationID.toLowerCase()}`],
       deviceCount: response.headers[`devicecount_app_${app.pushApplicationID?.toLowerCase()}`],
@@ -25,14 +25,14 @@ export abstract class AbstractSearchCommand {
     return app;
   };
 
-  protected readonly getPage = (appList: PushApplication[], page: number, pageSize: number) => {
+  protected readonly getPage = (appList: PushApplication[], page: number, pageSize: number): PushApplication[] => {
     const firstIndex = pageSize * page;
     const endIndex = firstIndex + pageSize;
 
     return appList.slice(firstIndex, endIndex);
   };
 
-  protected readonly ensureIsArray = (obj: unknown) => (obj instanceof Array ? obj : [obj]);
+  protected readonly ensureIsArray = <T>(obj: T | Array<T>): Array<T> => (obj instanceof Array ? obj : [obj]);
 
   protected readonly applyPushApplicationFilter = (
     apps: PushApplication[],
