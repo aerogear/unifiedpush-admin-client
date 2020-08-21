@@ -10,7 +10,7 @@ export class SearchEngineFactory {
       return new SearchByID(filter);
     }
 
-    if (!filter || Object.keys(filter).length === 0 || (Object.keys(filter).length === 1 && filter.page)) {
+    if (!filter || Object.keys(filter).length === 0 || (Object.keys(filter).length === 1 && 'page' in filter)) {
       // no filters
       return new SearchAll();
     }
