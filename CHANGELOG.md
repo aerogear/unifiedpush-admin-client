@@ -1,3 +1,12 @@
+# [4.3.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.3...4.3.0) (2020-08-31)
+
+
+### Features
+
+* 🎸 added config command group ([3d26722](https://github.com/aerogear/unifiedpush-admin-client/commit/3d267225618848f08f0d939c7c6cf27cecc8f3d0))
+
+
+
 ## [4.2.3](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.2...4.2.3) (2020-08-21)
 
 
@@ -32,20 +41,6 @@
 ### Features
 
 * **metrics:** added support for messaging metrics endpoints ([be91c35](https://github.com/aerogear/unifiedpush-admin-client/commit/be91c356f485c1718b6dbf4a575c0949921cf63d))
-
-
-
-# [4.1.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.0.2...4.1.0) (2020-07-17)
-
-
-### Bug Fixes
-
-* **applications:** the masterSecret was not returned ([a295ea5](https://github.com/aerogear/unifiedpush-admin-client/commit/a295ea5a84234c023bcbe873c629c90ab4a2a224))
-
-
-### Features
-
-* **application:** added function to renew the application master secret ([173d024](https://github.com/aerogear/unifiedpush-admin-client/commit/173d024c67be4ca6a9a29ce9c40ac669c6ea0a3a))
 
 
 
