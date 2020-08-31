@@ -19,6 +19,7 @@ import {ApiClient} from './commands/ApiClient';
 import {BasicCredentials, KeycloakCredentials} from './credentials';
 import {RenewMasterSecretCommand} from './commands/applications/RenewMasterSecretCommand';
 import {LoadMetricsCommand} from './commands/metrics/LoadMetricsCommand';
+import {GetConfigCommand} from './commands/auth/GetConfigCommand';
 
 /**
  * This class is to be used to access the UPS admin function from typescript.
@@ -139,6 +140,15 @@ export class UpsAdminClient {
         new RenewSecretCommand(this.api, appId, 'web_push', variantId),
       search: (appId: string): SearchVariantsCommand => new SearchVariantsCommand(this.api, appId).withType('web_push'),
       delete: (appId: string): DeleteVariantCommand => new DeleteVariantCommand(this.api, appId).withType('web_push'),
+    },
+  };
+
+  readonly config = {
+    auth: {
+      get: (): GetConfigCommand => new GetConfigCommand(this.api, 'auth'),
+    },
+    ui: {
+      get: (): GetConfigCommand => new GetConfigCommand(this.api, 'ui'),
     },
   };
 }

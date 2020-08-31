@@ -52,7 +52,19 @@ export class ApiClient {
     return (await this.auth()).delete(url, config);
   }
 
-  async get(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
-    return (await this.auth()).get(url, config);
+  async get(url: string): Promise<AxiosResponse>;
+  async get(url: string, auth: boolean): Promise<AxiosResponse>;
+  async get(url: string, config: AxiosRequestConfig): Promise<AxiosResponse>;
+  async get(url: string, config: AxiosRequestConfig, auth: boolean): Promise<AxiosResponse>;
+  async get(url: string, configOrAuth?: AxiosRequestConfig | boolean, auth = true): Promise<AxiosResponse> {
+    if (configOrAuth === undefined) {
+      // only one parameter
+      return (auth ? await this.auth() : this.api).get(url);
+    }
+    if (typeof configOrAuth === 'boolean') {
+      return configOrAuth ? (await this.auth()).get(url) : this.api.get(url);
+    }
+
+    return (auth ? await this.auth() : this.api).get(url, configOrAuth);
   }
 }
