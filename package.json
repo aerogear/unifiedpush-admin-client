@@ -38,7 +38,7 @@
     "@types/jest": "26.0.12",
     "@types/nock": "11.1.0",
     "@types/node": "10.17.28",
-    "cz-conventional-changelog": "3.2.0",
+    "cz-conventional-changelog": "3.3.0",
     "eslint-plugin-jest": "23.20.0",
     "gts": "2.0.2",
     "guid-typescript": "1.0.9",
