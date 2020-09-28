@@ -35,7 +35,7 @@
     "form-data": "3.0.0"
   },
   "devDependencies": {
-    "@types/jest": "26.0.12",
+    "@types/jest": "26.0.14",
     "@types/nock": "11.1.0",
     "@types/node": "10.17.35",
     "cz-conventional-changelog": "3.3.0",
