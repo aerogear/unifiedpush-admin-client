@@ -1,3 +1,12 @@
+# [4.4.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.3.0...4.4.0) (2020-10-02)
+
+
+### Features
+
+* **webpush:** added a new method to renew the vapid keys ([1e4e8a8](https://github.com/aerogear/unifiedpush-admin-client/commit/1e4e8a866579787ffecee4c133d6c6e129c1b809))
+
+
+
 # [4.3.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.3...4.3.0) (2020-08-31)
 
 
@@ -32,15 +41,6 @@
 
 * 🐛 creating iosvariants using a definition does not works ([942e442](https://github.com/aerogear/unifiedpush-admin-client/commit/942e4425405da174fd82781b8fd3d61e471f96bd)), closes [#95](https://github.com/aerogear/unifiedpush-admin-client/issues/95)
 * 🐛 the delete command was not detecting not found apps ([f498002](https://github.com/aerogear/unifiedpush-admin-client/commit/f498002649192419e8050d1031d9e539caf6102c)), closes [#118](https://github.com/aerogear/unifiedpush-admin-client/issues/118)
-
-
-
-# [4.2.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.1.0...4.2.0) (2020-08-13)
-
-
-### Features
-
-* **metrics:** added support for messaging metrics endpoints ([be91c35](https://github.com/aerogear/unifiedpush-admin-client/commit/be91c356f485c1718b6dbf4a575c0949921cf63d))
 
 
 
