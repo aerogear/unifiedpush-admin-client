@@ -42,7 +42,7 @@
     "eslint-plugin-jest": "24.0.2",
     "gts": "2.0.2",
     "guid-typescript": "1.0.9",
-    "jest": "26.4.2",
+    "jest": "26.5.0",
     "nock": "13.0.4",
     "ts-jest": "26.4.0",
     "ts-node": "9.0.0",
