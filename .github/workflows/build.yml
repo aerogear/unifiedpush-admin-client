@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - master
-  pull_request_target:
+  pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
         node-version: '10.x'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Check code style
       run: npm run check
@@ -35,8 +35,3 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Run codacy-coverage-reporter
-      uses: codacy/codacy-coverage-reporter-action@master
-      with:
-        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
