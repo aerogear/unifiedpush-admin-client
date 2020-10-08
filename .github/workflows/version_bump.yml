@@ -5,6 +5,7 @@ on:
       - master
     paths-ignore:
       - 'package.json'
+      - 'package-lock.json'
       - 'CHANGELOG.md'
 jobs:
   build:
@@ -23,3 +24,4 @@ jobs:
         tag-prefix: ''
         output-file: 'CHANGELOG.md'
         skip-on-empty: true
+        version-file: 'package.json, package-lock.json'
