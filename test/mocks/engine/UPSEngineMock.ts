@@ -6,7 +6,7 @@ export class UPSEngineMock {
   private data: PushApplication[] = [];
 
   createApplication(newAppDef: PushApplication): PushApplication {
-    const newApp: PushApplication = {...(newAppDef as {})} as PushApplication;
+    const newApp: PushApplication = {...(newAppDef as PushApplication)} as PushApplication;
 
     // newApp.masterSecret = Guid.raw();
     newApp.pushApplicationID = newApp.pushApplicationID || Guid.raw();
@@ -49,7 +49,7 @@ export class UPSEngineMock {
 
   // Variants
   createVariant(appId: string, variantDef: Variant): Variant {
-    const newVariant: Variant = {...(variantDef as {})} as Variant;
+    const newVariant: Variant = {...(variantDef as Variant)} as Variant;
     newVariant.variantID = newVariant.variantID || Guid.raw();
     newVariant.developer = newVariant.developer || 'admin';
     newVariant.secret = Guid.raw();
