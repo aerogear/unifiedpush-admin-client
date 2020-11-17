@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/jest": "26.0.14",
     "@types/nock": "11.1.0",
-    "@types/node": "10.17.40",
+    "@types/node": "10.17.45",
     "cz-conventional-changelog": "3.3.0",
     "eslint-plugin-jest": "24.1.0",
     "gts": "3.0.1",
