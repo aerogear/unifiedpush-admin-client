@@ -1,3 +1,13 @@
+## [4.4.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.0...4.4.1) (2020-11-22)
+
+
+### Bug Fixes
+
+* **command:** the AbstractCommand class was declaring abstract async method ([ab7066b](https://github.com/aerogear/unifiedpush-admin-client/commit/ab7066b2707f4557f7c0ab416342c66fbe555efa))
+* **deps:** update dependency axios to v0.21.0 ([e5b7db1](https://github.com/aerogear/unifiedpush-admin-client/commit/e5b7db1ee4d7def67a4d32cc64bbc1dd867d7b41))
+
+
+
 # [4.4.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.3.0...4.4.0) (2020-10-02)
 
 
@@ -31,16 +41,6 @@
 ### Bug Fixes
 
 * 🐛 the SearchAll was never used ([cf0c3e7](https://github.com/aerogear/unifiedpush-admin-client/commit/cf0c3e7f273d0fb270fa318619b5d012f1043054))
-
-
-
-## [4.2.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.0...4.2.1) (2020-08-19)
-
-
-### Bug Fixes
-
-* 🐛 creating iosvariants using a definition does not works ([942e442](https://github.com/aerogear/unifiedpush-admin-client/commit/942e4425405da174fd82781b8fd3d61e471f96bd)), closes [#95](https://github.com/aerogear/unifiedpush-admin-client/issues/95)
-* 🐛 the delete command was not detecting not found apps ([f498002](https://github.com/aerogear/unifiedpush-admin-client/commit/f498002649192419e8050d1031d9e539caf6102c)), closes [#118](https://github.com/aerogear/unifiedpush-admin-client/issues/118)
 
 
 
