@@ -8,7 +8,7 @@ export abstract class AbstractCommand<T> {
     this.api = api;
   }
 
-  protected abstract async exec(): Promise<T>;
+  protected abstract exec(): Promise<T>;
 
   readonly execute = async (): Promise<T> => {
     try {
