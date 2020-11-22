@@ -53,5 +53,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "resolutions": {
+    "jest-haste-map": "26.6.2"
   }
 }
