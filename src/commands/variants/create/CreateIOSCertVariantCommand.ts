@@ -31,9 +31,11 @@ export class CreateIOSCertVariantCommand extends AbstractCreateVariantCommand<
   };
 
   readonly withDefinition = (def: IOSVariantDefinition): CreateIOSCertVariantCommand => {
-    super.withDefinition(def);
+    this.def = {
+      ...this.def,
+      ...def,
+    };
     delete this.def['type'];
-
     return this;
   };
 }
