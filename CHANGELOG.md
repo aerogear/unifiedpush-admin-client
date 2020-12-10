@@ -1,3 +1,12 @@
+## [4.4.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.1...4.4.2) (2020-12-10)
+
+
+### Bug Fixes
+
+* object CreateIOSCertVariantCommand had issues handling the definitions ([062072a](https://github.com/aerogear/unifiedpush-admin-client/commit/062072ab11d85b8649d0757f7c734dd2f0843976))
+
+
+
 ## [4.4.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.0...4.4.1) (2020-11-22)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * 🐛 variant metadata was not correctly populated ([da4aeda](https://github.com/aerogear/unifiedpush-admin-client/commit/da4aeda1523ccc6e17badbcf780de845b2444fc0))
-
-
-
-## [4.2.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.1...4.2.2) (2020-08-21)
-
-
-### Bug Fixes
-
-* 🐛 the SearchAll was never used ([cf0c3e7](https://github.com/aerogear/unifiedpush-admin-client/commit/cf0c3e7f273d0fb270fa318619b5d012f1043054))
 
 
 
