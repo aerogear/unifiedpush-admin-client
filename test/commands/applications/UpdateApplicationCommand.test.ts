@@ -1,62 +1,56 @@
 import {UpsAdminClient} from '../../../src';
-import {UPSMock, utils} from '../../mocks';
 import {VariantDefinition} from '../../../src/commands/variants/Variant';
-
-const BASE_URL = 'http://localhost:8888';
-
-const upsMock = new UPSMock();
+import {UPS_URL} from '../mocks/constants';
+import {createApplications, getAllApplications, initMockEngine} from '../mocks/UPSMock';
 
 beforeEach(() => {
-  upsMock.reset();
+  initMockEngine(UPS_URL);
 });
 
-afterAll(() => {
-  upsMock.uninstall();
-});
+afterAll(() => {});
 
 describe('UpdateApplicationCommand', () => {
-  const upsAdminClient = new UpsAdminClient(BASE_URL);
+  const upsAdminClient = new UpsAdminClient(UPS_URL);
 
   it('Should rename the application.', async () => {
-    const IDS = utils.generateApps(upsMock, 59);
-    const appId = IDS[52];
-    upsMock.getImpl().getApplications(appId);
+    createApplications({appCount: 59});
+    const testApp = getAllApplications()[52];
 
     const newName = 'NEW APP NAME';
 
-    expect((await upsAdminClient.applications.search().withApplicationID(appId).execute()).list[0].name).not.toEqual(
-      newName
-    );
+    expect(
+      (await upsAdminClient.applications.search().withApplicationID(testApp.pushApplicationID).execute()).list[0].name
+    ).not.toEqual(newName);
 
-    await upsAdminClient.applications.update(appId).withName(newName).execute();
+    await upsAdminClient.applications.update(testApp.pushApplicationID).withName(newName).execute();
 
-    expect((await upsAdminClient.applications.search().withApplicationID(appId).execute()).list[0].name).toEqual(
-      newName
-    );
+    expect(
+      (await upsAdminClient.applications.search().withApplicationID(testApp.pushApplicationID).execute()).list[0].name
+    ).toEqual(newName);
   });
 
   it('Should update the description.', async () => {
-    const IDS = utils.generateApps(upsMock, 59);
-    const appId = IDS[52];
-    upsMock.getImpl().getApplications(appId);
+    createApplications({appCount: 59});
+    const testApp = getAllApplications()[52];
 
     const newDescription = 'Description Nr1';
 
     expect(
-      (await upsAdminClient.applications.search().withApplicationID(appId).execute()).list[0].description
+      (await upsAdminClient.applications.search().withApplicationID(testApp.pushApplicationID).execute()).list[0]
+        .description
     ).not.toEqual(newDescription);
 
-    await upsAdminClient.applications.update(appId).withDescription(newDescription).execute();
+    await upsAdminClient.applications.update(testApp.pushApplicationID).withDescription(newDescription).execute();
 
-    expect((await upsAdminClient.applications.search().withApplicationID(appId).execute()).list[0].description).toEqual(
-      newDescription
-    );
+    expect(
+      (await upsAdminClient.applications.search().withApplicationID(testApp.pushApplicationID).execute()).list[0]
+        .description
+    ).toEqual(newDescription);
   });
 
   it('Should update using a template.', async () => {
-    const IDS = utils.generateApps(upsMock, 59);
-    const appId = IDS[52];
-    upsMock.getImpl().getApplications(appId);
+    createApplications({appCount: 59});
+    const testApp = getAllApplications()[52];
 
     const newDescription = 'NEW DESC';
     const newName = 'NEW NAME';
@@ -66,9 +60,10 @@ describe('UpdateApplicationCommand', () => {
       name: newName,
     };
 
-    await upsAdminClient.applications.update(appId).withDefinition(updateTemplate).execute();
+    await upsAdminClient.applications.update(testApp.pushApplicationID).withDefinition(updateTemplate).execute();
 
-    const app = (await upsAdminClient.applications.search().withApplicationID(appId).execute()).list[0];
+    const app = (await upsAdminClient.applications.search().withApplicationID(testApp.pushApplicationID).execute())
+      .list[0];
 
     expect(app.description).toEqual(newDescription);
     expect(app.name).toEqual(newName);

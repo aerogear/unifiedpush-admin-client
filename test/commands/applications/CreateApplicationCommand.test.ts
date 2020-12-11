@@ -1,14 +1,9 @@
 import {AndroidVariantDefinition, UpsAdminClient} from '../../../src';
-import {UPSMock} from '../../mocks';
-
-const upsMock = new UPSMock();
+import {initMockEngine} from '../mocks/UPSMock';
+import {UPS_URL} from '../mocks/constants';
 
 beforeEach(() => {
-  upsMock.reset();
-});
-
-afterAll(() => {
-  upsMock.uninstall();
+  initMockEngine(UPS_URL);
 });
 
 describe('CreateApplicationCommand', () => {
@@ -31,7 +26,7 @@ describe('CreateApplicationCommand', () => {
     expect(allApps[0].name).toEqual(NEW_APP_NAME);
   });
 
-  it('Should create an app using a templace.', async () => {
+  it('Should create an app using a template.', async () => {
     const appTemplate = {
       name: 'MyNew App',
       type: 'android',

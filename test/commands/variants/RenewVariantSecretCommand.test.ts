@@ -1,31 +1,23 @@
 import {UpsAdminClient} from '../../../src';
-import {UPSMock, utils} from '../../mocks';
-
-const upsMock = new UPSMock();
+import {createApplications, getAllApplications, initMockEngine} from '../mocks/UPSMock';
+import {UPS_URL} from '../mocks/constants';
 
 beforeEach(() => {
-  upsMock.reset();
-});
-
-afterAll(() => {
-  upsMock.uninstall();
+  initMockEngine();
 });
 
 describe('RenewVariantSecret', () => {
-  const BASE_URL = 'http://localhost:8888';
-
-  const upsAdminClient = new UpsAdminClient(BASE_URL);
+  const upsAdminClient = new UpsAdminClient(UPS_URL);
 
   it('Should renew a variant secret', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    const APP_ID = APP_IDS[5];
-    const VARIANTS = utils.generateVariants(upsMock, APP_ID, 30);
+    createApplications({minVariantCount: 30});
+    const testApp = getAllApplications()[5];
 
-    const variantToRenew = VARIANTS[12];
+    const variantToRenew = testApp.variants![12];
     const oldSecret = variantToRenew.secret;
 
     const renewedVariant = await upsAdminClient.variants[variantToRenew.type]
-      .renewSecret(APP_ID, variantToRenew.variantID)
+      .renewSecret(testApp.pushApplicationID, variantToRenew.variantID)
       .execute();
     const newSecret = renewedVariant.secret;
 
@@ -35,20 +27,17 @@ describe('RenewVariantSecret', () => {
   });
 
   it('Should renew a android secret', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    const APP_ID = APP_IDS[5];
-    const VARIANTS = utils.generateVariants(
-      upsMock,
-      APP_ID,
-      30,
-      Array<Record<string, string>>(30).fill({type: 'android', googleKey: 'googleKey', projectNumber: 'PRJNUMBER'})
-    );
-
-    const variantToRenew = VARIANTS[12];
+    createApplications({
+      minVariantCount: 30,
+      variantType: 'android',
+      variantDef: {type: 'android', googleKey: 'googleKey', projectNumber: 'PRJNUMBER'},
+    });
+    const testApp = getAllApplications()[5];
+    const variantToRenew = testApp.variants![12];
     const oldSecret = variantToRenew.secret;
 
     const renewedVariant = await upsAdminClient.variants.android
-      .renewSecret(APP_ID, variantToRenew.variantID)
+      .renewSecret(testApp.pushApplicationID, variantToRenew.variantID)
       .execute();
     const newSecret = renewedVariant.secret;
 
@@ -58,19 +47,17 @@ describe('RenewVariantSecret', () => {
   });
 
   it('Should renew a ios secret', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    const APP_ID = APP_IDS[5];
-    const VARIANTS = utils.generateVariants(
-      upsMock,
-      APP_ID,
-      30,
-      Array<Record<string, string>>(30).fill({type: 'ios', certificate: 'AAAAAAA', passphrase: 'SHhhhhhh!'})
-    );
-
-    const variantToRenew = VARIANTS[12];
+    createApplications({
+      minVariantCount: 30,
+      variantType: 'ios',
+      variantDef: {type: 'ios', certificate: 'AAAAAAA', passphrase: 'SHhhhhhh!'},
+    });
+    const testApp = getAllApplications()[5];
+    const variantToRenew = testApp.variants![12];
     const oldSecret = variantToRenew.secret;
-
-    const renewedVariant = await upsAdminClient.variants.ios.renewSecret(APP_ID, variantToRenew.variantID).execute();
+    const renewedVariant = await upsAdminClient.variants.ios
+      .renewSecret(testApp.pushApplicationID, variantToRenew.variantID)
+      .execute();
     const newSecret = renewedVariant.secret;
 
     expect(renewedVariant.variantID).toEqual(variantToRenew.variantID);
@@ -79,20 +66,16 @@ describe('RenewVariantSecret', () => {
   });
 
   it('Should renew a ios token', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    const APP_ID = APP_IDS[5];
-    const VARIANTS = utils.generateVariants(
-      upsMock,
-      APP_ID,
-      30,
-      Array<Record<string, string>>(30).fill({type: 'ios_token', keyId: 'AAAAAAA', teamId: 'SHhhhhhh!'})
-    );
-
-    const variantToRenew = VARIANTS[12];
+    createApplications({
+      minVariantCount: 30,
+      variantType: 'ios_token',
+      variantDef: {type: 'ios_token', keyId: 'AAAAAAA', teamId: 'SHhhhhhh!'},
+    });
+    const testApp = getAllApplications()[5];
+    const variantToRenew = testApp.variants![12];
     const oldSecret = variantToRenew.secret;
-
     const renewedVariant = await upsAdminClient.variants.ios_token
-      .renewSecret(APP_ID, variantToRenew.variantID)
+      .renewSecret(testApp.pushApplicationID, variantToRenew.variantID)
       .execute();
     const newSecret = renewedVariant.secret;
 
@@ -102,25 +85,22 @@ describe('RenewVariantSecret', () => {
   });
 
   it('Should renew a webpush token', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    const APP_ID = APP_IDS[5];
-    const VARIANTS = utils.generateVariants(
-      upsMock,
-      APP_ID,
-      30,
-      Array<Record<string, string>>(30).fill({
+    createApplications({
+      minVariantCount: 30,
+      variantType: 'ios_token',
+      variantDef: {
         type: 'web_push',
         publicKey: 'AAAAAAA',
         privateKey: 'SHhhhhhh!',
         alias: 'alias',
-      })
-    );
-
-    const variantToRenew = VARIANTS[12];
+      },
+    });
+    const testApp = getAllApplications()[5];
+    const variantToRenew = testApp.variants![12];
     const oldSecret = variantToRenew.secret;
 
     const renewedVariant = await upsAdminClient.variants.web_push
-      .renewSecret(APP_ID, variantToRenew.variantID)
+      .renewSecret(testApp.pushApplicationID, variantToRenew.variantID)
       .execute();
     const newSecret = renewedVariant.secret;
 
