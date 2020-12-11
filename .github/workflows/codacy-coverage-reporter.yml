@@ -3,7 +3,7 @@ name: codacy-coverage-reporter
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   codacy-coverage-reporter:
