@@ -1,14 +1,8 @@
 import {UpsAdminClient} from '../../../src';
-import {UPSMock, utils} from '../../mocks';
-
-const upsMock = new UPSMock();
-
+import {createApplications, getAllApplications, initMockEngine} from '../mocks/UPSMock';
+import {UPS_URL} from '../mocks/constants';
 beforeEach(() => {
-  upsMock.reset();
-});
-
-afterAll(() => {
-  upsMock.uninstall();
+  initMockEngine(UPS_URL);
 });
 
 describe('SearchApplicationCommand', () => {
@@ -17,20 +11,17 @@ describe('SearchApplicationCommand', () => {
   const upsAdminClient = new UpsAdminClient(BASE_URL);
 
   it('Should return all apps (1st page)', async () => {
-    const ids = utils.generateIDs(45).map(id => ({pushApplicationID: id}));
-    utils.generateApps(upsMock, 45, ids);
-
-    ids.forEach(id => utils.generateVariants(upsMock, id.pushApplicationID, 10));
-
+    createApplications({appCount: 45});
+    const testAppList = getAllApplications();
     const apps = await upsAdminClient.applications.search().withPageSize(10).execute();
     expect(apps.list).toHaveLength(10);
-    expect(apps.list).toMatchObject(ids.slice(0, 10));
+    expect(apps.list).toMatchObject(testAppList.slice(0, 10));
 
     expect(apps.total as number).toEqual(45);
   });
 
   it('Should return all apps (2nd page)', async () => {
-    utils.generateApps(upsMock, 45);
+    createApplications({appCount: 45});
 
     let apps = await upsAdminClient.applications.search().execute();
     expect(apps.list).toHaveLength(10);
@@ -46,7 +37,7 @@ describe('SearchApplicationCommand', () => {
   });
 
   it('Should return a given app', async () => {
-    utils.generateApps(upsMock, 10);
+    createApplications({appCount: 10});
     // get one app
     const app = (await upsAdminClient.applications.search().execute()).list[6];
 
@@ -57,10 +48,10 @@ describe('SearchApplicationCommand', () => {
   });
 
   it('Should find app by name', async () => {
-    utils.generateApps(upsMock, 45);
-    utils.generateApps(upsMock, 1, [{name: 'TEST'}]);
+    createApplications({appCount: 45});
+    const testApp = getAllApplications()[38];
     // get one app
-    const app = await upsAdminClient.applications.search().withName('TEST').execute();
+    const app = await upsAdminClient.applications.search().withName(testApp.name).execute();
 
     expect(app.list).toHaveLength(1);
     expect(app.total).toEqual(1);
@@ -74,9 +65,9 @@ describe('SearchApplicationCommand', () => {
 
   it("Should return all apps developed by 'TEST_DEVELOPER'", async () => {
     const DEVELOPER = 'TEST_DEVELOPER';
-    utils.generateApps(upsMock, 8, new Array(20).fill({developer: DEVELOPER}));
-    utils.generateApps(upsMock, 10, new Array(10).fill({developer: 'Dev 1'}));
-    utils.generateApps(upsMock, 5, new Array(10).fill({developer: 'Dev 2'}));
+    createApplications({appCount: 8, appDef: {developer: DEVELOPER}});
+    createApplications({appCount: 10, appDef: {developer: 'Dev 1'}});
+    createApplications({appCount: 5, appDef: {developer: 'Dev 2'}});
 
     const filteredApp = await upsAdminClient.applications.search().withDeveloper(DEVELOPER).execute();
     expect(filteredApp.list).toHaveLength(8);

@@ -1,96 +1,85 @@
-import {AndroidVariant, IOSVariant, UpsAdminClient} from '../../../src';
-import {UPSMock, utils} from '../../mocks';
-import {Variant} from '../../../src/commands/variants/Variant';
-
-const upsMock = new UPSMock();
+import {UpsAdminClient} from '../../../src';
+import {createApplications, createVariants, getAllApplications, initMockEngine} from '../mocks/UPSMock';
+import {UPS_URL} from '../mocks/constants';
 
 beforeEach(() => {
-  upsMock.reset();
-});
-
-afterAll(() => {
-  upsMock.uninstall();
+  initMockEngine();
 });
 
 describe('SearchVariantCommand', () => {
-  const BASE_URL = 'http://localhost:8888';
-
-  const upsAdminClient = new UpsAdminClient(BASE_URL);
+  const upsAdminClient = new UpsAdminClient(UPS_URL);
 
   it('Should return all the variants of a given app', async () => {
-    const IDs = utils.generateApps(upsMock, 10);
-    const testAppNoVariants = IDs[5];
-    const testAppId1 = IDs[2];
-    const testAppId8 = IDs[8];
+    createApplications({variantCount: 0});
+    const testAppNoVariants = getAllApplications()[5];
+    const testApp2 = getAllApplications()[2];
+    const testApp8 = getAllApplications()[8];
 
-    const variants1 = utils.generateVariants(
-      upsMock,
-      testAppId1,
-      35,
-      new Array(35).fill({
+    const variants2 = createVariants({
+      appId: testApp2.pushApplicationID,
+      variantCount: 35,
+      variantType: 'android',
+      variantDef: {
         type: 'android',
         googleKey: '123456',
         projectNumber: '1234556',
-      } as AndroidVariant)
-    );
+      },
+    });
 
-    const variants8 = utils.generateVariants(
-      upsMock,
-      testAppId8,
-      12,
-      new Array(12).fill({
+    const variants8 = createVariants({
+      appId: testApp8.pushApplicationID,
+      variantCount: 35,
+      variantType: 'ios',
+      variantDef: {
         type: 'ios',
         production: false,
         certificate: '123',
-      } as IOSVariant)
-    );
+      },
+    });
 
-    const foundVariants1 = await upsAdminClient.variants.search(testAppId1).execute();
-    expect(foundVariants1).toEqual(variants1);
+    const foundVariants1 = await upsAdminClient.variants.search(testApp2.pushApplicationID).execute();
+    expect(foundVariants1).toEqual(variants2);
 
-    const foundVariants8 = await upsAdminClient.variants.search(testAppId8).execute();
+    const foundVariants8 = await upsAdminClient.variants.search(testApp8.pushApplicationID).execute();
     expect(foundVariants8).toEqual(variants8);
 
-    const appNoVariants = await upsAdminClient.variants.search(testAppNoVariants).execute();
+    const appNoVariants = await upsAdminClient.variants.search(testAppNoVariants.pushApplicationID).execute();
     expect(appNoVariants).toHaveLength(0);
   });
 
   it('Should return a given variant', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    const APP_ID = APP_IDS[5];
-    const VARIANTS = utils.generateVariants(upsMock, APP_ID, 30);
-
-    const variantToFind = VARIANTS[12];
+    createApplications({variantCount: 30});
+    const testApp = getAllApplications()[5];
+    const variantToFind = testApp.variants![12];
 
     const filteredVariants = await upsAdminClient.variants
-      .search(APP_ID)
+      .search(testApp.pushApplicationID)
       .withVariantID(variantToFind.variantID)
       .execute();
     expect(filteredVariants).toEqual([variantToFind]);
   });
 
   it('Should return empty result', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    const APP_ID = APP_IDS[5];
-    utils.generateVariants(upsMock, APP_ID, 30);
+    createApplications({variantCount: 30});
+    const testApp = getAllApplications()[5];
 
-    const filteredVariants = await upsAdminClient.variants.search(APP_ID).withName("Can't find me").execute();
+    const filteredVariants = await upsAdminClient.variants
+      .search(testApp.pushApplicationID)
+      .withName("Can't find me")
+      .execute();
     expect(filteredVariants).toEqual([]);
   });
 
   it('Should return all variants of a given type', async () => {
-    const APP_IDS = utils.generateApps(upsMock, 10);
-    // generate 10 variants for each app
-    const variants: Record<string, Variant[]> = {};
-    APP_IDS.forEach(id => (variants[id] = utils.generateVariants(upsMock, id, 10)));
+    createApplications({variantCount: 10});
 
-    const TEST_APP_ID1 = APP_IDS[3];
-    const TEST_APP_ID2 = APP_IDS[8];
+    const testApp1 = getAllApplications()[3];
+    const testApp2 = getAllApplications()[8];
 
-    const filteredAndroidVariants = await upsAdminClient.variants.android.search(TEST_APP_ID1).execute();
+    const filteredAndroidVariants = await upsAdminClient.variants.android.search(testApp1.pushApplicationID).execute();
 
-    const filterediOSVariants = await upsAdminClient.variants.ios.search(TEST_APP_ID2).execute();
-    expect(filteredAndroidVariants).toEqual(variants[TEST_APP_ID1].filter(variant => variant.type === 'android'));
-    expect(filterediOSVariants).toEqual(variants[TEST_APP_ID2].filter(variant => variant.type === 'ios'));
+    const filterediOSVariants = await upsAdminClient.variants.ios.search(testApp2.pushApplicationID).execute();
+    expect(filteredAndroidVariants).toEqual(testApp1.variants!.filter(variant => variant.type === 'android'));
+    expect(filterediOSVariants).toEqual(testApp2.variants!.filter(variant => variant.type === 'ios'));
   });
 });

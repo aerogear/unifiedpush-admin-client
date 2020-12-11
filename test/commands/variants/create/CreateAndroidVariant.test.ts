@@ -1,14 +1,9 @@
-import {AndroidVariant, UpsAdminClient} from '../../../src';
-import {UPSMock, utils} from '../../mocks';
-
-const upsMock = new UPSMock();
+import {AndroidVariant, UpsAdminClient} from '../../../../src';
+import {createApplications, getAllApplications, initMockEngine} from '../../mocks/UPSMock';
+import {UPS_URL} from '../../mocks/constants';
 
 beforeEach(() => {
-  upsMock.reset();
-});
-
-afterAll(() => {
-  upsMock.uninstall();
+  initMockEngine(UPS_URL);
 });
 
 describe('CreateAndroidVariant', () => {
@@ -24,13 +19,8 @@ describe('CreateAndroidVariant', () => {
       type: 'android',
     } as AndroidVariant;
 
-    const IDs = utils.generateIDs(10);
-    utils.generateApps(
-      upsMock,
-      10,
-      IDs.map(id => ({pushApplicationID: id}))
-    );
-    const appId = IDs[7];
+    createApplications({appCount: 10});
+    const appId = getAllApplications()[7].pushApplicationID;
     const variant = await upsAdminClient.variants.android
       .create(appId)
       .withName('TestAndroid')

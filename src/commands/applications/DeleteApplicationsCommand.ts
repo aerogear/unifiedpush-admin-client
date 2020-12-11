@@ -15,7 +15,7 @@ export class DeleteApplicationsCommand extends AbstractFilteredApplicationsComma
     );
 
     if (deletePromises.length < 1) {
-      throw new NotFoundError("Can't find requested application", this.filter as UpsErrorDetails);
+      throw new NotFoundError("Can't find the requested application", this.filter as UpsErrorDetails);
     }
 
     return Promise.all<PushApplication>(deletePromises);
