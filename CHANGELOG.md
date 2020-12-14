@@ -1,3 +1,13 @@
+## [4.4.3](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.2...4.4.3) (2020-12-14)
+
+
+### Bug Fixes
+
+* 🐛 return value of RenewVapidKeysCommand.exec was wrong ([83a8cb0](https://github.com/aerogear/unifiedpush-admin-client/commit/83a8cb002edb86836b8cf89aa48d7c117830f4da))
+* 🐛 the LoadMetricsCommand was returning strings ([608e399](https://github.com/aerogear/unifiedpush-admin-client/commit/608e399df30643763555e8604aa81f7776c5d068))
+
+
+
 ## [4.4.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.1...4.4.2) (2020-12-10)
 
 
@@ -32,15 +42,6 @@
 ### Features
 
 * 🎸 added config command group ([3d26722](https://github.com/aerogear/unifiedpush-admin-client/commit/3d267225618848f08f0d939c7c6cf27cecc8f3d0))
-
-
-
-## [4.2.3](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.2...4.2.3) (2020-08-21)
-
-
-### Bug Fixes
-
-* 🐛 variant metadata was not correctly populated ([da4aeda](https://github.com/aerogear/unifiedpush-admin-client/commit/da4aeda1523ccc6e17badbcf780de845b2444fc0))
 
 
 
