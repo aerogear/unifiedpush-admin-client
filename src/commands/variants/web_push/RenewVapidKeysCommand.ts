@@ -1,8 +1,8 @@
 import {AbstractVariantCommand} from '../AbstractVariantCommand';
-import {Variant} from '../Variant';
 import {ApiClient} from '../../ApiClient';
+import {WebPushVariant} from '../WebPushVariant';
 
-export class RenewVapidKeysCommand extends AbstractVariantCommand<Variant> {
+export class RenewVapidKeysCommand extends AbstractVariantCommand<WebPushVariant> {
   private readonly variantId: string;
 
   constructor(api: ApiClient, appId: string, variantId: string) {
@@ -10,7 +10,7 @@ export class RenewVapidKeysCommand extends AbstractVariantCommand<Variant> {
     this.variantId = variantId;
   }
 
-  protected async exec(): Promise<Variant> {
-    return (await this.api.put(`/applications/${this.appId}/web_push/${this.variantId}/renew`)).data as Variant;
+  protected async exec(): Promise<WebPushVariant> {
+    return (await this.api.put(`/applications/${this.appId}/web_push/${this.variantId}/renew`)).data as WebPushVariant;
   }
 }
