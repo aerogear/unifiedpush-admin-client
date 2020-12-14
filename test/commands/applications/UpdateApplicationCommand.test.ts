@@ -7,8 +7,6 @@ beforeEach(() => {
   initMockEngine(UPS_URL);
 });
 
-afterAll(() => {});
-
 describe('UpdateApplicationCommand', () => {
   const upsAdminClient = new UpsAdminClient(UPS_URL);
 

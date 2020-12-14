@@ -1,7 +1,7 @@
 import {DataStore} from './DataStore';
 import * as nock from 'nock';
 import {VARIANTS} from './constants';
-import {PushApplication, Variant, VariantType} from '../../../src';
+import {PushApplication, Variant, VariantType, WebPushVariant} from '../../../src';
 import {VariantDefinition} from '../../../src/commands/variants/Variant';
 import {Guid} from 'guid-typescript';
 
@@ -27,6 +27,10 @@ export class VariantsMock {
     this.setupGetVariantMock(variant.variantID, variantType);
     this.setupUpdateVariantMock(variant);
     this.setupResetSecretMock(variant);
+
+    if (variantType === 'web_push') {
+      this.setupRenewVapidKeysMock(variant.variantID);
+    }
     return variant;
   };
 
@@ -55,6 +59,24 @@ export class VariantsMock {
         }
 
         return [204, variant];
+      })
+      .persist();
+  };
+
+  private readonly setupRenewVapidKeysMock = (id: string) => {
+    nock(this.basePath)
+      .put(`/rest/applications/${this.app.pushApplicationID}/web_push/${id}/renew`)
+      .reply(() => {
+        const app = this.datastore.getApp(this.app.pushApplicationID);
+        const variant = app?.variants?.find(vv => vv.variantID === id && vv.type === 'web_push') as WebPushVariant;
+        if (!app || !variant) {
+          return [404];
+        }
+
+        variant.publicKey = Guid.create().toString();
+        variant.privateKey = Guid.create().toString();
+
+        return [200, variant];
       })
       .persist();
   };

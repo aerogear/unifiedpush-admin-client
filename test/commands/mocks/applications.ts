@@ -4,6 +4,9 @@ import {DataStore} from './DataStore';
 import {VariantsMock} from './variants';
 import {PushApplication, PushApplicationDefinition, Variant} from '../../../src';
 import {VariantDefinition} from '../../../src/commands/variants/Variant';
+import {Guid} from 'guid-typescript';
+import {getAppMetrics} from './UPSMock';
+import {URL} from 'url';
 
 interface VariantMockDictionary {
   [appId: string]: VariantsMock;
@@ -29,6 +32,8 @@ export class ApplicationsMock {
     this.setUpGetApplicationMock(app.pushApplicationID);
     this.setUpDeleteMock(app.pushApplicationID);
     this.setUpUpdateMock(app.pushApplicationID);
+    this.setUpRenewMasterSecretMock(app.pushApplicationID);
+    this.setUpGetMetricsMock(app.pushApplicationID);
     this.variantsMocks[app.pushApplicationID] = new VariantsMock(this.basePath, this.datastore, app);
     return app;
   };
@@ -43,20 +48,52 @@ export class ApplicationsMock {
     return mock.createVariant(name, variantType, def);
   };
 
-  private readonly setUpGetApplicationsMock = () => {
-    let page: number, per_page: number;
+  private readonly setUpRenewMasterSecretMock = (appId: string) => {
+    nock(`${this.basePath}`)
+      .put(`/rest/applications/${appId}/reset`)
+      .reply(() => {
+        const app = this.datastore.getApp(appId);
+        if (app) {
+          app.masterSecret = Guid.create().toString();
+          return [204, app];
+        }
+        return [404];
+      })
+      .persist();
+  };
 
+  private readonly setUpGetMetricsMock = (appId: string) => {
+    nock(`${this.basePath}`)
+      //.get(`/rest/metrics/messages/application/${appId}?page=0&per_page=10&sort=desc&search=`)
+      .get(`/rest/metrics/messages/application/${appId}`)
+      .query(() => true)
+      .reply(uri => {
+        const url = new URL(this.basePath + uri);
+        const page = url.searchParams.get('page') ? parseInt(url.searchParams.get('page')!) : 0;
+        const perPage = url.searchParams.get('per_page') ? parseInt(url.searchParams.get('per_page')!) : 10;
+        const sort = url.searchParams.get('sort') ?? 'desc';
+        const search = url.searchParams.get('search') ?? '';
+        const metrics = getAppMetrics(appId, page, perPage, sort, search);
+        if (!metrics) {
+          return [404];
+        }
+
+        return [200, metrics, {total: getAppMetrics(appId).length}];
+      })
+      .persist();
+  };
+
+  private readonly setUpGetApplicationsMock = () => {
     nock(`${this.basePath}`)
       .get('/rest/applications')
-      .query(query => {
-        page = parseInt(query.page as string);
-        per_page = parseInt(query.per_page as string);
-        return true;
-      })
-      .reply(() => {
+      .query(() => true)
+      .reply(uri => {
+        const url = new URL(this.basePath + uri);
+        const page = url.searchParams.get('page') ? parseInt(url.searchParams.get('page')!) : 0;
+        const perPage = url.searchParams.get('per_page') ? parseInt(url.searchParams.get('per_page')!) : 10;
         return [
           200,
-          getApplications(this.datastore, undefined, page, per_page),
+          getApplications(this.datastore, undefined, page, perPage),
           {total: this.datastore.getAllApps().length},
         ];
       })

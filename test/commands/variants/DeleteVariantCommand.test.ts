@@ -77,41 +77,6 @@ describe('Delete Variant', () => {
         alias: 'mailto:aaa@bbb.cc',
       },
     });
-    // const VARIANTS_ANDROID = utils.generateVariants(
-    //   upsMock,
-    //   APP_ID,
-    //   30,
-    //   Array<Record<string, string>>(30).fill({type: 'android', googleKey: 'OLDVALUE', projectNumber: 'PRJNUMBER'})
-    // );
-    // const VARIANTS_IOS = utils.generateVariants(
-    //   upsMock,
-    //   APP_ID,
-    //   30,
-    //   Array<Record<string, string>>(30).fill({type: 'ios', certificate: 'CSDSDDSD', passphrase: 'Shhhhhh!'})
-    // );
-    // const VARIANTS_IOSTOKEN = utils.generateVariants(
-    //   upsMock,
-    //   APP_ID,
-    //   30,
-    //   Array<Record<string, string>>(30).fill({
-    //     type: 'ios_token',
-    //     teamId: 'CSDSDDSD',
-    //     keyId: 'KEYID',
-    //     bundleId: 'org.aerogear',
-    //     privateKey: 'AAAAA',
-    //   })
-    // );
-    // const VARIANTS_WEBPUSH = utils.generateVariants(
-    //   upsMock,
-    //   APP_ID,
-    //   30,
-    //   Array<Record<string, string>>(30).fill({
-    //     type: 'web_push',
-    //     publicKey: 'CSDSDDSD',
-    //     privateKey: 'Shhhhhh!',
-    //     alias: 'mailto:aaa@bbb.cc',
-    //   })
-    // );
 
     const androidVariantToDelete = androidVariants[4];
     const iosVariantToDelete = iosVariants[5];

@@ -4,6 +4,8 @@ import {ApplicationsMock} from './applications';
 import {UPS_URL, VARIANTS} from './constants';
 import {PushApplication, PushApplicationDefinition, Variant} from '../../../src';
 import {VariantDefinition} from '../../../src/commands/variants/Variant';
+import {AuthMock} from './auth';
+import {FlatPushMessageInformation} from '../../../src/commands/metrics/LoadMetricsCommand';
 
 const datastore = new DataStore();
 let applicationMocks: ApplicationsMock | undefined = undefined;
@@ -12,6 +14,7 @@ export const initMockEngine = (basePath = UPS_URL): void => {
   datastore.reset();
   nock.cleanAll();
   applicationMocks = new ApplicationsMock(datastore, basePath);
+  new AuthMock(basePath);
 };
 
 // applications mocks
@@ -19,7 +22,13 @@ export const createApplication = (name: string, appDef: PushApplicationDefinitio
   applicationMocks!.createApplication(datastore, name, appDef);
 
 export const getAllApplications = (): PushApplication[] => datastore.getAllApps();
-
+export const getAppMetrics = (
+  appId: string,
+  page = -1,
+  perPage = 10,
+  sort = 'desc',
+  search = ''
+): FlatPushMessageInformation[] => datastore.getAppMetrics(appId, page, perPage, sort, search);
 // variants mocks
 export const createVariant = (appId: string, name: string, variantType: string, def: VariantDefinition = {}): Variant =>
   applicationMocks!.createVariant(appId, name, variantType, def);
@@ -44,6 +53,13 @@ interface CreateAppParams extends SharedVariantsParams {
   appNamePrefix?: string;
 }
 
+interface CreateMetricsParams {
+  appId: string;
+  count?: number;
+  minCount?: number;
+  maxCount?: number;
+}
+
 export const createApplications = ({
   appCount = 10,
   variantCount = -1,
@@ -53,7 +69,7 @@ export const createApplications = ({
   minVariantCount = 3,
   appDef = {},
   variantDef = {},
-}: CreateAppParams): void => {
+}: CreateAppParams = {}): void => {
   for (let i = 0; i < appCount; i++) {
     const app = createApplication(`${appNamePrefix}${i}`, appDef);
     createVariants({
@@ -67,6 +83,13 @@ export const createApplications = ({
   }
 };
 
+export const createMetrics = ({appId, count = -1, minCount = 3, maxCount = 50}: CreateMetricsParams): void => {
+  const metricsCount = count === -1 ? Math.ceil(Math.random() * maxCount) + minCount : count;
+
+  for (let i = 0; i < metricsCount; i++) {
+    datastore.generateMetrics(appId);
+  }
+};
 export const createVariants = ({
   variantCount = 10,
   variantNamePrefix = 'VAR-',
