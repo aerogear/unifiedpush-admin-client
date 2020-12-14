@@ -9,6 +9,7 @@ import {
   WebPushVariant,
 } from '../../../src';
 import {VariantDefinition} from '../../../src/commands/variants/Variant';
+import {FlatPushMessageInformation} from '../../../src/commands/metrics/LoadMetricsCommand';
 
 export class IDGenerator {
   static nextid?: string;
@@ -32,11 +33,42 @@ export class IDGenerator {
 
 export class DataStore {
   private appList: PushApplication[] = [];
-
+  private appMetrics: {[key: string]: FlatPushMessageInformation[]} = {};
   public readonly reset = (): void => {
     this.appList = [];
   };
   public readonly getAllApps = (): PushApplication[] => this.appList;
+  public readonly getAppMetrics = (
+    appId: string,
+    page: number,
+    perPage: number,
+    sorting: string,
+    search: string
+  ): FlatPushMessageInformation[] => {
+    const sort = (ary: FlatPushMessageInformation[]): FlatPushMessageInformation[] =>
+      ary.sort(
+        (a: FlatPushMessageInformation, b: FlatPushMessageInformation) =>
+          (a.submitDate! < b.submitDate! ? -1 : 1) * (sorting === 'asc' ? 1 : -1)
+      );
+
+    const allMetrics = sort(
+      (this.appMetrics[appId] || []).filter(metric => metric.rawJsonMessage.indexOf(search) !== -1)
+    );
+
+    const res = page === -1 ? allMetrics : paginate<FlatPushMessageInformation>(allMetrics, page, perPage);
+    return res;
+  };
+
+  public readonly generateMetrics = (appId: string): void => {
+    this.appMetrics[appId] = this.appMetrics[appId] || [];
+    this.appMetrics[appId].push({
+      pushApplicationId: appId,
+      rawJsonMessage: '{"key": "value"}',
+      ipAddress: '127.0.0.1',
+      clientIdentifier: Guid.create().toString(),
+      submitDate: getRandomDate(),
+    });
+  };
 
   public readonly createApp = (
     name: string,
@@ -114,6 +146,8 @@ export class DataStore {
           secret: Guid.create().toString(),
           alias: 'mailto:test@redhat.com',
           type: 'web_push',
+          publicKey: Guid.create().toString(),
+          privateKey: Guid.create().toString(),
           ...def,
         } as WebPushVariant;
     }
@@ -138,3 +172,9 @@ export class DataStore {
     this.appList = this.appList.filter(app => app.pushApplicationID !== appId);
   }
 }
+
+const getRandomDate = (from: Date = new Date(2000, 0, 1), to: Date = new Date(2020, 0, 1)) =>
+  new Date(from.getTime() + Math.random() * (to.getTime() - from.getTime()));
+
+const paginate = <T>(ary: T[], pageNumber: number, pageSize: number): T[] =>
+  ary.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);

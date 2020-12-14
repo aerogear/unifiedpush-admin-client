@@ -10,7 +10,7 @@ beforeEach(() => {
 describe('UpdateAndroidVariantCommand', () => {
   const upsAdminClient = new UpsAdminClient(UPS_URL);
 
-  it('Should update a variant name', async () => {
+  it('Should update a variant using a definition', async () => {
     createApplications({variantCount: 30});
     const testApp = getAllApplications()[5];
     const variantToUpdate = testApp.variants![12];
@@ -34,26 +34,7 @@ describe('UpdateAndroidVariantCommand', () => {
     expect(updatedVariant.name).toEqual(newName);
   });
 
-  it('Should update googleKey', async () => {
-    createApplications({variantCount: 30, variantType: 'android'});
-
-    const testApp = getAllApplications()[5];
-    const variantToUpdate = testApp.variants![12];
-    const newGoogleKey = 'NEW GOOGLEKEYVALUE';
-
-    await upsAdminClient.variants.android
-      .update(testApp.pushApplicationID, variantToUpdate.variantID)
-      .withGoogleKey(newGoogleKey)
-      .execute();
-
-    const updatedVariant = (
-      await upsAdminClient.variants.search(testApp.pushApplicationID).withVariantID(variantToUpdate.variantID).execute()
-    )[0] as AndroidVariant;
-
-    expect(updatedVariant.googleKey).toEqual(newGoogleKey);
-  });
-
-  it('Should update name, projectnumber and googlekey', async () => {
+  it('Should update a variant using fluent api', async () => {
     createApplications({variantCount: 30, variantType: 'android'});
 
     const testApp = getAllApplications()[5];
@@ -61,12 +42,16 @@ describe('UpdateAndroidVariantCommand', () => {
     const newName = 'newname';
     const newGoogleKey = 'NEW GOOGLEKEYVALUE';
     const newProjectNumber = 'NEW PRJ NUMBER';
+    const newDeveloper = 'NEW DEVELOPER';
+    const newDescription = 'NEW DESCRIPTION';
 
     await upsAdminClient.variants.android
       .update(testApp.pushApplicationID, variantToUpdate.variantID)
       .withName(newName)
       .withGoogleKey(newGoogleKey)
       .withProjectNumber(newProjectNumber)
+      .withDeveloper(newDeveloper)
+      .withDescription(newDescription)
       .execute();
 
     const updatedVariant = (
@@ -74,7 +59,9 @@ describe('UpdateAndroidVariantCommand', () => {
     )[0] as AndroidVariant;
 
     expect(updatedVariant.name).toEqual(newName);
-    expect(updatedVariant.projectNumber).toEqual(newProjectNumber);
     expect(updatedVariant.googleKey).toEqual(newGoogleKey);
+    expect(updatedVariant.projectNumber).toEqual(newProjectNumber);
+    expect(updatedVariant.developer).toEqual(newDeveloper);
+    expect(updatedVariant.description).toEqual(newDescription);
   });
 });
