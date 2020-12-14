@@ -60,11 +60,22 @@ export class LoadMetricsCommand extends AbstractCommand<Result> {
       },
     });
 
-    const list = result.data as FlatPushMessageInformation[];
+    const restoreDate = (fieldName: string, obj: Record<string, unknown>): void => {
+      if (obj[fieldName]) {
+        obj[fieldName] = new Date(obj[fieldName] as string);
+      }
+    };
+
+    const list = (result.data as Array<Record<string, unknown>>).map(data => {
+      restoreDate('submitDate', data);
+      restoreDate('firstOpenDate', data);
+      restoreDate('lastOpenDate', data);
+      return data;
+    });
 
     return {
-      total: result.headers['total'],
-      list: list,
+      total: parseInt(result.headers['total']),
+      list: (list as unknown) as FlatPushMessageInformation[],
     } as Result;
   }
 }
