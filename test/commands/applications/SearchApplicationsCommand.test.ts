@@ -36,6 +36,14 @@ describe('SearchApplicationCommand', () => {
     expect(apps.total).toEqual(45);
   });
 
+  it('Should return all apps (total)', async () => {
+    createApplications({appCount: 45});
+
+    const apps = await upsAdminClient.applications.search().page(-1).execute();
+    expect(apps.list).toHaveLength(45);
+    expect(apps.total).toEqual(45);
+  });
+
   it('Should return a given app', async () => {
     createApplications({appCount: 10});
     // get one app
