@@ -1,3 +1,12 @@
+# [4.5.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.3...4.5.0) (2020-12-15)
+
+
+### Features
+
+* 🎸 now when searching apps you can get the complete list ([53ad8ac](https://github.com/aerogear/unifiedpush-admin-client/commit/53ad8ac915e9db1d7717fa39c6fc68d0c8147b9d))
+
+
+
 ## [4.4.3](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.2...4.4.3) (2020-12-14)
 
 
@@ -33,15 +42,6 @@
 ### Features
 
 * **webpush:** added a new method to renew the vapid keys ([1e4e8a8](https://github.com/aerogear/unifiedpush-admin-client/commit/1e4e8a866579787ffecee4c133d6c6e129c1b809))
-
-
-
-# [4.3.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.2.3...4.3.0) (2020-08-31)
-
-
-### Features
-
-* 🎸 added config command group ([3d26722](https://github.com/aerogear/unifiedpush-admin-client/commit/3d267225618848f08f0d939c7c6cf27cecc8f3d0))
 
 
 
