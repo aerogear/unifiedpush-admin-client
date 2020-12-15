@@ -26,6 +26,9 @@ export abstract class AbstractSearchCommand {
   };
 
   protected readonly getPage = (appList: PushApplication[], page: number, pageSize: number): PushApplication[] => {
+    if (page === -1) {
+      return appList;
+    }
     const firstIndex = pageSize * page;
     const endIndex = firstIndex + pageSize;
 

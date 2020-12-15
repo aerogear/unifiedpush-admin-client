@@ -1,7 +1,6 @@
 import {UpsAdminClient} from '../../../src';
 import {createApplications, deleteApplication, getAllApplications, initMockEngine} from '../mocks/UPSMock';
 import {UPS_URL} from '../mocks/constants';
-import {NotFoundError} from '../../../src/errors/NotFoundError';
 
 beforeEach(() => {
   initMockEngine(UPS_URL);
@@ -30,14 +29,14 @@ describe('DeleteApplicationCommand', () => {
     ).toHaveLength(0);
   });
 
-  it('Should fail deleting non existent application', async () => {
+  it('Should silently return an empty list', async () => {
     createApplications({appCount: 1});
     const app = getAllApplications()[0];
     // delete the application so that it doesn't exists anymore
     deleteApplication(app.pushApplicationID);
 
-    await expect(
-      async () => await upsAdminClient.applications.delete().withApplicationID(app.pushApplicationID).execute()
-    ).rejects.toThrow(NotFoundError);
+    const deletedApps = await upsAdminClient.applications.delete().withApplicationID(app.pushApplicationID).execute();
+
+    expect(deletedApps).toEqual([]);
   });
 });
