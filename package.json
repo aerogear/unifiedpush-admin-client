@@ -46,7 +46,7 @@
     "nock": "13.0.6",
     "ts-jest": "26.5.0",
     "ts-node": "9.1.1",
-    "typedoc": "0.20.19",
+    "typedoc": "0.20.20",
     "typescript": "4.1.3"
   },
   "config": {
