@@ -1,3 +1,13 @@
+## [4.5.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.5.0...4.5.1) (2021-03-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v0.21.1 ([fb4a36e](https://github.com/aerogear/unifiedpush-admin-client/commit/fb4a36e4dc6ae423104180bac622bb4e175e904a))
+* **deps:** update dependency form-data to v4 ([d7fa95a](https://github.com/aerogear/unifiedpush-admin-client/commit/d7fa95ad2cf23c0f92204136a0de630269d1e052))
+
+
+
 # [4.5.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.3...4.5.0) (2020-12-15)
 
 
@@ -33,15 +43,6 @@
 
 * **command:** the AbstractCommand class was declaring abstract async method ([ab7066b](https://github.com/aerogear/unifiedpush-admin-client/commit/ab7066b2707f4557f7c0ab416342c66fbe555efa))
 * **deps:** update dependency axios to v0.21.0 ([e5b7db1](https://github.com/aerogear/unifiedpush-admin-client/commit/e5b7db1ee4d7def67a4d32cc64bbc1dd867d7b41))
-
-
-
-# [4.4.0](https://github.com/aerogear/unifiedpush-admin-client/compare/4.3.0...4.4.0) (2020-10-02)
-
-
-### Features
-
-* **webpush:** added a new method to renew the vapid keys ([1e4e8a8](https://github.com/aerogear/unifiedpush-admin-client/commit/1e4e8a866579787ffecee4c133d6c6e129c1b809))
 
 
 
