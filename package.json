@@ -42,7 +42,7 @@
     "eslint-plugin-jest": "24.4.2",
     "gts": "3.1.0",
     "guid-typescript": "1.0.9",
-    "jest": "27.0.6",
+    "jest": "27.2.1",
     "nock": "13.1.3",
     "ts-jest": "27.0.5",
     "ts-node": "10.2.1",
@@ -55,6 +55,6 @@
     }
   },
   "resolutions": {
-    "jest-haste-map": "27.0.6"
+    "jest-haste-map": "27.2.0"
   }
 }
