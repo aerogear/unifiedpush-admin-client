@@ -31,7 +31,7 @@
     "posttest": "npm run check"
   },
   "dependencies": {
-    "axios": "0.21.3",
+    "axios": "0.21.4",
     "form-data": "4.0.0"
   },
   "devDependencies": {
