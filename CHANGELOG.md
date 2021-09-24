@@ -1,3 +1,13 @@
+## [4.5.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.5.1...4.5.2) (2021-09-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v0.21.4 ([00a5c9d](https://github.com/aerogear/unifiedpush-admin-client/commit/00a5c9da7b2147eeebd1b1d3d86a640ac3e56bcc))
+* package.json & package-lock.json to reduce vulnerabilities ([c09a4dc](https://github.com/aerogear/unifiedpush-admin-client/commit/c09a4dc651930e6c75cba2f5113d4d3c886b1297))
+
+
+
 ## [4.5.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.5.0...4.5.1) (2021-03-04)
 
 
@@ -33,16 +43,6 @@
 ### Bug Fixes
 
 * object CreateIOSCertVariantCommand had issues handling the definitions ([062072a](https://github.com/aerogear/unifiedpush-admin-client/commit/062072ab11d85b8649d0757f7c734dd2f0843976))
-
-
-
-## [4.4.1](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.0...4.4.1) (2020-11-22)
-
-
-### Bug Fixes
-
-* **command:** the AbstractCommand class was declaring abstract async method ([ab7066b](https://github.com/aerogear/unifiedpush-admin-client/commit/ab7066b2707f4557f7c0ab416342c66fbe555efa))
-* **deps:** update dependency axios to v0.21.0 ([e5b7db1](https://github.com/aerogear/unifiedpush-admin-client/commit/e5b7db1ee4d7def67a4d32cc64bbc1dd867d7b41))
 
 
 
