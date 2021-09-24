@@ -18,17 +18,17 @@ export abstract class AbstractUpdateVariantCommand<
 
   readonly withName = (name: string): T => {
     this.def.name = name;
-    return (this as unknown) as T;
+    return this as unknown as T;
   };
 
   readonly withDescription = (description: string): T => {
     this.def.description = description;
-    return (this as unknown) as T;
+    return this as unknown as T;
   };
 
   readonly withDeveloper = (developer: string): T => {
     this.def.developer = developer;
-    return (this as unknown) as T;
+    return this as unknown as T;
   };
 
   readonly withVariantDefinition = (def: K): T => {
@@ -36,7 +36,7 @@ export abstract class AbstractUpdateVariantCommand<
       ...this.def,
       ...def,
     };
-    return (this as unknown) as T;
+    return this as unknown as T;
   };
 
   protected readonly exec = async (): Promise<void> => {

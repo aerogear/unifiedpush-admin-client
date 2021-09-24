@@ -9,17 +9,17 @@ export abstract class AbstractFilteredApplicationsCommand<
 
   readonly withApplicationID = (appId: string): K => {
     this.filter.pushApplicationID = appId;
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 
   readonly withName = (name: string): K => {
     this.filter.name = name;
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 
   readonly withDeveloper = (developer: string): K => {
     this.filter.developer = developer;
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 
   readonly withFilter = (filter: PushApplicationFilter): K => {
@@ -27,6 +27,6 @@ export abstract class AbstractFilteredApplicationsCommand<
       ...this.filter,
       ...filter,
     };
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 }

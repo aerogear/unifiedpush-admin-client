@@ -17,7 +17,7 @@ export class SearchEngineFactory {
         if (key === 'page') {
           return;
         }
-        if (((filter as unknown) as Record<string, string>)[key]) {
+        if ((filter as unknown as Record<string, string>)[key]) {
           res = false;
         }
       });

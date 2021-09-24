@@ -75,7 +75,7 @@ export class LoadMetricsCommand extends AbstractCommand<Result> {
 
     return {
       total: parseInt(result.headers['total']),
-      list: (list as unknown) as FlatPushMessageInformation[],
+      list: list as unknown as FlatPushMessageInformation[],
     } as Result;
   }
 }
