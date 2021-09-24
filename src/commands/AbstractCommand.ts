@@ -13,7 +13,7 @@ export abstract class AbstractCommand<T> {
   readonly execute = async (): Promise<T> => {
     try {
       return await this.exec();
-    } catch (error) {
+    } catch (error: any) {
       if (error.response) {
         throw ErrorBuilder.forResponse(error.response).build();
       }

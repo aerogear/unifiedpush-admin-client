@@ -9,17 +9,17 @@ export abstract class AbstractFilteredVariantsCommand<
 
   readonly withVariantID = (variantID: string): K => {
     this.filter.variantID = variantID;
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 
   readonly withName = (name: string): K => {
     this.filter.name = name;
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 
   readonly withType = (type: VariantType): K => {
     this.filter.type = type;
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 
   readonly withFilter = (filter: VariantFilter): K => {
@@ -27,7 +27,7 @@ export abstract class AbstractFilteredVariantsCommand<
       ...this.filter,
       ...filter,
     };
-    return (this as unknown) as K;
+    return this as unknown as K;
   };
 
   protected readonly applyVariantFilter = (variants: Variant[]): Variant[] => {

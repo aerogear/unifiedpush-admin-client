@@ -26,10 +26,9 @@ export class SearchByID extends AbstractSearchCommand {
       };
     }
 
-    const apps = this.applyPushApplicationFilter(
-      this.ensureIsArray(response.data),
-      this.filter
-    ).map((app: PushApplication) => this.addActivityData(app, response));
+    const apps = this.applyPushApplicationFilter(this.ensureIsArray(response.data), this.filter).map(
+      (app: PushApplication) => this.addActivityData(app, response)
+    );
     return {
       list: apps,
       total: apps.length,
