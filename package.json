@@ -35,13 +35,13 @@
     "form-data": "4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "27.4.0",
+    "@types/jest": "27.4.1",
     "@types/node": "16.11.26",
     "cz-conventional-changelog": "3.3.0",
     "eslint-plugin-jest": "25.7.0",
     "gts": "3.1.0",
     "guid-typescript": "1.0.9",
-    "jest": "27.4.7",
+    "jest": "27.5.1",
     "nock": "13.2.4",
     "ts-jest": "27.1.3",
     "ts-node": "10.7.0",
@@ -54,6 +54,6 @@
     }
   },
   "resolutions": {
-    "jest-haste-map": "27.4.6"
+    "jest-haste-map": "27.5.1"
   }
 }
