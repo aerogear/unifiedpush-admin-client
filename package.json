@@ -35,7 +35,7 @@
     "form-data": "4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "27.4.1",
+    "@types/jest": "27.5.0",
     "@types/node": "16.11.26",
     "cz-conventional-changelog": "3.3.0",
     "eslint-plugin-jest": "25.7.0",
