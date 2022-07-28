@@ -3,8 +3,6 @@
 
 ### Bug Fixes
 
-* **deps:** update dependency axios to v0.25.0 ([33d879a](https://github.com/aerogear/unifiedpush-admin-client/commit/33d879a0439a12b0defdc7c7a40f34794f64095c))
-* **deps:** update dependency axios to v0.26.1 ([0678d97](https://github.com/aerogear/unifiedpush-admin-client/commit/0678d971a4d7a58ab2911eab1218290bcd546481))
 * **deps:** update dependency axios to v0.27.2 ([bed056a](https://github.com/aerogear/unifiedpush-admin-client/commit/bed056a86e5c52629e9cead233c10ad8aca7df7d))
 
 
