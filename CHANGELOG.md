@@ -1,3 +1,14 @@
+## [4.5.3](https://github.com/aerogear/unifiedpush-admin-client/compare/4.5.2...4.5.3) (2022-07-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependency axios to v0.25.0 ([33d879a](https://github.com/aerogear/unifiedpush-admin-client/commit/33d879a0439a12b0defdc7c7a40f34794f64095c))
+* **deps:** update dependency axios to v0.26.1 ([0678d97](https://github.com/aerogear/unifiedpush-admin-client/commit/0678d971a4d7a58ab2911eab1218290bcd546481))
+* **deps:** update dependency axios to v0.27.2 ([bed056a](https://github.com/aerogear/unifiedpush-admin-client/commit/bed056a86e5c52629e9cead233c10ad8aca7df7d))
+
+
+
 ## [4.5.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.5.1...4.5.2) (2021-09-24)
 
 
@@ -34,15 +45,6 @@
 
 * 🐛 return value of RenewVapidKeysCommand.exec was wrong ([83a8cb0](https://github.com/aerogear/unifiedpush-admin-client/commit/83a8cb002edb86836b8cf89aa48d7c117830f4da))
 * 🐛 the LoadMetricsCommand was returning strings ([608e399](https://github.com/aerogear/unifiedpush-admin-client/commit/608e399df30643763555e8604aa81f7776c5d068))
-
-
-
-## [4.4.2](https://github.com/aerogear/unifiedpush-admin-client/compare/4.4.1...4.4.2) (2020-12-10)
-
-
-### Bug Fixes
-
-* object CreateIOSCertVariantCommand had issues handling the definitions ([062072a](https://github.com/aerogear/unifiedpush-admin-client/commit/062072ab11d85b8649d0757f7c734dd2f0843976))
 
 
 
