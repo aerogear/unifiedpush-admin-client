@@ -35,15 +35,15 @@
     "form-data": "4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "28.1.8",
+    "@types/jest": "29.5.0",
     "@types/node": "16.11.52",
     "cz-conventional-changelog": "3.3.0",
     "eslint-plugin-jest": "26.9.0",
     "gts": "4.0.0",
     "guid-typescript": "1.0.9",
-    "jest": "28.1.3",
+    "jest": "29.5.0",
     "nock": "13.2.9",
-    "ts-jest": "28.0.8",
+    "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "typedoc": "0.23.10",
     "typescript": "4.8.4"
@@ -54,6 +54,6 @@
     }
   },
   "resolutions": {
-    "jest-haste-map": "28.1.3"
+    "jest-haste-map": "29.5.0"
   }
 }
